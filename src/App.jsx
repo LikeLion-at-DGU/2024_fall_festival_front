@@ -1,10 +1,15 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { ThemeProvider } from "styled-components";
+import { theme } from "@styles/theme";
+import GlobalStyle from "@styles/global";
 
-function App() {
-  return <div>멋사 축사 배포</div>;
-}
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router";
 
-export default App;
+export const App = () => {
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
+};
