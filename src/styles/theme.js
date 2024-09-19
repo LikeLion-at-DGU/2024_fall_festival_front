@@ -41,6 +41,7 @@ export const theme = {
     noneSelected: "#B6B6B6", // 선택되지 않은 상태 색상
     separator: "#FFBA85", // 구분선 색상
     detailText: "#5A5A5A", // 상세 텍스트 색상
+    white: "#FFFFFF",
   },
 
   fonts: {

@@ -52,7 +52,7 @@ i {font-style:normal}
 
 // 초기 html 설정
 html {
-	background-color: ${({ theme }) => theme.colors.background.blueLight};
+	background-color: ${({ theme }) => theme.colors.fall};
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -70,8 +70,8 @@ body {
 	width: 100%;
 	max-width: 540px;
 	overflow-x: hidden;
-	background-color: ${({ theme }) => theme.colors.background.white};
-	color: ${({ theme }) => theme.colors.font.black};
+	background-color: ${({ theme }) => theme.colors.white};
+	color: ${({ theme }) => theme.colors.default};
 	font-family: "AppleSDGothicNeoL00", "AppleSDGothicNeoH00", "AppleSDGothicNeoB00", "AppleSDGothicNeoUL00", "AppleSDGothicNeoT0C", sans-serif;
 }
 
