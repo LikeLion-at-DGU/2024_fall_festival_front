@@ -4,9 +4,7 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return <div>멋사 축제사이트입니다!</div>;
+  return <div>멋사 축사 배포</div>;
 }
 
 export default App;
