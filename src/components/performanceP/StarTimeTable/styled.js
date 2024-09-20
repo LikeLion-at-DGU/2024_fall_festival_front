@@ -10,9 +10,30 @@ export const TimeSlotWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 100%;
+  height: 90px;
   border-bottom: 1px solid #ffba85;
   padding: 10px 0;
   gap: 10px;
+`;
+
+export const TimeSlotContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap; /* 가로로 나열하되 공간 부족 시 다음 줄로 넘어가게 */
+  gap: 20px; /* TimeSlot 간의 간격 */
+`;
+export const TimeSlot = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  position: relative;
+  gap: 5px;
+
+  .CicleLine {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 export const Time = styled.div`
@@ -25,6 +46,25 @@ export const Time = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+`;
+
+export const Circle = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 1px solid #5f5f5f;
+  position: absolute;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+`;
+
+export const Line = styled.div`
+  width: 1px;
+  height: 90px;
+  border: 1px solid #5f5f5f; /* 작대기 색상 */
 `;
 
 export const Details = styled.div`
@@ -50,7 +90,7 @@ export const StarInfo = styled.div`
 export const Name = styled.div`
   color: #000;
   font-family: "AppleSDGothicNeoR00";
-  font-size: 0.8rem;
+  font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -62,12 +102,12 @@ export const Location = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 
   .locationName {
     color: #000;
     font-family: "AppleSDGothicNeoR00";
-    font-size: 12px;
+    font-size: 10px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -76,7 +116,7 @@ export const Location = styled.div`
 
 export const DetailsButton = styled.button`
   display: flex;
-  width: 70px;
+  width: 60px;
   height: 15px;
   padding: 0.974px 7.788px;
   justify-content: center;

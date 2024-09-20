@@ -61,8 +61,10 @@ const timeTableData = [
   },
   {
     time: "14:00",
-    name: "에스파",
+    name: "뉴진스",
     location: "대운동장",
+    starImg:
+      "https://i.namu.wiki/i/WGsJjdq_YZ55OqLwDcVy03tPUDeuy2bFGjbv7hGdqeTxhugt9oQVd9skQTplZArzk64Id35mmLbkbcMwWEo2-g.webp",
   },
   {
     time: "14:30",
