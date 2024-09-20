@@ -7,11 +7,11 @@ export const MainWrapper = styled.section`
   width: 100%;
   max-width: 540px;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   /* background-color: ${({ theme }) => theme.colors.fall}; */
-  position: fixed;
+  /* position: fixed;
 
-  top: 50%;
+  top: 50%; */
   /* left: 50%; */
 
   /* border: solid 1px blue; */
