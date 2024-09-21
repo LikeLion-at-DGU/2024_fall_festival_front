@@ -15,7 +15,7 @@ const groupByTime = (data) => {
 
 const generateTimeSlots = () => {
   const slots = [];
-  const startTime = new Date("2024-01-01T12:00:00"); // 시작 시간
+  const startTime = new Date("2024-01-01T12:30:00"); // 시작 시간
   const endTime = new Date("2024-01-01T18:30:00"); // 종료 시간
 
   for (

@@ -59,7 +59,6 @@ export const BottomTimeSlot = styled.div`
     color: #000;
     font-size: 1rem;
     ${({ theme }) => theme.fonts.AppleSDGothicNeoM00};
-    font-weight: 600;
   }
 `;
 export const Time = styled.div`
@@ -141,14 +140,16 @@ export const DetailsButton = styled.button`
   display: flex;
   width: 55px;
   height: 15px;
-  padding: 0.974px 7.788px;
   justify-content: center;
   align-items: center;
-  gap: 9.735px;
   border-radius: 15px;
   color: white;
+  text-align: center;
   background: #5a5a5a;
-  font-size: 9px;
+  font-size: 8px !important;
+  ${({ theme }) => theme.fonts.AppleSDGothicNeoR00};
+  line-height: 30px;
+
   cursor: pointer;
 `;
 export const StarPerformance = styled.div`

@@ -59,5 +59,7 @@ export const theme = {
     AppleSDGothicNeoL00: fontGenerator("AppleSDGothicNeoL00"),
     AppleSDGothicNeoUL00: fontGenerator("AppleSDGothicNeoUL00"),
     AppleSDGothicNeoT0C: fontGenerator("AppleSDGothicNeoT0C"),
+    AppleSDGothicNeoR00: fontGenerator("AppleSDGothicNeoR00"),
+    AppleSDGothicNeoM00: fontGenerator("AppleSDGothicNeoM00"),
   },
 };

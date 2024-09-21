@@ -4,6 +4,7 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   width: 100%;
+  padding-top: 1rem;
   justify-content: space-between;
 `;
 export const Title = styled.div`
@@ -11,7 +12,6 @@ export const Title = styled.div`
   color: #000;
   ${({ theme }) => theme.fonts.AppleSDGothicNeoB00};
   font-size: 1.3rem;
-  font-weight: 600;
 `;
 export const SubTitle = styled.div`
   display: flex;

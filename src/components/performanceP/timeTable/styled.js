@@ -27,6 +27,6 @@ export const NoticeBar = styled.div`
   #notice {
     color: #ed6308;
     ${({ theme }) => theme.fonts.AppleSDGothicNeoR00};
-    font-size: 13px;
+    font-size: 14px;
   }
 `;
