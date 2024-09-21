@@ -6,10 +6,12 @@ export const TimeSlot = ({ name, location, starImg }) => {
       <S.ImagePlaceholder style={{ backgroundImage: `url(${starImg})` }} />
       <S.StarInfo>
         <S.Name>{name}</S.Name>
-        <S.Location>
-          <img src={Icon} />
-          <div className="locationName"> {location}</div>
-        </S.Location>
+        {location && (
+          <S.Location>
+            <img src={Icon} />
+            <div className="locationName">{location}</div>
+          </S.Location>
+        )}
         <S.DetailsButton>상세보기</S.DetailsButton>
       </S.StarInfo>
     </S.Details>

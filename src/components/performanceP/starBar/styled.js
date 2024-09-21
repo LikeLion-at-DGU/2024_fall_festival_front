@@ -24,7 +24,7 @@ export const StarImgDiv = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
-  overflow: hidden; /* 내부 요소가 튀어나오지 않도록 */
+  overflow: hidden;
 
   svg {
     position: absolute;

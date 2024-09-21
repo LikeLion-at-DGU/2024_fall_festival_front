@@ -26,10 +26,7 @@ export const NoticeBar = styled.div`
 
   #notice {
     color: #ed6308;
-    font-family: "AppleSDGothicNeoR00";
+    ${({ theme }) => theme.fonts.AppleSDGothicNeoR00};
     font-size: 13px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
   }
 `;

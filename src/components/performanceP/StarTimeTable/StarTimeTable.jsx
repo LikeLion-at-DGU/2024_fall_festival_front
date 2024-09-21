@@ -1,7 +1,7 @@
 import * as S from "./styled";
 import { timeTableData } from "../../../constant/TimeTable/data";
 import { TimeSlot } from "./TimeSlot";
-
+import { BottomTimeSlot } from "./BottomTimeSlot";
 const groupByTime = (data) => {
   return data.reduce((acc, slot) => {
     const { time } = slot;
@@ -16,7 +16,7 @@ const groupByTime = (data) => {
 const generateTimeSlots = () => {
   const slots = [];
   const startTime = new Date("2024-01-01T12:00:00"); // 시작 시간
-  const endTime = new Date("2024-01-01T22:30:00"); // 종료 시간
+  const endTime = new Date("2024-01-01T18:30:00"); // 종료 시간
 
   for (
     let time = startTime;
@@ -63,6 +63,7 @@ export const StarTimeTable = () => {
           </S.TimeSlotContainer>
         </S.TimeSlotWrapper>
       ))}
+      <BottomTimeSlot />
     </S.Container>
   );
 };
