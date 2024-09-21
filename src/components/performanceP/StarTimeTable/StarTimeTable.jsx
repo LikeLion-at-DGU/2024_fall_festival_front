@@ -13,11 +13,29 @@ const groupByTime = (data) => {
   }, {});
 };
 
+const generateTimeSlots = () => {
+  const slots = [];
+  const startTime = new Date("2024-01-01T12:00:00"); // 시작 시간
+  const endTime = new Date("2024-01-01T22:30:00"); // 종료 시간
+
+  for (
+    let time = startTime;
+    time <= endTime;
+    time.setMinutes(time.getMinutes() + 30)
+  ) {
+    const hours = String(time.getHours()).padStart(2, "0"); // 시
+    const minutes = String(time.getMinutes()).padStart(2, "0"); // 분
+    slots.push(`${hours}:${minutes}`); // "HH:MM" 형식으로 추가
+  }
+  return slots;
+};
+
 export const StarTimeTable = () => {
   const groupedData = groupByTime(timeTableData);
+  const timeSlots = generateTimeSlots();
   return (
     <S.Container>
-      {Object.entries(groupedData).map(([time, slots], index) => (
+      {timeSlots.map((time, index) => (
         <S.TimeSlotWrapper key={index}>
           <S.TimeSlot>
             <S.Time>{time}</S.Time>
@@ -28,15 +46,20 @@ export const StarTimeTable = () => {
           </S.TimeSlot>
 
           <S.TimeSlotContainer>
-            {slots.map((slot, idx) => (
-              <TimeSlot
-                key={idx}
-                time={slot.time}
-                name={slot.name}
-                location={slot.location}
-                starImg={slot.starImg}
-              />
-            ))}
+            {groupedData[time] ? (
+              groupedData[time].map((slot, idx) => (
+                <TimeSlot
+                  key={idx}
+                  time={slot.time}
+                  name={slot.name}
+                  location={slot.location}
+                  starImg={slot.starImg}
+                />
+              ))
+            ) : (
+              // 데이터가 없을 경우 빈 공간을 남김
+              <></>
+            )}
           </S.TimeSlotContainer>
         </S.TimeSlotWrapper>
       ))}

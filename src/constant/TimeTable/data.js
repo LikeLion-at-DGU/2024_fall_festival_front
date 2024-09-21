@@ -81,5 +81,10 @@ const timeTableData = [
     name: "에스파",
     location: "팔정도",
   },
+  {
+    time: "18:30",
+    name: "에스파",
+    location: "팔정도",
+  },
 ];
 export { StarLineUp, timeTableData };
