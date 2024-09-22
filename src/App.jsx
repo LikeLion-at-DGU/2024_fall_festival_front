@@ -8,7 +8,6 @@ import { router } from "./router";
 export const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      {/* <Header/> */}
       <GlobalStyle />
       <RouterProvider router={router} />
     </ThemeProvider>

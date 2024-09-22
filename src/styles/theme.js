@@ -46,7 +46,7 @@ export const theme = {
 
   fonts: {
     default: fontGenerator(
-      "AppleSDGothicNeoL00",
+      "AppleSDGothicNeoL",
       "1rem",
       "400",
       "1.5",
@@ -54,10 +54,10 @@ export const theme = {
     ),
 
     // Apple SD 산돌고딕 Neo 폰트 설정
-    AppleSDGothicNeoH00: fontGenerator("AppleSDGothicNeoH00"),
-    AppleSDGothicNeoB00: fontGenerator("AppleSDGothicNeoB00"),
-    AppleSDGothicNeoL00: fontGenerator("AppleSDGothicNeoL00"),
-    AppleSDGothicNeoUL00: fontGenerator("AppleSDGothicNeoUL00"),
-    AppleSDGothicNeoT0C: fontGenerator("AppleSDGothicNeoT0C"),
+    AppleSDGothicNeoH00: fontGenerator("AppleSDGothicNeoH"),
+    AppleSDGothicNeoB00: fontGenerator("AppleSDGothicNeoB"),
+    AppleSDGothicNeoL00: fontGenerator("AppleSDGothicNeoL"),
+    AppleSDGothicNeoUL00: fontGenerator("AppleSDGothicNeoUL"),
+    AppleSDGothicNeoT0C: fontGenerator("AppleSDGothicNeoT"),
   },
 };

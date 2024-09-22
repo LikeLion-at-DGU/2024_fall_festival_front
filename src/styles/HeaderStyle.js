@@ -5,30 +5,38 @@ import AppleSDGothicNeoB from "../assets/fonts/AppleSDGothicNeoB.ttf"
 import AppleSDGothicNeoL from "../assets/fonts/AppleSDGothicNeoL.ttf";
 
 
-export const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: 'AppleSDGothicNeoH';
-    src: url(${AppleSDGothicNeoH}) format('truetype');
-    font-weight: 100;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'AppleSDGothicNeoB';
-    src: url(${AppleSDGothicNeoB}) format('truetype');
-    font-weight: 100; 
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'AppleSDGothicNeoL';
-    src: url(${AppleSDGothicNeoL}) format('truetype');
-    font-weight: 100; 
-    font-style: normal;
-  }
-  h1{
-    font-family: 'AppleSDGothicNeoH';
-    font-weight: normal;
-  }
-  `
+// export const GlobalStyle = createGlobalStyle`
+//   @font-face {
+//     font-family: 'AppleSDGothicNeoH';
+//     src: url(${AppleSDGothicNeoH}) format('truetype');
+//     font-weight: 100;
+//     font-style: normal;
+//   }
+//   @font-face {
+//     font-family: 'AppleSDGothicNeoB';
+//     src: url(${AppleSDGothicNeoB}) format('truetype');
+//     font-weight: 100; 
+//     font-style: normal;
+//   }
+//   @font-face {
+//     font-family: 'AppleSDGothicNeoL';
+//     src: url(${AppleSDGothicNeoL}) format('truetype');
+//     font-weight: 100; 
+//     font-style: normal;
+//   }
+//   h1{
+//     font-family: 'AppleSDGothicNeoH';
+//     font-weight: normal;
+//   }
+//   `
+
+export const CustomHeading = styled.h1 `
+${({ theme }) => theme.fonts.AppleSDGothicNeoH};
+`;
+
+export const CustomP = styled.p`
+${({ theme }) => theme.fonts.AppleSDGothicNeoR};
+`
 
 export const Header = styled.div`
   display: flex;
@@ -37,12 +45,10 @@ export const Header = styled.div`
   height: 56px;
   align-items: center;
 
-  padding: 16px;
-
   h1{
     color: #FFF;
     font-size: 25px;
-    font-weight: 100;
+
   }
 
   p{
@@ -53,6 +59,9 @@ export const Header = styled.div`
 
 export const TextBox = styled.div`
     display: flex;
+    height: 37px;
+    align-items: flex-end;
+    padding: 10px;
     gap: 5px;
 `
 
@@ -66,8 +75,6 @@ export const DateButton = styled.button`
   width: 68.4px;
   height: 29.45px;
   padding: 6px 0 5px 0;
-
-
   font-family: 'AppleSDGothicNeoB';
   font-size: 14.079px;
 

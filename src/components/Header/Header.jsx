@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import * as H from '../../styles/HeaderStyle';
+import GlobalStyle from '../../styles/global';
 
 export const Header = () => {
     const location = useLocation(); // 현재 URL 경로를 가져옴
@@ -28,10 +29,10 @@ export const Header = () => {
     return (
         <>
             <H.Header>
-                <H.GlobalStyle />
+                {/* <GlobalStyle /> */}
                 <H.TextBox>
-                    <h1>{headerText.title}</h1> {/* 동적으로 변경된 제목 */}
-                    <p>{headerText.description}</p> {/* 동적으로 변경된 설명 */}
+                    <H.CustomHeading>{headerText.title}</H.CustomHeading> {/* 동적으로 변경된 제목 */}
+                    <H.CustomP>{headerText.description}</H.CustomP> {/* 동적으로 변경된 설명 */}
                 </H.TextBox>
             </H.Header>
         </>
