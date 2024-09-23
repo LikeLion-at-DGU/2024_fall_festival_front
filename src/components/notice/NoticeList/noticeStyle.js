@@ -13,16 +13,17 @@ export const ListWrapper = styled.div`
 export const ListTitle = styled.div`
     width: 95%;
     font-size: 1rem;
-    font-family: "AppleSDGothicNeoB00";
+    ${({ theme }) => theme.fonts.AppleSDGothicNeoB00};
     color: #000;
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+
     #h1 {
         font-size: 1rem;
-        font-family: "AppleSDGothicNeoB00";
+        ${({ theme }) => theme.fonts.AppleSDGothicNeoB00};
         color: #000;
         font-weight: bold;
     }
@@ -31,7 +32,7 @@ export const ListTitle = styled.div`
         padding-top: 5px;
         padding-left: 1px;
         font-size: 0.6rem;
-        font-family: "AppleSDGothicNeoB00";
+        ${({ theme }) => theme.fonts.AppleSDGothicNeoB00};
         color: #5F5F5F;
     }
 `;
@@ -51,7 +52,7 @@ export const LBox = styled.div`
 
 export const BoxTitle = styled.div`
     font-size: 14px;
-    font-family: "AppleSDGothicNeoB00";
+    ${({ theme }) => theme.fonts.AppleSDGothicNeoB00};
     color: #000;
     font-weight: 600;
 `;

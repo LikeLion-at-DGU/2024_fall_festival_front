@@ -13,13 +13,13 @@ export const MainNoticeWrapper = styled.div`
 export const MainTitle = styled.div`
     width: 95%;
     font-size: 1rem;
-    font-family: "AppleSDGothicNeoB00";
+    ${({ theme }) => theme.fonts.AppleSDGothicNeoB00}; 
     font-weight: bold;
     color: #000;
     margin-bottom: 10px;
 `;
 
-export const MainNoticeBox = styled.div` //중복!
+export const MainNoticeBox = styled.div`
     width: 95%;  
     position: relative;
     display: flex;
@@ -39,7 +39,7 @@ export const BoxTitle = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 14px;
-    font-family: "AppleSDGothicNeoB00"; 
+    ${({ theme }) => theme.fonts.AppleSDGothicNeoB00}; 
     font-weight: 600;
     color: #ED6308; 
     gap: 5px;
@@ -51,8 +51,8 @@ export const BoxTitle = styled.div`
 export const BoxContent = styled.div`
     flex-grow: 1;
     font-size: 12px;
-    color: #5F5F5F; 
-    font-family: "AppleSDGothicNeoB00";
+    color: #5F5F5F;
+    ${({ theme }) => theme.fonts.AppleSDGothicNeoB00};
     font-weight: 500;
 `;
 
