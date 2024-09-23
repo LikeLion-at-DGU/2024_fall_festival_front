@@ -2,7 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import { DefaultLayout } from "@layout/DefaultLayout";
 import { MainPage } from "@pages/main/MainPage";
 import { PerformancePage } from "@pages/performance/PerformancePage";
-import { NoticePage } from "@pages/notice/NoticePage"; // named import로 변경
+import { NoticePage } from "@pages/notice/NoticePage"; 
+import { BoothPage } from "@pages/booth/BoothPage";
+
 
 export const router = createBrowserRouter([
   {
@@ -14,6 +16,8 @@ export const router = createBrowserRouter([
       { path: "/performance", element: <PerformancePage /> },
       // 공지 페이지
       { path: "/notice", element: <NoticePage /> }, // named import 적용
+      //부스페이지
+      { path: "/booth", element: <BoothPage /> },
     ],
   },
 ]);

@@ -4,6 +4,7 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   width: 100%;
+  padding-top: 1rem;
   justify-content: space-between;
 `;
 export const Title = styled.div`
@@ -11,16 +12,10 @@ export const Title = styled.div`
   color: #000;
   ${({ theme }) => theme.fonts.AppleSDGothicNeoB00};
   font-size: 1.3rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
 `;
 export const SubTitle = styled.div`
   display: flex;
   color: #5f5f5f;
-  font-family: "AppleSDGothicNeoR00";
+  ${({ theme }) => theme.fonts.AppleSDGothicNeoR00};
   font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 `;
