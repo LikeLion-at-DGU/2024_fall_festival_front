@@ -10,10 +10,16 @@ export const Header = () => {
     // URL 경로에 따라 다른 헤더 텍스트 반환
     const getHeaderText = (pathname) => {
         switch (pathname) {
-            case '/performance':
-                return { title: '공연', description: 'performance' };
             case '/':
                 return { title: '메인', description: '메인페이지입니다.' };
+            case '/performance':
+                return { title: '공연', description: 'Performance' };
+            case '/notice':
+                return { title: '공지', description: 'Notice' };
+            case '/booth':
+                return { title: '부스', description: 'Booth' };
+            case '/about':
+                return { title: '로고', description: '' };
             default:
                 return { title: '알 수 없는 페이지', description: '아직 정의되지 않은 페이지입니다.' };
         }
@@ -31,8 +37,8 @@ export const Header = () => {
             <H.Header>
                 {/* <GlobalStyle /> */}
                 <H.TextBox>
-                    <H.CustomHeading>{headerText.title}</H.CustomHeading> {/* 동적으로 변경된 제목 */}
-                    <H.CustomP>{headerText.description}</H.CustomP> {/* 동적으로 변경된 설명 */}
+                    <H.HeaderTitle>{headerText.title}</H.HeaderTitle> {/* 동적으로 변경된 제목 */}
+                    <H.HeaderP>{headerText.description}</H.HeaderP> {/* 동적으로 변경된 설명 */}
                 </H.TextBox>
             </H.Header>
         </>

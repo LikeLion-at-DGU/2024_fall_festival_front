@@ -1,49 +1,32 @@
 import styled, { createGlobalStyle } from "styled-components";
 import Header_bg from "../assets/images/Header_bg.png"
-import AppleSDGothicNeoH from "../assets/fonts/AppleSDGothicNeoH.ttf"
-import AppleSDGothicNeoB from "../assets/fonts/AppleSDGothicNeoB.ttf"
-import AppleSDGothicNeoL from "../assets/fonts/AppleSDGothicNeoL.ttf";
 
-
-// export const GlobalStyle = createGlobalStyle`
-//   @font-face {
-//     font-family: 'AppleSDGothicNeoH';
-//     src: url(${AppleSDGothicNeoH}) format('truetype');
-//     font-weight: 100;
-//     font-style: normal;
-//   }
-//   @font-face {
-//     font-family: 'AppleSDGothicNeoB';
-//     src: url(${AppleSDGothicNeoB}) format('truetype');
-//     font-weight: 100; 
-//     font-style: normal;
-//   }
-//   @font-face {
-//     font-family: 'AppleSDGothicNeoL';
-//     src: url(${AppleSDGothicNeoL}) format('truetype');
-//     font-weight: 100; 
-//     font-style: normal;
-//   }
-//   h1{
-//     font-family: 'AppleSDGothicNeoH';
-//     font-weight: normal;
-//   }
-//   `
-
-export const CustomHeading = styled.h1 `
-${({ theme }) => theme.fonts.AppleSDGothicNeoH};
+export const HeaderTitle = styled.h1 `
+font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoH00['font-family']};
+font-weight: 400;
 `;
 
-export const CustomP = styled.p`
-${({ theme }) => theme.fonts.AppleSDGothicNeoR};
+export const HeaderP = styled.p`
+${({ theme }) => theme.fonts.AppleSDGothicNeoR00};
+display : flex;
+align-items: flex-end;
+line-height: 0.8;
 `
 
 export const Header = styled.div`
   display: flex;
+  position: fixed;
+  top: 0;
+  z-index: 2;
+
+  flex-direction: row;
+  align-items: center;
   background-image: url(${Header_bg});
   background-size: cover;
+
   height: 56px;
-  align-items: center;
+  width: 100%;
+  max-width: 540px;
 
   h1{
     color: #FFF;
@@ -59,23 +42,34 @@ export const Header = styled.div`
 
 export const TextBox = styled.div`
     display: flex;
-    height: 37px;
+    height: 40px;
     align-items: flex-end;
     padding: 10px;
     gap: 5px;
 `
 
 export const DateBox = styled.div`
-    display: ${({isVisible}) => (isVisible ? 'flex' : 'none' )};
-    height: 47px;
-    gap: 6.65px;
-    padding: 9px 16px;
-`
+  display: flex;
+  position: fixed;
+  top: 56px; /* 고정된 위치 */
+  z-index: 1;
+  background-color: #FFF;
+  height: 47px;
+  width: 100%;
+  max-width: 540px;
+  gap: 6.65px;
+  padding: 7px 13px;
+  transition: transform 0.3s ease-in-out; /* 애니메이션 추가 */
+
+  /* DateBox가 보일 때는 제자리, 보이지 않을 때는 화면 위로 숨김 */
+  transform: ${({ isVisible }) => (isVisible ? "translateY(0)" : "translateY(-100%)")};
+`;
+
 export const DateButton = styled.button`
   width: 68.4px;
   height: 29.45px;
-  padding: 6px 0 5px 0;
-  font-family: 'AppleSDGothicNeoB';
+  padding: 8px 0 5px 0;
+  font-family: 'AppleSDGothicNeoB00';
   font-size: 14.079px;
 
   cursor: pointer;
