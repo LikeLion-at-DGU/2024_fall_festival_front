@@ -4,6 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
 `;
 export const TimeSlotWrapper = styled.div`
   display: flex;
@@ -98,14 +99,14 @@ export const Details = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1rem;
-  margin-left: 1rem;
+  width: 120px;
+  gap: 10px;
 `;
 
 export const ImagePlaceholder = styled.div`
-  width: 60px;
-  height: 60px;
-  border-radius: 45.903px;
+  width: 57px;
+  height: 57px;
+  border-radius: 50%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -132,7 +133,7 @@ export const Location = styled.div`
   .locationName {
     color: #000;
     ${({ theme }) => theme.fonts.AppleSDGothicNeoR00};
-    font-size: 12px;
+    font-size: 10px;
   }
 `;
 

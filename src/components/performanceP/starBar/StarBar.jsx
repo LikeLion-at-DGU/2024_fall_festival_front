@@ -1,13 +1,15 @@
 import * as S from "./styled";
-import styled, { keyframes, css } from "styled-components";
 import { useState } from "react";
 import { StarLineUp } from "../../../constant/TimeTable/data";
-export const StarBar = () => {
+
+export const StarBar = ({ onStarClick }) => {
   const [selectedStar, setSelectedStar] = useState(null);
 
   const handleClick = (index) => {
     setSelectedStar(index);
+    onStarClick(StarLineUp[index].id);
   };
+
   return (
     <S.Container>
       {StarLineUp.map((starItem, index) => (
@@ -22,19 +24,19 @@ export const StarBar = () => {
                 {/* conic 그라디언트를 활용하여 색상 변화를 추가 */}
                 <linearGradient
                   id={`grad-${index}`}
-                  gradientTransform="rotate(90)"
+                  gradientTransform="rotate(45)"
                 >
                   <stop offset="0%" stopColor="#E46442" />
-                  <stop offset="45%" stopColor="white" />
-                  <stop offset="70%" stopColor="#E46442" />
+                  <stop offset="15%" stopColor="#fff" />
+                  <stop offset="50%" stopColor="#E46442" />
 
                   <stop offset="100%" stopColor="#F6CDBC" />
                 </linearGradient>
               </defs>
               <circle
-                cx="55"
-                cy="55"
-                r="55"
+                cx="50"
+                cy="50"
+                r="50"
                 stroke={`url(#grad-${index})`} /* 각도 그라디언트 적용 */
                 strokeWidth="7"
                 fill="none"
