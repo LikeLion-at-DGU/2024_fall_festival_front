@@ -4,6 +4,7 @@ import { MainPage } from "@pages/main/MainPage";
 import { PerformancePage } from "@pages/performance/PerformancePage";
 import { NoticePage } from "@pages/notice/NoticePage"; 
 import { BoothPage } from "@pages/booth/BoothPage";
+import { AboutPage } from "@pages/about/AboutPage"
 
 
 export const router = createBrowserRouter([
@@ -18,6 +19,8 @@ export const router = createBrowserRouter([
       { path: "/notice", element: <NoticePage /> }, // named import 적용
       //부스페이지
       { path: "/booth", element: <BoothPage /> },
+      //개발자페이지
+      { path: "/about", element: <AboutPage />},
     ],
   },
 ]);
