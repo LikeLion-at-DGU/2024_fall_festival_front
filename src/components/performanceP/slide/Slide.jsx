@@ -44,6 +44,10 @@ export const Slide = ({ currentTime }) => {
           ? formatTime(arr[index + 1])
           : null;
 
+        const formattedNextStartTime = nextStartTime
+          ? formatTime(arr[index + 1])
+          : null; // nextStartTime 변환
+
         // 현재 시간이 startTime과 다음 startTime 사이에 있는지 확인
         if (
           formattedCurrentTime >= formattedStartTime &&
