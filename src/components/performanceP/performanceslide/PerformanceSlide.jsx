@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import * as S from "./Styled";
 import { Slide } from "../slide/Slide";
 import { SubTitle } from "../SubTitle/SubTitle";
+import Fire from "../fire/Fire";
 export const PerformanceSlide = () => {
   const [currentTime, setCurrentTime] = useState("");
-
+  const [currentTime24, setCurrentTime24] = useState(""); // 24시간 형식
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -26,7 +27,12 @@ export const PerformanceSlide = () => {
         hour12: true, // 12시간제로 표시
       });
 
+      // 24시간 형식으로 포맷
+      const formattedTime24 = `${String(hours).padStart(2, "0")}:${String(
+        minutes
+      ).padStart(2, "0")}`;
       setCurrentTime(formattedTime);
+      setCurrentTime24(formattedTime24); // 24시간 형식 시간 설정
     };
 
     // 컴포넌트가 마운트될 때 시간 설정
@@ -41,7 +47,8 @@ export const PerformanceSlide = () => {
   return (
     <S.Container>
       <SubTitle title={"현재 진행중인 공연"} subTitle={`${currentTime} 기준`} />
-      <Slide />
+      <Slide currentTime={currentTime24} />
+      <Fire />
     </S.Container>
   );
 };
