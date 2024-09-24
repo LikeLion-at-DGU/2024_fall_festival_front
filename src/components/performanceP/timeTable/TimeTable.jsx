@@ -1,9 +1,17 @@
 import * as S from "./styled";
+import { useRef, useState } from "react";
 import { SubTitle } from "../SubTitle/SubTitle";
 import NoticeIcon from "../../../assets/images/NoticeIcon_Orange.svg";
 import { StarBar } from "../starBar/StarBar";
 import { StarTimeTable } from "../StarTimeTable/StarTimeTable";
-export const TimeTable = () => {
+export const TimeTable = ({ onDetailClick }) => {
+  const timeTableRef = useRef(null);
+  const [selectedId, setSelectedId] = useState(null);
+
+  const handleStarClick = (starId) => {
+    setSelectedId(starId);
+    setIsFixed(true);
+  };
   return (
     <S.Container>
       <SubTitle
@@ -16,8 +24,14 @@ export const TimeTable = () => {
           사이트 내 정보와 실제 공연은 상황에 따라 다르게 진행될 수 있습니다.
         </div>
       </S.NoticeBar>
-      <StarBar />
-      <StarTimeTable />
+      <StarBar onStarClick={handleStarClick} />
+      <S.StarTimeTableContainer ref={timeTableRef}>
+        <StarTimeTable
+          ref={timeTableRef}
+          selectedId={selectedId}
+          onDetailClick={onDetailClick}
+        />
+      </S.StarTimeTableContainer>
     </S.Container>
   );
 };

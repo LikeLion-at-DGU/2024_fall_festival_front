@@ -3,12 +3,10 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  justify-self: center;
-  align-self: center;
   width: 90%;
   gap: 1.3rem;
+  align-self: center;
+  align-items: center;
 `;
 export const NoticeBar = styled.div`
   display: flex;
@@ -26,10 +24,22 @@ export const NoticeBar = styled.div`
 
   #notice {
     color: #ed6308;
-    font-family: "AppleSDGothicNeoR00";
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+    ${({ theme }) => theme.fonts.AppleSDGothicNeoR00};
+    font-size: 10px;
   }
+`;
+export const StarTimeTableContainer = styled.div`
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 600px;
+  @media (max-width: 375px) {
+    /* SE  */
+    height: 380px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+
+  scrollbar-width: none;
 `;
