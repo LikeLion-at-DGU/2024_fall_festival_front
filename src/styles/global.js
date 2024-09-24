@@ -61,7 +61,7 @@ i {font-style:normal}
 
 // 초기 html 설정
 html {
-	background-color: ${({ theme }) => theme.colors.fall};
+	/* background-color: ${({ theme }) => theme.colors.fall}; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
