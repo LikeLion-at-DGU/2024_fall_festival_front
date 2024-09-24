@@ -54,7 +54,7 @@ export const BoxTitle = styled.div`
     font-size: 14px;
     ${({ theme }) => theme.fonts.AppleSDGothicNeoB00};
     color: #000;
-    font-weight: 600;
+    font-weight: 400;
 `;
 
 export const BoxContent = styled.div`

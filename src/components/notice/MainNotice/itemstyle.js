@@ -14,7 +14,7 @@ export const MainTitle = styled.div`
     width: 95%;
     font-size: 1rem;
     ${({ theme }) => theme.fonts.AppleSDGothicNeoB00}; 
-    font-weight: bold;
+    font-weight: 400;
     color: #000;
     margin-bottom: 10px;
 `;
@@ -40,7 +40,7 @@ export const BoxTitle = styled.div`
     align-items: center;
     font-size: 14px;
     ${({ theme }) => theme.fonts.AppleSDGothicNeoB00}; 
-    font-weight: 600;
+    font-weight: 400;
     color: #ED6308; 
     gap: 5px;
     img {
@@ -53,7 +53,7 @@ export const BoxContent = styled.div`
     font-size: 12px;
     color: #5F5F5F;
     ${({ theme }) => theme.fonts.AppleSDGothicNeoB00};
-    font-weight: 500;
+    font-weight: 400;
 `;
 
 export const InstaIcon = styled.div`
