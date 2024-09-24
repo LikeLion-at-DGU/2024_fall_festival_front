@@ -37,12 +37,15 @@ export const Slide = ({ currentTime }) => {
   //나중에 날짜랑 배경색 변경까지 연동해야됨..
   useEffect(() => {
     const formattedCurrentTime = formatTime(currentTime); // 현재 시간을 분 단위로 변환
+
     const slideIndex = Object.keys(groupedData).reduce(
       (closestIndex, startTime, index, arr) => {
         const formattedStartTime = formatTime(startTime); // startTime을 분 단위로 변환
         const nextStartTime = arr[index + 1]
           ? formatTime(arr[index + 1])
           : null;
+
+        const formattedNextStartTime = nextStartTime ? nextStartTime : null;
 
         // 현재 시간이 startTime과 다음 startTime 사이에 있는지 확인
         if (
