@@ -1,0 +1,32 @@
+name: Deploy
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: pandoc/latex
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: creates output
+        run: sh ./build.sh
+
+      - name: Pushes to origin repository
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.AUTO_ACTIONS }}
+        with:
+          source-directory: "output"
+          destination-github-username: sayyyho
+          destination-repository-name: 2024_fall_festival_front
+          user-email: "323psh@naver.com"
+          commit-message: "배포"
+
+      - name: Test get variable exported by push-to-another-repository
+        run: echo $DESTINATION_CLONED_DIRECTORY
