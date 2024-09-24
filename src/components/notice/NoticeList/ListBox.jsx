@@ -1,6 +1,6 @@
 import React from "react";
-import * as S from "./listboxstyle";
-import instaIcon from "../../../assets/images/instaIcon.png";
+import * as S from "./ListBoxStyle";
+import instaIcon from "../../../assets/images/instaIcon.svg";
 
 const ListBox = ({ title, content, onClick }) => {
     return (
@@ -14,6 +14,7 @@ const ListBox = ({ title, content, onClick }) => {
             <S.InstaIcon>
                 <img src={instaIcon} alt="인스타그램 아이콘" />
             </S.InstaIcon>
+            
         </S.LBox>
     );
 };

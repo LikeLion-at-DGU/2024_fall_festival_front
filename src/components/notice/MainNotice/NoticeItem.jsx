@@ -1,7 +1,7 @@
 import React from "react";
 import * as S from "./itemstyle"; 
 import noticeIcon from "../../../assets/images/NoticeIcon_Orange.svg"; 
-import instaIcon from "../../../assets/images/instaIcon.png"; 
+import instaIcon from "../../../assets/images/instaIcon.svg"; 
 
 const NoticeItem = ({ title, content, onClick }) => {
     return (
