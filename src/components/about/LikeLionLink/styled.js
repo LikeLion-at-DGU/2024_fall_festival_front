@@ -28,7 +28,7 @@ export const SubMent = styled.div`
 
 export const LinkMent = styled.div`
   color: #EB8F00;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoL00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
   font-size: 10px;
 `;
 
@@ -55,7 +55,6 @@ export const MentPlusLink = styled.div`
   padding-bottom: 60px;
 `;
 
-// M00임
 export const Link = styled.div`
   display: flex;
   flex-direction: row;
@@ -66,7 +65,7 @@ export const Link = styled.div`
   right: -15px;
   top: 22px;
   color: #EB8F00;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoL00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
   font-size: 16px;
 
   &:hover ${LinkImg} {
@@ -98,6 +97,5 @@ export const Intro = styled.div`
   margin-left:10px;
   margin-top:20px;
   gap:5px;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoUL00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
 `;
-//M00입니다.

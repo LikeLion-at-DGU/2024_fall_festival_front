@@ -25,20 +25,19 @@ export const Photo = styled.img`
   align-items: center;
   flex-shrink: 0;
 `
-// R00입니다
 export const Name = styled.div`
   display:flex;
   justify-content: center;
   padding-top:5px;
   color: var(--, #000);
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoL00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoR00['font-family']};
   font-size: 14px;
 `
 export const Department = styled.div`
   display:flex;
   justify-content: center;
   color: var(--, #000);
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoT0C['font-family']};
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoUL00['font-family']};
   font-size: 10px;
 `
 
@@ -134,9 +133,8 @@ export const Intro = styled.div`
   flex-direction:row;
   align-items:flex-end;
   gap:5px;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoL00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
 `;
-//M00입니다.
 
 export const IntroLine = styled.div`
   width: 3px;

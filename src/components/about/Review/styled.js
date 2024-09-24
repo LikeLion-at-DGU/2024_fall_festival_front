@@ -45,10 +45,9 @@ export const Link = styled.div`
   }
 `;
 
-//M00임
 export const LinkMent = styled.div`
   color: #ED6308;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoB00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
   font-size: 12px;
   margin-top:3px;
 `;
