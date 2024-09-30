@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as S from './Styled';
 import { RxDoubleArrowDown, RxDoubleArrowUp } from "react-icons/rx";
 import BoothData from '../../../src/boothdata/Boothdata';
-import LinenowLogo from '../../assets/img/LinenowLogo.png'
+import LinenowLogo from '../../assets/images/LinenowLogo.png'
+import nonselect_GI from '../../assets/images/nonselect_GI.png'
+import nonselect_JU from '../../assets/images/nonselect_JU.png'
+import select_GI from '../../assets/images/select_GI.png'
+import select_JU from '../../assets/images/select_JU.png'
 
 export const BoothPage = () => {
   // 초기 날짜 선택 용
@@ -27,6 +31,10 @@ export const BoothPage = () => {
   // 부스 위치 버튼 상태 보관 용
   const [boothLocation, setBoothLocation] = useState(null);
   
+  // 마킹 용 배열
+  const mapRef = useRef(null); // Map 참조를 위한 useRef
+  const markersRef = useRef([]); // 마커 정보를 저장할 ref
+  const [activeMarker, setActiveMarker] = useState(null); // 현재 활성화된 마커를 추적하기 위한 상태
 
   const toggleDropdown = (type) => {
     setIsDropdownOpen((prevState) => ({
@@ -91,6 +99,113 @@ export const BoothPage = () => {
     return timeMatch && typeMatch && locationMatch;
   });
 
+  // 부스 유형에 따른 초기 마커 이미지 설정 함수
+  const getInitialMarkerImage = (booth) => {
+    let markerImage;
+
+    if (booth.filters.type === '주점') {
+      markerImage = nonselect_JU; // 주점인 경우
+    } else if (booth.filters.type === '기타') {
+      markerImage = nonselect_GI; // 기타인 경우
+    } else if (booth.filters.type === '푸드트럭') {
+      markerImage = nonselect_GI; // 푸드트럭도 기본 이미지로 설정 (필요 시 추가 가능)
+    } else {
+      markerImage = nonselect_GI; // 기본 이미지
+    }
+
+    return new window.kakao.maps.MarkerImage(markerImage, new window.kakao.maps.Size(30, 36));
+  };
+
+  // 카카오맵 마커 생성 부분 수정
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=972351b156b1bdfe825cb095c12d1e56&autoload=false`;
+    script.async = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      window.kakao.maps.load(() => {
+        const container = document.getElementById('map');
+        const options = {
+          center: new window.kakao.maps.LatLng(37.5567, 127.0003), // 동국대학교 팔정도 좌표
+          level: 3,
+        };
+        mapRef.current = new window.kakao.maps.Map(container, options);
+
+        // 초기 마커 생성
+        filteredBooths.forEach((booth) => {
+          const markerPosition = new window.kakao.maps.LatLng(booth.latitude, booth.longitude);
+          const markerImage = getInitialMarkerImage(booth); // 유형에 따라 초기 마커 이미지 설정
+          const marker = new window.kakao.maps.Marker({
+            position: markerPosition,
+            image: markerImage,
+            map: mapRef.current,
+          });
+
+          // 마커 클릭 이벤트 설정
+          window.kakao.maps.event.addListener(marker, 'click', () => {
+            handleSelectBooth(booth); // 부스 선택
+          });
+
+          // 마커 정보를 ref 배열에 저장
+          markersRef.current.push({ boothId: booth.id, marker });
+        });
+      });
+    };
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
+
+  // 선택된 부스에 따라 마커 이미지 변경
+  useEffect(() => {
+    // 선택된 부스가 없으면 모든 마커를 초기화
+    if (!selectBooth) {
+      markersRef.current.forEach(({ marker, boothId }) => {
+        const booth = BoothData.find(b => b.id === boothId); // 해당 부스 데이터 찾기
+        if (booth) {
+          // 초기 마커 이미지로 변경
+          const initialImage = getInitialMarkerImage(booth);
+          marker.setImage(initialImage);
+        }
+      });
+      return;
+    }
+
+    if (selectBooth && mapRef.current) {
+      // 선택된 부스의 위치 좌표로 맵의 중심 이동
+      const newCenter = new window.kakao.maps.LatLng(selectBooth.latitude-0.0017, selectBooth.longitude);
+      mapRef.current.setCenter(newCenter);
+    }
+  
+    // 선택된 부스가 있을 경우, 해당 마커만 업데이트
+    markersRef.current.forEach(({ boothId, marker }) => {
+      const isSelected = selectBooth && selectBooth.id === boothId;
+  
+      // 선택된 부스의 마커를 변경
+      if (isSelected) {
+        let markerImage;
+        if (selectBooth.filters.type === '주점') {
+          markerImage = select_JU; // 선택된 주점일 경우
+        } else if (selectBooth.filters.type === '기타') {
+          markerImage = select_GI; // 선택된 기타일 경우
+        } else {
+          
+        }
+        marker.setImage(new window.kakao.maps.MarkerImage(markerImage, new window.kakao.maps.Size(32, 40)));
+      } else {
+        // 선택되지 않은 부스는 초기 이미지로 유지
+        const booth = BoothData.find(b => b.id === boothId); // 해당 부스 데이터 찾기
+        if (booth) {
+          const initialImage = getInitialMarkerImage(booth);
+          marker.setImage(initialImage);
+        }
+      }
+    });
+  }, [selectBooth]);
+  
 
   return (
     <S.MainWrapper>
@@ -113,7 +228,7 @@ export const BoothPage = () => {
       </S.Header>
 
       {/* 카카오맵 자리 */}
-      <S.MapPlaceholder>여기에 카카오맵이 들어갑니다.</S.MapPlaceholder>
+      <S.MapPlaceholder id='map'>여기에 카카오맵이 들어갑니다.</S.MapPlaceholder>
 
       {/* 부스 리스트 */}
       <S.BoothListWrapper $isOpen={isBoothListOpen}>
@@ -207,20 +322,22 @@ export const BoothPage = () => {
       {/* 선택한 부스 디테일 */}
       {selectBooth && (
         <>
-          <S.BackgroundOverlay onClick={() => setSelectBooth(null)} />
+          {/* <S.BackgroundOverlay onClick={() => setSelectBooth(null)} /> */}
           <S.BoothDetailWrapper $isVisible={selectBooth}>
             <S.BoothDetailContent>
             <S.CloseButton onClick={() => setSelectBooth(null)}>X</S.CloseButton>
               <S.BoothDetailHeader>
-                <S.BoothDetailName>{selectBooth.boothName}</S.BoothDetailName>
-                <S.FilterInfo>
-                  <S.FilterTag
-                    $bgColor={selectBooth.filters.time === '낮' ? "#FFF2AD" : "#D4EAFF"}
-                    $FontColor={selectBooth.filters.time === '낮' ? "#6D5C00" : "#00326D"}
-                  >{selectBooth.filters.time}부스</S.FilterTag>
-                  <S.FilterTag $bgColor="#FFD5D5" $FontColor="#FF0000">{selectBooth.filters.type}</S.FilterTag>
-                  <S.FilterTag $bgColor="#FFD9A1" $FontColor="#DB4200">{selectBooth.filters.location}</S.FilterTag>
-                </S.FilterInfo>
+                <S.FilterLeft>
+                  <S.BoothDetailName>{selectBooth.boothName}</S.BoothDetailName>
+                  <S.FilterInfo>
+                    <S.FilterTag
+                      $bgColor={selectBooth.filters.time === '낮' ? "#FFF2AD" : "#D4EAFF"}
+                      $FontColor={selectBooth.filters.time === '낮' ? "#6D5C00" : "#00326D"}
+                    >{selectBooth.filters.time}부스</S.FilterTag>
+                    <S.FilterTag $bgColor="#FFD5D5" $FontColor="#FF0000">{selectBooth.filters.type}</S.FilterTag>
+                    <S.FilterTag $bgColor="#FFD9A1" $FontColor="#DB4200">{selectBooth.filters.location}</S.FilterTag>
+                  </S.FilterInfo>
+                </S.FilterLeft>
                 <S.BoothDetailLikes>
                   <S.StyledIoIosHeart />
                   {selectBooth.likes}
@@ -281,3 +398,6 @@ export const BoothPage = () => {
     </S.MainWrapper>
   );
 };
+
+// 1. 선택한 것에 따라 모든 이미지가 바뀌는 문제
+// 2. 선택된 걸 해제하면 이미지가 모두 날라간다. useEffect에 조건을 추가한다..?
