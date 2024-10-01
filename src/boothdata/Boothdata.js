@@ -1,4 +1,3 @@
-// 데이터 잘 들어가는지 더미데이터 만든것 추후 삭제 !
 import IMAGE1 from "../../src/assets/img/park1.png";
 import IMAGE2 from "../../src/assets/img/park2.jpeg";
 import IMAGE3 from "../../src/assets/img/park3.jpeg";
@@ -16,9 +15,11 @@ const BoothData = [
     menu: "핫도그, 버거",
     image: IMAGE1,
     instagram: "https://instagram.com/booth_a",
+    latitude: 37.5585, // 동국대학교 만해광장
+    longitude: 127.0027,
     filters: {
       time: "낮",
-      type: "푸드트럭",
+      type: "주점",
       location: "팔정도"
     }
   },
@@ -33,6 +34,8 @@ const BoothData = [
     menu: "칵테일, 맥주",
     image: IMAGE2,
     instagram: "https://instagram.com/booth_b",
+    latitude: 37.5591, // 동국대학교 팔정도
+    longitude: 127.0016,
     filters: {
       time: "밤",
       type: "주점",
@@ -50,6 +53,8 @@ const BoothData = [
     menu: "스낵, 음료",
     image: IMAGE3,
     instagram: "https://instagram.com/booth_c",
+    latitude: 37.5581, // 동국대학교 명진관
+    longitude: 127.0021,
     filters: {
       time: "낮",
       type: "기타",
@@ -67,6 +72,8 @@ const BoothData = [
     menu: "피자, 음료",
     image: IMAGE4,
     instagram: "https://instagram.com/booth_d",
+    latitude: 37.5589, // 동국대학교 혜화관
+    longitude: 127.0005,
     filters: {
       time: "밤",
       type: "기타",
