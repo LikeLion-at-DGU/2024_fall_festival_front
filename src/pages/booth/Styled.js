@@ -50,6 +50,8 @@ export const MainWrapper = styled.section`
 // 날짜 토글
 export const Header = styled.div`
   display: flex;
+  position: absolute;
+  z-index: 20;
   flex-direction: column;
   align-items: center;
   width: 100%;
