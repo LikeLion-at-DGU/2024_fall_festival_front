@@ -50,6 +50,8 @@ export const MainWrapper = styled.section`
 // 날짜 토글
 export const Header = styled.div`
   display: flex;
+  position: absolute;
+  z-index: 20;
   flex-direction: column;
   align-items: center;
   width: 100%;
@@ -111,19 +113,19 @@ export const BoothListWrapper = styled.div`
   flex-direction: column;
   position: fixed;
   padding: 1rem;
-  bottom: ${({ $isOpen }) => ($isOpen ? '0' : '-140px')}; /* 리스트가 열리면 아래로 내려감 */
+  bottom: ${({ $isOpen }) => ($isOpen ? '0' : '-140px')};
   width: 100%;
   max-width: 540px;
-  height: ${({ $isOpen }) => ($isOpen ? '50%' : '200px')}; /* 필터 포함한 리스트 높이 */
+  height: ${({ $isOpen }) => ($isOpen ? '50%' : '200px')};
   background-color: inherit;
-  transition: bottom 0.5s ease, height 0.5s ease; /* 애니메이션 효과 */
+  transition: bottom 0.5s ease, height 0.5s ease;
   z-index: 10;
 `;
 
 // 부스 리스트 헤더
 export const BoothListHeader = styled.div`
   position: absolute;
-  top: -20px; /* 부스 리스트 위에 고정 */
+  top: -20px;
   right: 0;
   transform: translate(-50%, -50%);
   display: flex;
@@ -135,7 +137,7 @@ export const BoothListHeader = styled.div`
   background: #FFF;
   box-shadow: 0px 2.2px 11px 0px rgba(0, 0, 0, 0.20);
   cursor: pointer;
-  z-index: 20; /* 리스트 위에 떠 있음 */
+  z-index: 20;
 `;
 
 export const Arrow = styled.span`
@@ -144,7 +146,7 @@ export const Arrow = styled.span`
   cursor: pointer;
 
   svg {
-    transform: scaleY(0.7); /* 세로 길이를 70%로 줄임 */
+    transform: scaleY(0.7);
   }
 `;
 
@@ -198,6 +200,8 @@ export const Dropdown = styled.ul`
   z-index: 10;
   list-style: none;
   padding: 0;
+  
+  animation: ${fadeIn} 0.4s ease;
 `;
 
 // 드롭다운 아이템
@@ -240,14 +244,14 @@ export const BoothList = styled.div`
   width: 100%;
   height: 100%;
   margin-top: 10px;
-  overflow-y: auto; /* 리스트 스크롤 */
-  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')}; /* 리스트가 열렸을 때만 보임 */
+  overflow-y: auto;
+  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
 `;
 
 export const NoticeTabling = styled.div`
   padding: 0px 10px 5px 10px;
   color: #5F5F5F;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoL00['font-family']}; // R
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoR00['font-family']};
   font-size: 11px;
   font-style: normal;
   font-weight: 400;
@@ -277,7 +281,7 @@ export const BoothInfo = styled.div`
   height: 75px;
   justify-content: space-around;
   margin-left: 1rem;
-  width: calc(100% - 150px); /* 썸네일을 제외한 공간 */
+  width: calc(100% - 150px);
 `;
 
 export const BoothWrap = styled.div`
@@ -310,7 +314,7 @@ export const BoothName = styled.div`
 
   color: #000;
 
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoB00['font-family']}; // M
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
   font-size: 14.045px;
   font-style: normal;
   font-weight: 400;
@@ -324,7 +328,7 @@ export const HeartWrap = styled.div`
   gap: 4px;
 
   color: #000;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoL00['font-family']}; // R
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoR00['font-family']};
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -336,7 +340,7 @@ export const BoothWho = styled.div`
 
   color: #5F5F5F;
 
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoL00['font-family']}; // R
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoR00['font-family']};
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -351,7 +355,7 @@ export const NoBooth = styled.div`
   height: 100%;
 
   color: #5F5F5F;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoB00['font-family']}; // M00인데 다운이 안되어있네요 ㅠ
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
@@ -364,9 +368,9 @@ export const BoothDetailWrapper = styled.div`
   bottom: 0;
   width: 100%;
   max-width: 540px;
-  height: 54%;
+  height: fit-content;
   background-color: #FFF;
-  padding: 2rem 1.75rem;
+  padding: 1.5rem 1.75rem;
   border-radius: 20px 20px 0px 0px;
   box-shadow: 0px 2px 40px 0px rgba(0, 0, 0, 0.70);
   z-index: 30;
@@ -409,6 +413,13 @@ export const BoothDetailInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
+
+export const FilterLeft = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
 `;
 
 export const FilterInfo = styled.div`
@@ -456,7 +467,7 @@ export const DetailContext = styled.div`
   display: flex;
 
   color: #000;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoL00['font-family']}; // R
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoR00['font-family']};
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -493,7 +504,7 @@ export const LineNowBox = styled.div`
 
 export const LineNowText = styled.div`
   color: #333740;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoB00['font-family']}; // M
+  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
   font-size: 10.5px;
   font-style: normal;
   font-weight: 400;

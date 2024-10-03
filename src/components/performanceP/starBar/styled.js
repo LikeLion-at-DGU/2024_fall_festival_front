@@ -5,6 +5,7 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 5px;
+  width: 98%;
 `;
 
 export const StarWrapper = styled.div`
@@ -17,8 +18,8 @@ export const StarWrapper = styled.div`
 `;
 
 export const StarImgDiv = styled.div`
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   background-size: cover;
   background-position: center;
