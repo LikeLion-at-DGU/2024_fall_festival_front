@@ -30,14 +30,14 @@ export const Name = styled.div`
   justify-content: center;
   padding-top:5px;
   color: var(--, #000);
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoR00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
   font-size: 14px;
 `
 export const Department = styled.div`
   display:flex;
   justify-content: center;
   color: var(--, #000);
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoUL00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']};
   font-size: 10px;
 `
 
@@ -96,7 +96,7 @@ export const Role = styled.div`
   position: relative; 
   display: flex;
   justify-content: center;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoUL00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']};
   font-size: 10px;
   color: ${({ role }) => {
     switch (role) {
@@ -133,7 +133,7 @@ export const Intro = styled.div`
   flex-direction:row;
   align-items:flex-end;
   gap:5px;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
 `;
 
 export const IntroLine = styled.div`
