@@ -7,17 +7,18 @@ export const MainWrapper = styled.div`
   align-items: center;
   justify-content:center;
   gap: 20px; 
-  margin-top:50px; 
+  margin-top:30px; 
 `;
 
 export const MentPlusLink = styled.div`
   display:flex;
   flex-direction:column;
   gap:7px;
-  margin-bottom:30px;
+  margin-bottom: 15px;
   align-items: center;
   justify-content:center;
 `;
+
 export const MainMent = styled.div`
   color: #000;
   font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoUL00['font-family']};

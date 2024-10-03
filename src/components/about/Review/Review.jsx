@@ -8,7 +8,7 @@ export const Review = () => {
     <S.MainWrapper>
       <S.MentPlusLink>
         <S.MainMent>사이트 경험에 대한 후기를 남겨주세요!</S.MainMent>
-        <a href="https://www.dongguk.edu/main" style={{ textDecoration: 'none' }}>
+        <a href="https://naver.me/5mIX3maX" style={{ textDecoration: 'none' }}>
           <S.Link>
             <S.LinkMent>후기 남기기</S.LinkMent>
             <S.LinkImg src={FormLink} alt={FormLink} />
