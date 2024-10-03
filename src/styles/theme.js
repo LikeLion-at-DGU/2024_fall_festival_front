@@ -46,7 +46,7 @@ export const theme = {
 
   fonts: {
     default: fontGenerator(
-      "AppleSDGothicNeoL00",
+      "NanumSquareRoundR",
       "1rem",
       "400",
       "1.5",
@@ -61,5 +61,10 @@ export const theme = {
     AppleSDGothicNeoT0C: fontGenerator("AppleSDGothicNeoT0C"),
     AppleSDGothicNeoR00: fontGenerator("AppleSDGothicNeoR00"),
     AppleSDGothicNeoM00: fontGenerator("AppleSDGothicNeoM00"),
+
+    NanumSquareRoundB: fontGenerator("NanumSquareRoundB"),
+    NanumSquareRoundEB: fontGenerator("NanumSquareRoundEB"),
+    NanumSquareRoundR: fontGenerator("NanumSquareRoundR"),
+    NanumSquareRoundL: fontGenerator("NanumSquareRoundL"),
   },
 };
