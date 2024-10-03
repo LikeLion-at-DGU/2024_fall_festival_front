@@ -1,7 +1,7 @@
 //공연페이지 - 이쪽에서 각자 만든거 합치면 될거같아요
 import * as S from "./PerformancePage.styled";
 import { useState } from "react";
-import { PerformanceSlide } from "./performanceslide/PerformanceSlide";
+import { PerformanceSlide } from "../../components/performanceP/performanceslide/PerformanceSlide";
 import { TimeTable } from "@components/performanceP/timeTable/TimeTable";
 import { StarDetail } from "@components/performanceP/StarDetail/StarDetail";
 export const PerformancePage = () => {
