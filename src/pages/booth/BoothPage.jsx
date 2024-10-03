@@ -1,16 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
-import * as S from './Styled';
+import React, { useState, useEffect, useRef } from "react";
+import * as S from "./Styled";
 import { RxDoubleArrowDown, RxDoubleArrowUp } from "react-icons/rx";
-import { TopBar } from '@components/topBar/TopBar';
-
-import BoothData from '../../../src/boothdata/Boothdata';
-import LinenowLogo from '../../assets/images/LinenowLogo.png'
-import nonselect_GI from '../../assets/images/nonselect_GI.png'
-import nonselect_JU from '../../assets/images/nonselect_JU.png'
-import select_GI from '../../assets/images/select_GI.png'
-import select_JU from '../../assets/images/select_JU.png'
+import { TopBar } from "@components/topBar/TopBar";
+import { Modal } from "@components/modal/Modal";
+import { useBoothData } from "../../hook/useBooth";
+import BoothData from "../../../src/boothdata/Boothdata";
+import LinenowLogo from "../../assets/images/LinenowLogo.png";
+import nonselect_GI from "../../assets/images/nonselect_GI.png";
+import nonselect_JU from "../../assets/images/nonselect_JU.png";
+import select_GI from "../../assets/images/select_GI.png";
+import select_JU from "../../assets/images/select_JU.png";
 
 export const BoothPage = () => {
+  // 모달 상태 추가
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const { boothData } = useBoothData();
+
   // 초기 날짜 선택 용
   const [selectedDate, setSelectedDate] = useState('10/7(월)');
 
@@ -210,7 +218,7 @@ export const BoothPage = () => {
   return (
     <>
       <S.MainWrapper>
-        <TopBar />
+        <TopBar openModal={openModal}/>
         {/* 상단 날짜 선택 버튼 */}
 
         {/* 카카오맵 자리 */}
@@ -393,6 +401,7 @@ export const BoothPage = () => {
             </S.BoothDetailWrapper>
           </>
         )}
+        {isModalOpen && <Modal onClose={closeModal} />}
       </S.MainWrapper>
     </>
   );
