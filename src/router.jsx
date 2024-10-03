@@ -9,8 +9,10 @@ export const router = createBrowserRouter([
     path: "/",
     element: <DefaultLayout />,
     children: [
-
-   
+      {
+        path: "",
+        element: <BoothPage />,
+      },
       //부스페이지
       {
         path: "/:booth_id/:day/:category/:location/:is_night/:is_reservable",
