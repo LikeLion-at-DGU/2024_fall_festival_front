@@ -102,7 +102,6 @@ export const MapPlaceholder = styled.div`
   background-color: #e0e0e0;
   display: flex;
   justify-content: center;
-  align-items: center;
   color: #666;
   margin-bottom: 20px;
 `;
@@ -368,7 +367,18 @@ export const BoothDetailWrapper = styled.div`
   bottom: 0;
   width: 100%;
   max-width: 540px;
-  height: fit-content;
+  height: 400px;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+	  display:none /* Chrome , Safari , Opera */
+  }
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Internet Explorer 10+, Edge */
+  -ms-overflow-style: none;
+
+
   background-color: #FFF;
   padding: 1.5rem 1.75rem;
   border-radius: 20px 20px 0px 0px;

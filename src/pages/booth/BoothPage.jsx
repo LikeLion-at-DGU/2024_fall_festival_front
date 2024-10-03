@@ -32,11 +32,12 @@ export const BoothPage = () => {
 
   // 위치보기나 아이콘 클릭시 띄우는 용
   const [highlightedBooth, setHighlightedBooth] = useState(null);
+  const boothRefs = useRef({});
+
 
   // 마킹 용 배열
   const mapRef = useRef(null);
   const markersRef = useRef([]);
-  const [activeMarker, setActiveMarker] = useState(null);
 
   const toggleDropdown = (type) => {
     setIsDropdownOpen((prevState) => ({
@@ -199,32 +200,39 @@ export const BoothPage = () => {
       }
     });
   }, [highlightedBooth]);
-  
+
+  useEffect(() => {
+    if (highlightedBooth && boothRefs.current[highlightedBooth.id]) {
+      boothRefs.current[highlightedBooth.id].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [highlightedBooth]);
 
   return (
     <>
-      <TopBar />
       <S.MainWrapper>
+        <TopBar />
         {/* 상단 날짜 선택 버튼 */}
-        <S.Header>
-          <S.DateSelector>
-            <S.DateButton
-              $active={selectedDate === '10/7(월)'}
-              onClick={() => handleDateChange('10/7(월)')}
-            >
-              10/7(월)
-            </S.DateButton>
-            <S.DateButton
-              $active={selectedDate === '10/8(화)'}
-              onClick={() => handleDateChange('10/8(화)')}
-            >
-              10/8(화)
-            </S.DateButton>
-          </S.DateSelector>
-        </S.Header>
 
         {/* 카카오맵 자리 */}
-        <S.MapPlaceholder id='map'>여기에 카카오맵이 들어갑니다.</S.MapPlaceholder>
+        <S.MapPlaceholder id='map'>
+          <S.Header>
+            <S.DateSelector>
+              <S.DateButton
+                $active={selectedDate === '10/7(월)'}
+                onClick={() => handleDateChange('10/7(월)')}
+              >
+                10/7(월)
+              </S.DateButton>
+              <S.DateButton
+                $active={selectedDate === '10/8(화)'}
+                onClick={() => handleDateChange('10/8(화)')}
+              >
+                10/8(화)
+              </S.DateButton>
+            </S.DateSelector>
+          </S.Header>
+        </S.MapPlaceholder>
+
 
         {/* 부스 리스트 */}
         <S.BoothListWrapper $isOpen={isBoothListOpen}>
@@ -284,6 +292,7 @@ export const BoothPage = () => {
               filteredBooths.map((booth) => (
                 <S.BoothItem
                   key={booth.id}
+                  ref={(el) => boothRefs.current[booth.id] = el} // 각 부스에 ref 추가
                   $isColored={highlightedBooth && highlightedBooth.id === booth.id}
                   onClick={() => handleSelectBooth(booth)}
                 >
