@@ -1,5 +1,4 @@
 import * as S from "./styled";
-import styled, { keyframes, css } from "styled-components";
 import { useState } from "react";
 import { StarLineUp } from "../../../constant/TimeTable/data";
 export const StarBar = () => {
@@ -39,7 +38,9 @@ export const StarBar = () => {
                 strokeWidth="7"
                 fill="none"
                 strokeDasharray="346.36" /* 원의 둘레 = 2 * pi * 50 */
-                strokeDashoffset={selectedStar === index ? "0" : "346.36"}
+                strokeDashoffset={
+                  selectedStar === index ? "0" : "346.36"
+                }
                 style={{
                   transition: "stroke-dashoffset 2s ease",
                 }}
