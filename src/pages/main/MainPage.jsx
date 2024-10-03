@@ -1,5 +1,10 @@
 import * as S from "./MainPage.styled";
+import SearchBar from "@components/searchBar/SearchBar";
 
 export const MainPage = () => {
-  return <S.MainWrapper>동대 축사!</S.MainWrapper>;
+  return (
+    <>
+      <SearchBar/>
+    </>
+  );
 };
