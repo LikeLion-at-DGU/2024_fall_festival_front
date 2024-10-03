@@ -46,6 +46,8 @@ export const BoothPage = () => {
   // 마킹 용 배열
   const mapRef = useRef(null);
   const markersRef = useRef([]);
+  const mapSizingRef = useRef(null);
+  const boothListRef = useRef(null);
 
   const toggleDropdown = (type) => {
     setIsDropdownOpen((prevState) => ({
@@ -179,8 +181,8 @@ export const BoothPage = () => {
 
     if (highlightedBooth && mapRef.current) {
       // 선택된 부스의 위치 좌표로 맵의 중심 이동
-      const newCenter = new window.kakao.maps.LatLng(highlightedBooth.latitude-0.0017, highlightedBooth.longitude);
-      mapRef.current.setCenter(newCenter);
+      const newCenter = new window.kakao.maps.LatLng(highlightedBooth.latitude, highlightedBooth.longitude);
+      mapRef.current.panTo(newCenter);
     }
   
     // 선택된 부스가 있을 경우, 해당 마커만 업데이트
@@ -215,14 +217,36 @@ export const BoothPage = () => {
     }
   }, [highlightedBooth]);
 
+  useEffect(() => {
+    if (mapSizingRef.current && boothListRef.current) {
+      const boothListHeight = isBoothListOpen ? 520 : 180;
+      const mapHeight = `calc(100vh - ${boothListHeight}px)`;
+      mapSizingRef.current.style.height = mapHeight;
+
+      if (mapRef.current) {
+        mapRef.current.relayout();
+
+        setTimeout(() => {
+          window.kakao.maps.event.trigger(mapRef.current, 'resize');
+
+          if (highlightedBooth) {
+            const newCenter = new window.kakao.maps.LatLng(highlightedBooth.latitude, highlightedBooth.longitude);
+            mapRef.current.panTo(newCenter);
+          }
+        }, 200);
+      }
+    }
+  }, [isBoothListOpen, selectBooth, highlightedBooth]);
+  
+
   return (
     <>
       <S.MainWrapper>
-        <TopBar openModal={openModal}/>
         {/* 상단 날짜 선택 버튼 */}
+        <TopBar openModal={openModal}/>
 
         {/* 카카오맵 자리 */}
-        <S.MapPlaceholder id='map'>
+        <S.MapPlaceholder ref={mapSizingRef} $isBoothListOpen={isBoothListOpen} id='map'>
           <S.Header>
             <S.DateSelector>
               <S.DateButton
@@ -243,7 +267,7 @@ export const BoothPage = () => {
 
 
         {/* 부스 리스트 */}
-        <S.BoothListWrapper $isOpen={isBoothListOpen}>
+        <S.BoothListWrapper ref={boothListRef} $isOpen={isBoothListOpen}>
           <S.BoothListHeader onClick={toggleBoothList}>
             <S.Arrow>{isBoothListOpen ? <RxDoubleArrowDown /> : <RxDoubleArrowUp />}</S.Arrow>
           </S.BoothListHeader>
