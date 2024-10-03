@@ -13,13 +13,13 @@ export const Modal = ({ onClose }) => {
         </S.CloseButton>
         <S.ModalHeader>
           2024 동국대학교 가을축제 부스 서비스
-          <span class="B"> 부스끼리</span>
+          <span className="B"> 부스끼리</span>
         </S.ModalHeader>
         <S.ModalLine /> {/* 선 추가 */}
         <S.ModalText>
           서비스 이용은 어떠셨나요?
           <br />
-          <span class="Bold">
+          <span className="Bold">
             사이트 경험에 대한 후기를 남겨주세요!
           </span>
         </S.ModalText>
