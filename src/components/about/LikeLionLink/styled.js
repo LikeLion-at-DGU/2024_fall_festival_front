@@ -15,20 +15,20 @@ export const Photo = styled.img`
 export const MainMent = styled.div`
   color: #000;
   text-align: center;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoB00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
   font-size: 16px;
 `;
 
 export const SubMent = styled.div`
   color: #000;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoL00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']};
   text-align: center;
   font-size: 16px;
 `;
 
 export const LinkMent = styled.div`
   color: #EB8F00;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
   font-size: 10px;
 `;
 
@@ -65,7 +65,7 @@ export const Link = styled.div`
   right: -15px;
   top: 22px;
   color: #EB8F00;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
   font-size: 16px;
 
   &:hover ${LinkImg} {
