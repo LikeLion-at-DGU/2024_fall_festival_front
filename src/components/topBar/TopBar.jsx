@@ -5,7 +5,7 @@ import Leaf1 from "../../assets/images/leaf/leaf1.png";
 import Leaf2 from "../../assets/images/leaf/leaf2.png";
 import Leaf3 from "../../assets/images/leaf/leaf3.png";
 
-export const TopBar = () => {
+export const TopBar = ({ openModal }) => {
   const [leaves, setLeaves] = useState([]);
 
   // 랜덤한 Leaf 이미지를 생성하는 함수
@@ -42,7 +42,7 @@ export const TopBar = () => {
   return (
     <S.Background>
       <S.MainText>동국대학교 가을축제 부스사이트</S.MainText>
-      <S.MainLogo src={Mainicon} />
+      <S.MainLogo src={Mainicon} onClick={openModal} />
 
       {/* 랜덤으로 생성된 Leaves 출력 */}
       {leaves.map((leaf) => (
