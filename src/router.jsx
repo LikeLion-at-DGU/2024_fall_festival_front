@@ -16,10 +16,6 @@ export const router = createBrowserRouter([
       },
       //부스페이지
       {
-        path: "/:booth_id/:day/:category/:location/:is_night/:is_reservable",
-        element: <BoothPage />,
-      },
-      {
         path: "/booth-test",
         element: <BoothPage />,
       },
