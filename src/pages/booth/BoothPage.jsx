@@ -5,7 +5,6 @@ import { TopBar } from "@components/topBar/TopBar";
 import { Modal } from "@components/modal/Modal";
 import { useBoothData } from "../../hook/useBooth";
 import BoothData from "../../../src/boothdata/Boothdata";
-import LinenowLogo from "../../assets/images/LinenowLogo.png";
 import nonselect_GI from "../../assets/images/nonselect_GI.png";
 import nonselect_JU from "../../assets/images/nonselect_JU.png";
 import select_GI from "../../assets/images/select_GI.png";
