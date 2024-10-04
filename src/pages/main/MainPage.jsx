@@ -4,10 +4,10 @@ export const MainPage = () => {
   return (
     <S.MainWrapper
       style={{
-        backgroundImage: `url("/images/preview.png")`,
+        backgroundImage: `url("/images/preview.jpeg")`,
         backgroundSize: "contain",
         backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        // backgroundRepeat: "no-repeat",
       }}
     ></S.MainWrapper>
   );
