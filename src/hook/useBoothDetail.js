@@ -1,11 +1,9 @@
 // src/hooks/useMain.js
 import { useState, useEffect } from "react";
 import { getBoothDetail } from "../apis/boothDetail";
-import { useParams } from "react-router-dom";
 
-export const useBoothDetailData = () => {
+export const useBoothDetailData = (booth_id) => {
   const [boothDetailData, setBoothDetailData] = useState(null);
-  const { booth_id } = useParams();
   const fetchBoothDetailData = async () => {
     try {
       const res = await getBoothDetail(booth_id);
@@ -19,8 +17,10 @@ export const useBoothDetailData = () => {
   };
 
   useEffect(() => {
-    fetchBoothDetailData();
-  }, []);
+    if (booth_id) {
+      fetchBoothDetailData();
+    }
+  }, [booth_id]);
 
   return { boothDetailData };
 };
