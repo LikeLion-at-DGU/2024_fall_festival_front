@@ -25,6 +25,11 @@ export const BoothPage = () => {
     const dayMap = {
       월: "Mon",
       화: "Tue",
+      수: "Wed",
+      목: "Thu",
+      금: "Fri",
+      토: "Sat",
+      일: "Sun",
     };
     return dayMap[day] || ""; // 해당 요일의 영어 이름 반환
   };

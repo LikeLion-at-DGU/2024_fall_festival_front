@@ -17,6 +17,7 @@ export const getBoothList = async ({
     if (is_night !== undefined) params.append("is_night", is_night);
     if (is_reservable !== undefined)
       params.append("is_reservable", is_reservable);
+    console.log("params:", params.toString());
 
     // 파라미터들을 포함한 GET 요청
     const res = await instance.get(`api/v1/booth/?${params.toString()}`);
