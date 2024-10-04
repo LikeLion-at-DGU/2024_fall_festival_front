@@ -3,6 +3,7 @@ import { DefaultLayout } from "@layout/DefaultLayout";
 
 import { BoothPage } from "@pages/booth/BoothPage";
 import { AboutPage } from "@pages/about/AboutPage";
+import { MainPage } from "@pages/main/MainPage";
 
 export const router = createBrowserRouter([
   {
@@ -11,11 +12,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <BoothPage />,
+        element: <MainPage />,
       },
       //부스페이지
       {
-        path: "/:booth_id/:day/:category/:location/:is_night/:is_reservable",
+        path: "/booth-test",
         element: <BoothPage />,
       },
       //개발자페이지

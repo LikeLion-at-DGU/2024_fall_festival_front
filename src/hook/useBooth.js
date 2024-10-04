@@ -1,11 +1,15 @@
 // src/hooks/useMain.js
 import { useState, useEffect } from "react";
 import { getBoothList } from "../apis/booth";
-import { useParams } from "react-router-dom";
 
-export const useBoothData = () => {
+export const useBoothData = ({
+  day,
+  category,
+  location,
+  is_night,
+  is_reservable,
+}) => {
   const [boothData, setBoothData] = useState(null);
-  const { day, category, location, is_night, is_reservable } = useParams();
   const fetchBoothData = async () => {
     try {
       const res = await getBoothList(
@@ -26,7 +30,7 @@ export const useBoothData = () => {
 
   useEffect(() => {
     fetchBoothData();
-  }, []);
+  }, [day, category, location, is_night, is_reservable]);
 
   return { boothData };
 };
