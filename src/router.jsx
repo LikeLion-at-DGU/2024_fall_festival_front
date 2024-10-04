@@ -19,6 +19,10 @@ export const router = createBrowserRouter([
         path: "/:booth_id/:day/:category/:location/:is_night/:is_reservable",
         element: <BoothPage />,
       },
+      {
+        path: "/booth-test",
+        element: <BoothPage />,
+      },
       //개발자페이지
 
       { path: "/about", element: <AboutPage /> },
