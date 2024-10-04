@@ -98,12 +98,11 @@ export const DateButton = styled.div`
 // 카카오맵이 들어갈 자리
 export const MapPlaceholder = styled.div`
   width: 100%;
-  height: 100%;
+  height: ${({ $isBoothListOpen }) => ($isBoothListOpen ? 'calc(100vh - 520px)' : 'calc(100vh - 180px)')};
   background-color: #e0e0e0;
   display: flex;
   justify-content: center;
   color: #666;
-  margin-bottom: 20px;
 `;
 
 // 부스 리스트와 필터가 들어가는 Wrapper
@@ -115,7 +114,7 @@ export const BoothListWrapper = styled.div`
   bottom: ${({ $isOpen }) => ($isOpen ? '0' : '-140px')};
   width: 100%;
   max-width: 540px;
-  height: ${({ $isOpen }) => ($isOpen ? '50%' : '200px')};
+  height: ${({ $isOpen }) => ($isOpen ? '400px' : '200px')};
   background-color: inherit;
   transition: bottom 0.5s ease, height 0.5s ease;
   z-index: 10;
