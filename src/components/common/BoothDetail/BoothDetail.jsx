@@ -7,12 +7,17 @@ import {
   Detailtitle,
   BoothDetailData,
 } from "../../../constant/StarDetail/data";
-// import { useBoothDetailData } from "../../../apis/boothDetail";
-export const BoothDetail = ({ onClose }) => {
+import { useBoothDetailData } from "../../../hook/useBoothDetail";
+
+export const BoothDetail = ({ onClose, booth_id }) => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const imgWrapperRef = useRef(null);
-
+  const { boothDetailData } = useBoothDetailData(booth_id);
+  console.log("boothDetail컴포넌트에서 :", boothDetailData);
+  if (!boothDetailData) {
+    return <div>Loading...</div>;
+  }
   const totalImages = BoothDetailData[0].src.length;
 
   const handleTouchStart = (e) => {
