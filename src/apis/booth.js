@@ -19,7 +19,7 @@ export const getBoothList = async ({
       params.append("is_reservable", is_reservable);
 
     // 파라미터들을 포함한 GET 요청
-    const res = await instance.get(`api/v1/booth/?${params.toString()}`);
+    const res = await instance.get(`/api/v1/booth/?${params.toString()}`);
     console.log("booth.js에서의 res 값", res);
     return res;
   } catch (err) {
