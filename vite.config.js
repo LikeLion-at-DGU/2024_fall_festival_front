@@ -1,17 +1,10 @@
 import { defineConfig } from "vite";
-import fs from 'fs';
 import react from "@vitejs/plugin-react";
 import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    https: {
-      key: fs.readFileSync(path.resolve(__dirname, 'localhost-key.pem')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'localhost.pem')),
-    },
-  },
   resolve: {
     alias: {
       "@atoms": path.resolve(__dirname, "src/atoms"),
