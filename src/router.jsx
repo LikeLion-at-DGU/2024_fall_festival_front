@@ -3,6 +3,7 @@ import { DefaultLayout } from "@layout/DefaultLayout";
 
 import { BoothPage } from "@pages/booth/BoothPage";
 import { AboutPage } from "@pages/about/AboutPage";
+import { MainPage } from "@pages/main/MainPage";
 
 export const router = createBrowserRouter([
   {
@@ -11,7 +12,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <BoothPage />,
+        element: <MainPage />,
       },
       //부스페이지
       {
