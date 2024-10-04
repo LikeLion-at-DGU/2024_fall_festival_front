@@ -49,12 +49,22 @@ export const BoothPage = () => {
   const mapSizingRef = useRef(null);
   const boothListRef = useRef(null);
 
+  // 현위치 띄우기 용
+  const [userLocation, setUserLocation] = useState(null);
+  // 현위치 토글링 용
+  const [followUser, setFollowUser] = useState(false);
+  
+
   const toggleDropdown = (type) => {
-    setIsDropdownOpen((prevState) => ({
-      ...prevState,
-      [type]: !prevState[type],
-    }));
+    setIsDropdownOpen((prevState) => {
+      const newDropdownState = Object.keys(prevState).reduce((acc, key) => {
+        acc[key] = key === type ? !prevState[key] : false;
+        return acc;
+      }, {});
+      return newDropdownState;
+    });
   };
+  // 선택한 필터만 열고 나머지는 닫히도록
 
   const handleSelect = (type, value) => {
     if (type === 'time') setSelectedTime(value);
@@ -71,6 +81,12 @@ export const BoothPage = () => {
     setSelectedTime('시간');
     setSelectedType('유형');
     setSelectedLocation('위치');
+
+    setIsDropdownOpen({
+      time: false,
+      type: false,
+      location: false,
+    });
 
     const button = e.currentTarget;
 
@@ -132,7 +148,7 @@ export const BoothPage = () => {
       window.kakao.maps.load(() => {
         const container = document.getElementById('map');
         const options = {
-          center: new window.kakao.maps.LatLng(37.5567, 127.0003),
+          center: new window.kakao.maps.LatLng(37.5577, 127.00099),
           level: 3,
         };
         mapRef.current = new window.kakao.maps.Map(container, options);
@@ -219,7 +235,7 @@ export const BoothPage = () => {
 
   useEffect(() => {
     if (mapSizingRef.current && boothListRef.current) {
-      const boothListHeight = isBoothListOpen ? 520 : 180;
+      const boothListHeight = isBoothListOpen ? 420 : 120;
       const mapHeight = `calc(100vh - ${boothListHeight}px)`;
       mapSizingRef.current.style.height = mapHeight;
 
@@ -237,17 +253,78 @@ export const BoothPage = () => {
       }
     }
   }, [isBoothListOpen, selectBooth, highlightedBooth]);
+
+
+  useEffect(() => {
+    let watchId;
+    let userMarker = null; // 사용자 위치 마커를 저장할 변수
+  
+    if (navigator.geolocation && followUser) {
+      // 위치 변경 감지하여 실시간 위치 추적
+      watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+  
+          // 사용자 위치 업데이트
+          setUserLocation({ latitude, longitude });
+  
+          // 카카오맵 SDK가 로드되고 mapRef가 정의된 이후에만 실행
+          if (window.kakao && window.kakao.maps && mapRef.current) {
+            // 기존 마커가 존재하면 삭제
+            if (userMarker) {
+              userMarker.setMap(null);
+            }
+  
+            // 새로운 사용자 위치 마커 생성
+            const userPosition = new window.kakao.maps.LatLng(latitude, longitude);
+            userMarker = new window.kakao.maps.Marker({
+              position: userPosition,
+              map: mapRef.current,
+              title: "현재 위치",
+              image: new window.kakao.maps.MarkerImage(
+                // 파란색 원형 점 이미지 (마커 커스텀)
+                "data:image/svg+xml;charset=UTF-8,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='%23007bff'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3C/svg%3E",
+                new window.kakao.maps.Size(24, 24), // 마커 사이즈
+                { offset: new window.kakao.maps.Point(12, 12) } // 마커 중앙 위치 설정
+              ),
+            });
+  
+            // 지도 중심을 새로운 사용자 위치로 이동
+            mapRef.current.setCenter(userPosition);
+          }
+        },
+        (error) => {
+          setUserLocation({ latitude: 37.5577, longitude: 127.00099 }); // 기본 위치로 설정
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+    }
+  
+    return () => {
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId); // 위치 추적 멈추기
+      }
+      if (userMarker) {
+        userMarker.setMap(null); // 컴포넌트 언마운트 시 기존 마커 삭제
+      }
+    };
+  }, [mapRef.current, followUser]); // 토글링을 넣어서 껐다켰다 가능.
+  
   
 
   return (
     <>
       <S.MainWrapper>
-        {/* 상단 날짜 선택 버튼 */}
         <TopBar openModal={openModal}/>
 
         {/* 카카오맵 자리 */}
         <S.MapPlaceholder ref={mapSizingRef} $isBoothListOpen={isBoothListOpen} id='map'>
           <S.Header>
+            {/* 상단 날짜 선택 버튼 */}
             <S.DateSelector>
               <S.DateButton
                 $active={selectedDate === '10/7(월)'}
@@ -263,6 +340,9 @@ export const BoothPage = () => {
               </S.DateButton>
             </S.DateSelector>
           </S.Header>
+          <S.CurrentLocationButton onClick={() => setFollowUser(!followUser)}>
+            {followUser ? "위치 추적 중지" : "현재 위치 보기"}
+          </S.CurrentLocationButton>
         </S.MapPlaceholder>
 
 
@@ -275,7 +355,7 @@ export const BoothPage = () => {
           {/* 필터 섹션 (부스 리스트 안에) */}
           <S.FilterWrapper>
             <S.Filters>
-              <S.FilterItem selected={selectedTime !== '시간'} $isOpen={isDropdownOpen.time} onClick={() => toggleDropdown('time')}>
+              <S.FilterItem $selected={selectedTime !== '시간'} $isOpen={isDropdownOpen.time} onClick={() => toggleDropdown('time')}>
                 {selectedTime}
                 <S.Arrow2><S.StyledIoIosArrowDown /></S.Arrow2>
                 {isDropdownOpen.time && (
@@ -287,7 +367,7 @@ export const BoothPage = () => {
                 )}
               </S.FilterItem>
 
-              <S.FilterItem selected={selectedType !== '유형'} $isOpen={isDropdownOpen.type} onClick={() => toggleDropdown('type')}>
+              <S.FilterItem $selected={selectedType !== '유형'} $isOpen={isDropdownOpen.type} onClick={() => toggleDropdown('type')}>
                 {selectedType}
                 <S.Arrow2><S.StyledIoIosArrowDown /></S.Arrow2>
                 {isDropdownOpen.type && (
@@ -300,7 +380,7 @@ export const BoothPage = () => {
                 )}
               </S.FilterItem>
 
-              <S.FilterItem selected={selectedLocation !== '위치'} $isOpen={isDropdownOpen.location} onClick={() => toggleDropdown('location')}>
+              <S.FilterItem $selected={selectedLocation !== '위치'} $isOpen={isDropdownOpen.location} onClick={() => toggleDropdown('location')}>
                 {selectedLocation}
                 <S.Arrow2><S.StyledIoIosArrowDown /></S.Arrow2>
                 {isDropdownOpen.location && (
