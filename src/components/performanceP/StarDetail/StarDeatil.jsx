@@ -1,4 +1,4 @@
-import * as S from "./styled";
+import * as S from "../../common/BoothDetail/styled";
 import CancelIcon from "../../../assets/images/X_Icon.svg";
 import { StarDetailInfo, Detailtitle } from "../../../constant/StarDetail/data";
 export const StarDetail = ({ onClose }) => {
