@@ -20,7 +20,7 @@ export const getBoothList = async (
     // 쿼리 파라미터가 있을 경우 URL에 추가
     const queryString = params.length > 0 ? `?${params.join("&")}` : "";
 
-    const res = await instance.get(`api/v1/booth/${queryString}`);
+    const res = await instance.get(`/api/v1/booth/${queryString}`);
     console.log("booth.js에서의 res 값", res);
     return res;
   } catch (err) {
