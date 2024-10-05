@@ -130,18 +130,26 @@ export const BoothPage = () => {
     setHighlightedBooth(booth);
   };
 
-  const filteredBooths = boothData.filter((booth) => {
-    const timeMatch =
-      selectedTime === "시간" ||
-      (selectedTime === "밤" && booth.is_night === true) ||
-      (selectedTime === "낮" && booth.is_night === false);
-    const typeMatch =
-      selectedType === "유형" || booth.category === selectedType;
-    const locationMatch =
-      selectedLocation === "위치" || booth.location === selectedLocation;
+  let filteredBooths = [];
+  if (boothData && Array.isArray(boothData)) {
+    // boothData가 유효할 때 필터링 로직 실행
+    filteredBooths = boothData.filter((booth) => {
+      const timeMatch =
+        selectedTime === "시간" ||
+        (selectedTime === "밤" && booth.is_night === true) ||
+        (selectedTime === "낮" && booth.is_night === false);
+      const typeMatch =
+        selectedType === "유형" || booth.category === selectedType;
+      const locationMatch =
+        selectedLocation === "위치" || booth.location === selectedLocation;
 
-    return timeMatch && typeMatch && locationMatch;
-  });
+      return timeMatch && typeMatch && locationMatch;
+    });
+
+    // filteredBooths를 이용한 추가 로직...
+  } else {
+    console.warn("boothData is null or not an array");
+  }
 
   // 부스 유형에 따른 초기 마커 이미지 설정 함수
   const getInitialMarkerImage = (booth) => {
