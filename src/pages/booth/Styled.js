@@ -57,6 +57,14 @@ export const Header = styled.div`
   width: 100%;
 `;
 
+export const CurrentLocationButton = styled.div`
+  display: flex;
+  position: absolute;
+  z-index: 20;
+  bottom: 80px;
+  left: 10px;
+`;
+
 export const DateSelector = styled.div`
   display: flex;
   align-items: center;
@@ -98,13 +106,11 @@ export const DateButton = styled.div`
 // 카카오맵이 들어갈 자리
 export const MapPlaceholder = styled.div`
   width: 100%;
-  height: 100%;
+  height: ${({ $isBoothListOpen }) => ($isBoothListOpen ? 'calc(100vh - 520px)' : 'calc(100vh - 180px)')};
   background-color: #e0e0e0;
   display: flex;
   justify-content: center;
-  align-items: center;
   color: #666;
-  margin-bottom: 20px;
 `;
 
 // 부스 리스트와 필터가 들어가는 Wrapper
@@ -113,10 +119,10 @@ export const BoothListWrapper = styled.div`
   flex-direction: column;
   position: fixed;
   padding: 1rem;
-  bottom: ${({ $isOpen }) => ($isOpen ? '0' : '-140px')};
+  bottom: ${({ $isOpen }) => ($isOpen ? '0' : '-20px')};
   width: 100%;
   max-width: 540px;
-  height: ${({ $isOpen }) => ($isOpen ? '50%' : '200px')};
+  height: ${({ $isOpen }) => ($isOpen ? '350px' : '0px')};
   background-color: inherit;
   transition: bottom 0.5s ease, height 0.5s ease;
   z-index: 10;
@@ -173,8 +179,8 @@ export const FilterItem = styled.div`
 
   border-radius: ${({ $isOpen }) => $isOpen ? '8.55px 8.55px 0 0' : '8.55px'}; 
   
-  background-color: ${({ selected, theme }) => selected ? theme.colors.confirmButton : '#FFFFFF'};
-  color: ${({ selected, theme }) => (selected ? '#FFFFFF' : theme.colors.fall)};
+  background-color: ${({ $selected, theme }) => $selected ? theme.colors.confirmButton : '#FFFFFF'};
+  color: ${({ $selected, theme }) => ($selected ? '#FFFFFF' : theme.colors.fall)};
 
   cursor: pointer;
   width: 62px;
@@ -368,7 +374,18 @@ export const BoothDetailWrapper = styled.div`
   bottom: 0;
   width: 100%;
   max-width: 540px;
-  height: fit-content;
+  height: 400px;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+	  display:none /* Chrome , Safari , Opera */
+  }
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Internet Explorer 10+, Edge */
+  -ms-overflow-style: none;
+
+
   background-color: #FFF;
   padding: 1.5rem 1.75rem;
   border-radius: 20px 20px 0px 0px;

@@ -48,7 +48,6 @@ export const Background = styled.div`
   flex-direction: column;
   width: 100%;
   min-height: 120px;
-  height: 100%;
   gap: 10px;
   justify-content: center;
   align-items: center;
