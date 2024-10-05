@@ -11,6 +11,7 @@ export const useBoothData = ({
   const [boothData, setBoothData] = useState(null);
 
   const fetchBoothData = async () => {
+    console.log("fetchBoothData 호출됨");
     try {
       const res = await getBoothList(
         day,
@@ -28,7 +29,10 @@ export const useBoothData = ({
   };
 
   useEffect(() => {
-    fetchBoothData();
+    if (day) {
+      // day가 있을 때만 API 호출
+      fetchBoothData();
+    }
   }, [day, category, location, is_night, is_reservable]);
 
   return { boothData };
