@@ -43,8 +43,8 @@ export const BoothPage = () => {
   const { boothData } = useBoothData({
     day: dayInEnglish,
   });
-  console.log("boothpage:", boothData);
 
+  console.log("boothpage:", boothData);
   // 부스 리스트를 띄울 지 말지
   const [isBoothListOpen, setIsBoothListOpen] = useState(true);
 
