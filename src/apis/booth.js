@@ -11,13 +11,16 @@ export const getBoothList = async (
     let params = [];
 
     // 각 필터가 값이 있을 때만 쿼리 파라미터에 추가
-    if (day) params.push(`day=${day}`);
-    if (category) params.push(`category=${category}`);
-    if (location) params.push(`location=${location}`);
+
+    if (day !== undefined) params.push(`day=${day}`);
+    if (category !== undefined) params.push(`category=${category}`);
+    if (location !== undefined) params.push(`location=${location}`);
+
     // is_night와 is_reservable은 boolean 값으로 처리 (undefined와 null 제외)
     if (is_night !== null && is_night !== undefined)
       params.push(`is_night=${is_night}`);
     if (is_reservable !== null && is_reservable !== undefined)
+
       params.push(`is_reservable=${is_reservable}`);
 
     // 쿼리 파라미터가 있을 경우 URL에 추가
