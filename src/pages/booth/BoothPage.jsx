@@ -1,26 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
 import * as S from "./Styled";
+import React, { useState, useEffect, useRef } from "react";
 import { RxDoubleArrowDown, RxDoubleArrowUp } from "react-icons/rx";
 import { TopBar } from "@components/topBar/TopBar";
 import { Modal } from "@components/modal/Modal";
 import { useBoothData } from "../../hook/useBooth";
-import BoothData from "../../../src/boothdata/Boothdata";
+import { BoothDetail } from "@components/common/BoothDetail/BoothDetail";
+
+import BoothData from "../../../src/boothdaㄴta/Boothdata";
 import nonselect_GI from "../../assets/images/nonselect_GI.png";
 import nonselect_JU from "../../assets/images/nonselect_JU.png";
 import select_GI from "../../assets/images/select_GI.png";
 import select_JU from "../../assets/images/select_JU.png";
-import { BoothDetail } from "@components/common/BoothDetail/BoothDetail";
+
 export const BoothPage = () => {
   // 모달 상태 추가
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-  // 초기 날짜 선택 용
+  // 날짜 선택
   const getDayFromDate = (dateString) => {
     const dayPart = dateString.split("(")[1]; // 요일 부분 추출
     return dayPart ? dayPart.replace(")", "") : ""; // ")" 기호 제거 후 반환
   };
-
+  // 해당 요일의 영어 이름 반환
   const translateDayToEnglish = (day) => {
     const dayMap = {
       월: "Mon",
@@ -31,7 +33,7 @@ export const BoothPage = () => {
       토: "Sat",
       일: "Sun",
     };
-    return dayMap[day] || ""; // 해당 요일의 영어 이름 반환
+    return dayMap[day] || "";
   };
 
   const [selectedDate, setSelectedDate] = useState("10/7(월)");
