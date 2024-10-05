@@ -287,194 +287,198 @@ export const BoothPage = () => {
 
   return (
     <>
-      <S.MainWrapper>
-        {/* 상단 날짜 선택 버튼 */}
-        <TopBar openModal={openModal} />
+      {boothData ? (
+        <S.MainWrapper>
+          {/* 상단 날짜 선택 버튼 */}
+          <TopBar openModal={openModal} />
 
-        {/* 카카오맵 자리 */}
-        <S.MapPlaceholder
-          ref={mapSizingRef}
-          $isBoothListOpen={isBoothListOpen}
-          id="map"
-        >
-          <S.Header>
-            <S.DateSelector>
-              <S.DateButton
-                $active={selectedDate === "10/7(월)"}
-                onClick={() => handleDateChange("10/7(월)")}
-              >
-                10/7(월)
-              </S.DateButton>
-              <S.DateButton
-                $active={selectedDate === "10/8(화)"}
-                onClick={() => handleDateChange("10/8(화)")}
-              >
-                10/8(화)
-              </S.DateButton>
-            </S.DateSelector>
-          </S.Header>
-        </S.MapPlaceholder>
-
-        {/* 부스 리스트 */}
-        <S.BoothListWrapper ref={boothListRef} $isOpen={isBoothListOpen}>
-          <S.BoothListHeader onClick={toggleBoothList}>
-            <S.Arrow>
-              {isBoothListOpen ? <RxDoubleArrowDown /> : <RxDoubleArrowUp />}
-            </S.Arrow>
-          </S.BoothListHeader>
-
-          {/* 필터 섹션 (부스 리스트 안에) */}
-          <S.FilterWrapper>
-            <S.Filters>
-              <S.FilterItem
-                selected={selectedTime !== "시간"}
-                $isOpen={isDropdownOpen.is_night}
-                onClick={() => toggleDropdown("is_night")}
-              >
-                {selectedTime}
-                <S.Arrow2>
-                  <S.StyledIoIosArrowDown />
-                </S.Arrow2>
-                {isDropdownOpen.is_night && (
-                  <S.Dropdown>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("is_night", undefined)}
-                    >
-                      전체
-                    </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("is_night", false)}
-                    >
-                      낮
-                    </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("is_night", true)}
-                    >
-                      밤
-                    </S.DropdownItem>
-                  </S.Dropdown>
-                )}
-              </S.FilterItem>
-
-              <S.FilterItem
-                selected={selectedType !== "유형"}
-                $isOpen={isDropdownOpen.category}
-                onClick={() => toggleDropdown("category")}
-              >
-                {selectedType}
-                <S.Arrow2>
-                  <S.StyledIoIosArrowDown />
-                </S.Arrow2>
-                {isDropdownOpen.category && (
-                  <S.Dropdown>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("category", "유형")}
-                    >
-                      전체
-                    </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("category", "푸드트럭")}
-                    >
-                      푸드트럭
-                    </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("category", "주점")}
-                    >
-                      주점
-                    </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("category", "기타")}
-                    >
-                      기타
-                    </S.DropdownItem>
-                  </S.Dropdown>
-                )}
-              </S.FilterItem>
-
-              <S.FilterItem
-                selected={selectedLocation !== "위치"}
-                $isOpen={isDropdownOpen.location}
-                onClick={() => toggleDropdown("location")}
-              >
-                {selectedLocation}
-                <S.Arrow2>
-                  <S.StyledIoIosArrowDown />
-                </S.Arrow2>
-                {isDropdownOpen.location && (
-                  <S.Dropdown>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("location", "위치")}
-                    >
-                      전체
-                    </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("location", "팔정도")}
-                    >
-                      팔정도
-                    </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("location", "만해광장")}
-                    >
-                      만해광장
-                    </S.DropdownItem>
-                  </S.Dropdown>
-                )}
-              </S.FilterItem>
-            </S.Filters>
-
-            {/* 초기화 버튼 */}
-            <S.ResetButton onClick={resetFilters}>초기화</S.ResetButton>
-          </S.FilterWrapper>
+          {/* 카카오맵 자리 */}
+          <S.MapPlaceholder
+            ref={mapSizingRef}
+            $isBoothListOpen={isBoothListOpen}
+            id="map"
+          >
+            <S.Header>
+              <S.DateSelector>
+                <S.DateButton
+                  $active={selectedDate === "10/7(월)"}
+                  onClick={() => handleDateChange("10/7(월)")}
+                >
+                  10/7(월)
+                </S.DateButton>
+                <S.DateButton
+                  $active={selectedDate === "10/8(화)"}
+                  onClick={() => handleDateChange("10/8(화)")}
+                >
+                  10/8(화)
+                </S.DateButton>
+              </S.DateSelector>
+            </S.Header>
+          </S.MapPlaceholder>
 
           {/* 부스 리스트 */}
-          <S.BoothList $isOpen={isBoothListOpen}>
-            <S.NoticeTabling>
-              부스 클릭 시 테이블링 예약 링크로 이동 가능합니다.
-            </S.NoticeTabling>
-            {filteredBooths.length > 0 ? (
-              filteredBooths.map((booth) => (
-                <S.BoothItem
-                  key={booth.id}
-                  ref={(el) => (boothRefs.current[booth.id] = el)} // 각 부스에 ref 추가
-                  $isColored={
-                    highlightedBooth && highlightedBooth.id === booth.id
-                  }
-                  onClick={() => handleSelectBooth(booth)}
-                >
-                  {/* 나중에 좋아요순으로 수정 */}
-                  <S.BoothThumbnail src={booth.details_image[0]} />
-                  <S.BoothInfo>
-                    <S.BoothWrap>
-                      <S.BoothName>{booth.name}</S.BoothName>
-                    </S.BoothWrap>
-                    <S.BoothWho>{booth.host}</S.BoothWho>
-                  </S.BoothInfo>
-                  <S.LocationButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleBoothLocation(booth.id);
-                    }}
-                  >
-                    <S.StyledFaLocationDot />
-                    위치 보기
-                  </S.LocationButton>
-                </S.BoothItem>
-              ))
-            ) : (
-              <S.NoBooth>현재 운영중인 부스가 없어요!</S.NoBooth>
-            )}
-          </S.BoothList>
-        </S.BoothListWrapper>
+          <S.BoothListWrapper ref={boothListRef} $isOpen={isBoothListOpen}>
+            <S.BoothListHeader onClick={toggleBoothList}>
+              <S.Arrow>
+                {isBoothListOpen ? <RxDoubleArrowDown /> : <RxDoubleArrowUp />}
+              </S.Arrow>
+            </S.BoothListHeader>
 
-        {/* 선택한 부스 디테일 */}
-        {selectBooth && (
-          <BoothDetail
-            booth_id={selectBooth.id}
-            onClose={() => setSelectBooth(null)}
-          />
-        )}
-        {isModalOpen && <Modal onClose={closeModal} />}
-      </S.MainWrapper>
+            {/* 필터 섹션 (부스 리스트 안에) */}
+            <S.FilterWrapper>
+              <S.Filters>
+                <S.FilterItem
+                  selected={selectedTime !== "시간"}
+                  $isOpen={isDropdownOpen.is_night}
+                  onClick={() => toggleDropdown("is_night")}
+                >
+                  {selectedTime}
+                  <S.Arrow2>
+                    <S.StyledIoIosArrowDown />
+                  </S.Arrow2>
+                  {isDropdownOpen.is_night && (
+                    <S.Dropdown>
+                      <S.DropdownItem
+                        onClick={() => handleSelect("is_night", undefined)}
+                      >
+                        전체
+                      </S.DropdownItem>
+                      <S.DropdownItem
+                        onClick={() => handleSelect("is_night", false)}
+                      >
+                        낮
+                      </S.DropdownItem>
+                      <S.DropdownItem
+                        onClick={() => handleSelect("is_night", true)}
+                      >
+                        밤
+                      </S.DropdownItem>
+                    </S.Dropdown>
+                  )}
+                </S.FilterItem>
+
+                <S.FilterItem
+                  selected={selectedType !== "유형"}
+                  $isOpen={isDropdownOpen.category}
+                  onClick={() => toggleDropdown("category")}
+                >
+                  {selectedType}
+                  <S.Arrow2>
+                    <S.StyledIoIosArrowDown />
+                  </S.Arrow2>
+                  {isDropdownOpen.category && (
+                    <S.Dropdown>
+                      <S.DropdownItem
+                        onClick={() => handleSelect("category", "유형")}
+                      >
+                        전체
+                      </S.DropdownItem>
+                      <S.DropdownItem
+                        onClick={() => handleSelect("category", "푸드트럭")}
+                      >
+                        푸드트럭
+                      </S.DropdownItem>
+                      <S.DropdownItem
+                        onClick={() => handleSelect("category", "주점")}
+                      >
+                        주점
+                      </S.DropdownItem>
+                      <S.DropdownItem
+                        onClick={() => handleSelect("category", "기타")}
+                      >
+                        기타
+                      </S.DropdownItem>
+                    </S.Dropdown>
+                  )}
+                </S.FilterItem>
+
+                <S.FilterItem
+                  selected={selectedLocation !== "위치"}
+                  $isOpen={isDropdownOpen.location}
+                  onClick={() => toggleDropdown("location")}
+                >
+                  {selectedLocation}
+                  <S.Arrow2>
+                    <S.StyledIoIosArrowDown />
+                  </S.Arrow2>
+                  {isDropdownOpen.location && (
+                    <S.Dropdown>
+                      <S.DropdownItem
+                        onClick={() => handleSelect("location", "위치")}
+                      >
+                        전체
+                      </S.DropdownItem>
+                      <S.DropdownItem
+                        onClick={() => handleSelect("location", "팔정도")}
+                      >
+                        팔정도
+                      </S.DropdownItem>
+                      <S.DropdownItem
+                        onClick={() => handleSelect("location", "만해광장")}
+                      >
+                        만해광장
+                      </S.DropdownItem>
+                    </S.Dropdown>
+                  )}
+                </S.FilterItem>
+              </S.Filters>
+
+              {/* 초기화 버튼 */}
+              <S.ResetButton onClick={resetFilters}>초기화</S.ResetButton>
+            </S.FilterWrapper>
+
+            {/* 부스 리스트 */}
+            <S.BoothList $isOpen={isBoothListOpen}>
+              <S.NoticeTabling>
+                부스 클릭 시 테이블링 예약 링크로 이동 가능합니다.
+              </S.NoticeTabling>
+              {filteredBooths.length > 0 ? (
+                filteredBooths.map((booth) => (
+                  <S.BoothItem
+                    key={booth.id}
+                    ref={(el) => (boothRefs.current[booth.id] = el)} // 각 부스에 ref 추가
+                    $isColored={
+                      highlightedBooth && highlightedBooth.id === booth.id
+                    }
+                    onClick={() => handleSelectBooth(booth)}
+                  >
+                    {/* 나중에 좋아요순으로 수정 */}
+                    <S.BoothThumbnail src={booth.details_image[0]} />
+                    <S.BoothInfo>
+                      <S.BoothWrap>
+                        <S.BoothName>{booth.name}</S.BoothName>
+                      </S.BoothWrap>
+                      <S.BoothWho>{booth.host}</S.BoothWho>
+                    </S.BoothInfo>
+                    <S.LocationButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleBoothLocation(booth.id);
+                      }}
+                    >
+                      <S.StyledFaLocationDot />
+                      위치 보기
+                    </S.LocationButton>
+                  </S.BoothItem>
+                ))
+              ) : (
+                <S.NoBooth>현재 운영중인 부스가 없어요!</S.NoBooth>
+              )}
+            </S.BoothList>
+          </S.BoothListWrapper>
+
+          {/* 선택한 부스 디테일 */}
+          {selectBooth && (
+            <BoothDetail
+              booth_id={selectBooth.id}
+              onClose={() => setSelectBooth(null)}
+            />
+          )}
+          {isModalOpen && <Modal onClose={closeModal} />}
+        </S.MainWrapper>
+      ) : (
+        <div>데이터 없습니다.</div>
+      )}
     </>
   );
 };
