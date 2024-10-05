@@ -20,8 +20,8 @@ const BoothData = [
     filters: {
       time: "낮",
       type: "주점",
-      location: "팔정도"
-    }
+      location: "팔정도",
+    },
   },
   {
     id: 2,
@@ -39,8 +39,8 @@ const BoothData = [
     filters: {
       time: "밤",
       type: "주점",
-      location: "만해광장"
-    }
+      location: "만해광장",
+    },
   },
   {
     id: 3,
@@ -58,8 +58,8 @@ const BoothData = [
     filters: {
       time: "낮",
       type: "기타",
-      location: "팔정도"
-    }
+      location: "팔정도",
+    },
   },
   {
     id: 4,
@@ -77,9 +77,9 @@ const BoothData = [
     filters: {
       time: "밤",
       type: "기타",
-      location: "만해광장"
-    }
-  }
+      location: "만해광장",
+    },
+  },
 ];
 
 export default BoothData;
