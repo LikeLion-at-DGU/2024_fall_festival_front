@@ -549,6 +549,7 @@ export const BoothPage = () => {
           <BoothDetail
             booth_id={selectBooth.id} // 선택된 부스 ID 전달
             onClose={() => setSelectBooth(null)}
+            $isVisible={selectBooth}
           />
           /* <S.BackgroundOverlay onClick={() => setSelectBooth(null)} />
             <S.BoothDetailWrapper $isVisible={selectBooth}>

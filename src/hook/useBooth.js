@@ -12,10 +12,6 @@ export const useBoothData = ({
 
   const fetchBoothData = async () => {
     try {
-      if (!day) {
-        console.warn("day 값이 없습니다. 기본값을 사용합니다.");
-        return; // day 값이 없을 경우 요청을 보내지 않음
-      }
       const res = await getBoothList(
         day,
         category,
