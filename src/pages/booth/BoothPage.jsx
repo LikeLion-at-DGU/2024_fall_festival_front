@@ -447,7 +447,7 @@ export const BoothPage = () => {
                   >
                     {/* 나중에 좋아요순으로 수정 */}
                     <S.BoothThumbnail
-                      src={booth.details_image?.[0] || "default_image_url.png"}
+                      src={booth.thumbnail || "default_image_url.png"}
                     />
                     <S.BoothInfo>
                       <S.BoothWrap>
