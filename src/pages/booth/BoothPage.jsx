@@ -4,9 +4,10 @@ import { RxDoubleArrowDown, RxDoubleArrowUp } from "react-icons/rx";
 import { TopBar } from "@components/topBar/TopBar";
 import { Modal } from "@components/modal/Modal";
 import { useBoothData } from "../../hook/useBooth";
-import { BoothDetail } from "@components/common/BoothDetail/BoothDetail";
 
-import BoothData from "../../../src/boothdaㄴta/Boothdata";
+import { BoothDetail } from "@components/common/BoothDetail/BoothDetail";
+import BoothData from "../../../src/boothdata/Boothdata";
+import LinenowLogo from "../../assets/images/LinenowLogo.png";
 import nonselect_GI from "../../assets/images/nonselect_GI.png";
 import nonselect_JU from "../../assets/images/nonselect_JU.png";
 import select_GI from "../../assets/images/select_GI.png";
@@ -46,13 +47,14 @@ export const BoothPage = () => {
   });
   console.log("boothpage:", boothData);
 
+
   // 부스 리스트를 띄울 지 말지
   const [isBoothListOpen, setIsBoothListOpen] = useState(true);
 
   // 부스 필터링 용
-  const [selectedTime, setSelectedTime] = useState("시간");
-  const [selectedType, setSelectedType] = useState("유형");
-  const [selectedLocation, setSelectedLocation] = useState("위치");
+  const [selectedTime, setSelectedTime] = useState('시간');
+  const [selectedType, setSelectedType] = useState('유형');
+  const [selectedLocation, setSelectedLocation] = useState('위치');
   const [isDropdownOpen, setIsDropdownOpen] = useState({
     time: false,
     type: false,
@@ -66,43 +68,60 @@ export const BoothPage = () => {
   const [highlightedBooth, setHighlightedBooth] = useState(null);
   const boothRefs = useRef({});
 
+
   // 마킹 용 배열
   const mapRef = useRef(null);
   const markersRef = useRef([]);
   const mapSizingRef = useRef(null);
   const boothListRef = useRef(null);
 
+  // 현위치 띄우기 용
+  const [userLocation, setUserLocation] = useState(null);
+  // 현위치 토글링 용
+  const [followUser, setFollowUser] = useState(false);
+  
+
   const toggleDropdown = (type) => {
-    setIsDropdownOpen((prevState) => ({
-      ...prevState,
-      [type]: !prevState[type],
-    }));
+    setIsDropdownOpen((prevState) => {
+      const newDropdownState = Object.keys(prevState).reduce((acc, key) => {
+        acc[key] = key === type ? !prevState[key] : false;
+        return acc;
+      }, {});
+      return newDropdownState;
+    });
   };
+  // 선택한 필터만 열고 나머지는 닫히도록
 
   const handleSelect = (type, value) => {
-    if (type === "time") setSelectedTime(value);
-    if (type === "type") setSelectedType(value);
-    if (type === "location") setSelectedLocation(value);
+    if (type === 'time') setSelectedTime(value);
+    if (type === 'type') setSelectedType(value);
+    if (type === 'location') setSelectedLocation(value);
 
     setIsDropdownOpen((prevState) => ({
       ...prevState,
-      [type]: prevState[type], // 선택 후 필터를 닫는 겁니다아
+      [type]: prevState[type],  // 선택 후 필터를 닫는 겁니다아
     }));
   };
 
   const resetFilters = (e) => {
-    setSelectedTime("시간");
-    setSelectedType("유형");
-    setSelectedLocation("위치");
+    setSelectedTime('시간');
+    setSelectedType('유형');
+    setSelectedLocation('위치');
+
+    setIsDropdownOpen({
+      time: false,
+      type: false,
+      location: false,
+    });
 
     const button = e.currentTarget;
 
-    button.style.transform = "rotate(0deg)";
-    button.style.transition = "none";
-
+    button.style.transform = 'rotate(0deg)';
+    button.style.transition = 'none';
+    
     setTimeout(() => {
-      button.style.transition = "transform 1s ease";
-      button.style.transform = "rotate(-360deg)";
+      button.style.transition = 'transform 1s ease';
+      button.style.transform = 'rotate(-360deg)';
     }, 10);
   };
 
@@ -110,7 +129,7 @@ export const BoothPage = () => {
   const handleBoothLocation = (boothId) => {
     const booth = BoothData.find((booth) => booth.id === boothId);
     setHighlightedBooth(booth);
-  };
+  }
 
   // 날짜 선택 용
   const handleDateChange = (date) => {
@@ -129,13 +148,9 @@ export const BoothPage = () => {
   };
 
   const filteredBooths = BoothData.filter((booth) => {
-    const timeMatch =
-      selectedTime === "시간" || booth.filters.time === selectedTime;
-    const typeMatch =
-      selectedType === "유형" || booth.filters.type === selectedType;
-    const locationMatch =
-      selectedLocation === "위치" ||
-      booth.filters.location === selectedLocation;
+    const timeMatch = selectedTime === '시간' || booth.filters.time === selectedTime;
+    const typeMatch = selectedType === '유형' || booth.filters.type === selectedType;
+    const locationMatch = selectedLocation === '위치' || booth.filters.location === selectedLocation;
 
     // 모든 필터 조건을 만족하는 부스만 반환
     return timeMatch && typeMatch && locationMatch;
@@ -143,37 +158,30 @@ export const BoothPage = () => {
 
   // 부스 유형에 따른 초기 마커 이미지 설정 함수
   const getInitialMarkerImage = (booth) => {
-    let markerImage =
-      booth.filters.type === "주점" ? nonselect_JU : nonselect_GI;
+    let markerImage = booth.filters.type === '주점' ? nonselect_JU : nonselect_GI;
 
-    return new window.kakao.maps.MarkerImage(
-      markerImage,
-      new window.kakao.maps.Size(30, 36)
-    );
+    return new window.kakao.maps.MarkerImage(markerImage, new window.kakao.maps.Size(30, 36));
   };
 
   // 카카오맵 마커 생성
   useEffect(() => {
-    const script = document.createElement("script");
+    const script = document.createElement('script');
     script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=972351b156b1bdfe825cb095c12d1e56&autoload=false`;
     script.async = true;
     document.head.appendChild(script);
 
     script.onload = () => {
       window.kakao.maps.load(() => {
-        const container = document.getElementById("map");
+        const container = document.getElementById('map');
         const options = {
-          center: new window.kakao.maps.LatLng(37.5567, 127.0003),
+          center: new window.kakao.maps.LatLng(37.5577, 127.00099),
           level: 3,
         };
         mapRef.current = new window.kakao.maps.Map(container, options);
 
         // 초기 마커 생성
         filteredBooths.forEach((booth) => {
-          const markerPosition = new window.kakao.maps.LatLng(
-            booth.latitude,
-            booth.longitude
-          );
+          const markerPosition = new window.kakao.maps.LatLng(booth.latitude, booth.longitude);
           const markerImage = getInitialMarkerImage(booth); // 유형에 따라 초기 마커 이미지 설정
           const marker = new window.kakao.maps.Marker({
             position: markerPosition,
@@ -182,7 +190,7 @@ export const BoothPage = () => {
           });
 
           // 마커 클릭 이벤트 설정
-          window.kakao.maps.event.addListener(marker, "click", () => {
+          window.kakao.maps.event.addListener(marker, 'click', () => {
             handleBoothLocation(booth.id); // 부스 선택
           });
 
@@ -197,12 +205,13 @@ export const BoothPage = () => {
     };
   }, []);
 
+
   // 선택된 부스에 따라 마커 이미지 변경
   useEffect(() => {
     // 선택된 부스가 없으면 모든 마커를 초기화
     if (!highlightedBooth) {
       markersRef.current.forEach(({ marker, boothId }) => {
-        const booth = BoothData.find((b) => b.id === boothId); // 해당 부스 데이터 찾기
+        const booth = BoothData.find(b => b.id === boothId); // 해당 부스 데이터 찾기
         if (booth) {
           // 초기 마커 이미지로 변경
           const initialImage = getInitialMarkerImage(booth);
@@ -214,35 +223,28 @@ export const BoothPage = () => {
 
     if (highlightedBooth && mapRef.current) {
       // 선택된 부스의 위치 좌표로 맵의 중심 이동
-      const newCenter = new window.kakao.maps.LatLng(
-        highlightedBooth.latitude,
-        highlightedBooth.longitude
-      );
+      const newCenter = new window.kakao.maps.LatLng(highlightedBooth.latitude, highlightedBooth.longitude);
       mapRef.current.panTo(newCenter);
     }
-
+  
     // 선택된 부스가 있을 경우, 해당 마커만 업데이트
     markersRef.current.forEach(({ boothId, marker }) => {
       const isHighlighted = highlightedBooth && highlightedBooth.id === boothId;
-
+  
       // 선택된 부스의 마커를 변경
       if (isHighlighted) {
         let markerImage;
-        if (highlightedBooth.filters.type === "주점") {
+        if (highlightedBooth.filters.type === '주점') {
           markerImage = select_JU; // 선택된 주점일 경우
-        } else if (highlightedBooth.filters.type === "기타") {
+        } else if (highlightedBooth.filters.type === '기타') {
           markerImage = select_GI; // 선택된 기타일 경우
         } else {
+          
         }
-        marker.setImage(
-          new window.kakao.maps.MarkerImage(
-            markerImage,
-            new window.kakao.maps.Size(32, 40)
-          )
-        );
+        marker.setImage(new window.kakao.maps.MarkerImage(markerImage, new window.kakao.maps.Size(32, 40)));
       } else {
         // 선택되지 않은 부스는 초기 이미지로 유지
-        const booth = BoothData.find((b) => b.id === boothId); // 해당 부스 데이터 찾기
+        const booth = BoothData.find(b => b.id === boothId); // 해당 부스 데이터 찾기
         if (booth) {
           const initialImage = getInitialMarkerImage(booth);
           marker.setImage(initialImage);
@@ -253,16 +255,13 @@ export const BoothPage = () => {
 
   useEffect(() => {
     if (highlightedBooth && boothRefs.current[highlightedBooth.id]) {
-      boothRefs.current[highlightedBooth.id].scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+      boothRefs.current[highlightedBooth.id].scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [highlightedBooth]);
 
   useEffect(() => {
     if (mapSizingRef.current && boothListRef.current) {
-      const boothListHeight = isBoothListOpen ? 520 : 180;
+      const boothListHeight = isBoothListOpen ? 420 : 120;
       const mapHeight = `calc(100vh - ${boothListHeight}px)`;
       mapSizingRef.current.style.height = mapHeight;
 
@@ -270,13 +269,10 @@ export const BoothPage = () => {
         mapRef.current.relayout();
 
         setTimeout(() => {
-          window.kakao.maps.event.trigger(mapRef.current, "resize");
+          window.kakao.maps.event.trigger(mapRef.current, 'resize');
 
           if (highlightedBooth) {
-            const newCenter = new window.kakao.maps.LatLng(
-              highlightedBooth.latitude,
-              highlightedBooth.longitude
-            );
+            const newCenter = new window.kakao.maps.LatLng(highlightedBooth.latitude, highlightedBooth.longitude);
             mapRef.current.panTo(newCenter);
           }
         }, 200);
@@ -284,134 +280,140 @@ export const BoothPage = () => {
     }
   }, [isBoothListOpen, selectBooth, highlightedBooth]);
 
+
+  useEffect(() => {
+    let watchId;
+    let userMarker = null; // 사용자 위치 마커를 저장할 변수
+  
+    if (navigator.geolocation && followUser) {
+      // 위치 변경 감지하여 실시간 위치 추적
+      watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+  
+          // 사용자 위치 업데이트
+          setUserLocation({ latitude, longitude });
+  
+          // 카카오맵 SDK가 로드되고 mapRef가 정의된 이후에만 실행
+          if (window.kakao && window.kakao.maps && mapRef.current) {
+            // 기존 마커가 존재하면 삭제
+            if (userMarker) {
+              userMarker.setMap(null);
+            }
+  
+            // 새로운 사용자 위치 마커 생성
+            const userPosition = new window.kakao.maps.LatLng(latitude, longitude);
+            userMarker = new window.kakao.maps.Marker({
+              position: userPosition,
+              map: mapRef.current,
+              title: "현재 위치",
+              image: new window.kakao.maps.MarkerImage(
+                // 파란색 원형 점 이미지 (마커 커스텀)
+                "data:image/svg+xml;charset=UTF-8,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='%23007bff'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3C/svg%3E",
+                new window.kakao.maps.Size(24, 24), // 마커 사이즈
+                { offset: new window.kakao.maps.Point(12, 12) } // 마커 중앙 위치 설정
+              ),
+            });
+  
+            // 지도 중심을 새로운 사용자 위치로 이동
+            mapRef.current.setCenter(userPosition);
+          }
+        },
+        (error) => {
+          setUserLocation({ latitude: 37.5577, longitude: 127.00099 }); // 기본 위치로 설정
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+    }
+  
+    return () => {
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId); // 위치 추적 멈추기
+      }
+      if (userMarker) {
+        userMarker.setMap(null); // 컴포넌트 언마운트 시 기존 마커 삭제
+      }
+    };
+  }, [mapRef.current, followUser]); // 토글링을 넣어서 껐다켰다 가능.
+  
+  
+
   return (
     <>
       <S.MainWrapper>
-        {/* 상단 날짜 선택 버튼 */}
-        <TopBar openModal={openModal} />
+        <TopBar openModal={openModal}/>
 
         {/* 카카오맵 자리 */}
-        <S.MapPlaceholder
-          ref={mapSizingRef}
-          $isBoothListOpen={isBoothListOpen}
-          id="map"
-        >
+        <S.MapPlaceholder ref={mapSizingRef} $isBoothListOpen={isBoothListOpen} id='map'>
           <S.Header>
+            {/* 상단 날짜 선택 버튼 */}
             <S.DateSelector>
               <S.DateButton
-                $active={selectedDate === "10/7(월)"}
-                onClick={() => handleDateChange("10/7(월)")}
+                $active={selectedDate === '10/7(월)'}
+                onClick={() => handleDateChange('10/7(월)')}
               >
                 10/7(월)
               </S.DateButton>
               <S.DateButton
-                $active={selectedDate === "10/8(화)"}
-                onClick={() => handleDateChange("10/8(화)")}
+                $active={selectedDate === '10/8(화)'}
+                onClick={() => handleDateChange('10/8(화)')}
               >
                 10/8(화)
               </S.DateButton>
             </S.DateSelector>
           </S.Header>
+          <S.CurrentLocationButton onClick={() => setFollowUser(!followUser)}>
+            {followUser ? "위치 추적 중지" : "현재 위치 보기"}
+          </S.CurrentLocationButton>
         </S.MapPlaceholder>
+
 
         {/* 부스 리스트 */}
         <S.BoothListWrapper ref={boothListRef} $isOpen={isBoothListOpen}>
           <S.BoothListHeader onClick={toggleBoothList}>
-            <S.Arrow>
-              {isBoothListOpen ? <RxDoubleArrowDown /> : <RxDoubleArrowUp />}
-            </S.Arrow>
+            <S.Arrow>{isBoothListOpen ? <RxDoubleArrowDown /> : <RxDoubleArrowUp />}</S.Arrow>
           </S.BoothListHeader>
 
           {/* 필터 섹션 (부스 리스트 안에) */}
           <S.FilterWrapper>
             <S.Filters>
-              <S.FilterItem
-                selected={selectedTime !== "시간"}
-                $isOpen={isDropdownOpen.time}
-                onClick={() => toggleDropdown("time")}
-              >
+              <S.FilterItem $selected={selectedTime !== '시간'} $isOpen={isDropdownOpen.time} onClick={() => toggleDropdown('time')}>
                 {selectedTime}
-                <S.Arrow2>
-                  <S.StyledIoIosArrowDown />
-                </S.Arrow2>
+                <S.Arrow2><S.StyledIoIosArrowDown /></S.Arrow2>
                 {isDropdownOpen.time && (
                   <S.Dropdown>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("time", "시간")}
-                    >
-                      전체
-                    </S.DropdownItem>
-                    <S.DropdownItem onClick={() => handleSelect("time", "낮")}>
-                      낮
-                    </S.DropdownItem>
-                    <S.DropdownItem onClick={() => handleSelect("time", "밤")}>
-                      밤
-                    </S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleSelect('time', '시간')}>전체</S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleSelect('time', '낮')}>낮</S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleSelect('time', '밤')}>밤</S.DropdownItem>
                   </S.Dropdown>
                 )}
               </S.FilterItem>
 
-              <S.FilterItem
-                selected={selectedType !== "유형"}
-                $isOpen={isDropdownOpen.type}
-                onClick={() => toggleDropdown("type")}
-              >
+              <S.FilterItem $selected={selectedType !== '유형'} $isOpen={isDropdownOpen.type} onClick={() => toggleDropdown('type')}>
                 {selectedType}
-                <S.Arrow2>
-                  <S.StyledIoIosArrowDown />
-                </S.Arrow2>
+                <S.Arrow2><S.StyledIoIosArrowDown /></S.Arrow2>
                 {isDropdownOpen.type && (
                   <S.Dropdown>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("type", "유형")}
-                    >
-                      전체
-                    </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("type", "푸드트럭")}
-                    >
-                      푸드트럭
-                    </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("type", "주점")}
-                    >
-                      주점
-                    </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("type", "기타")}
-                    >
-                      기타
-                    </S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleSelect('type', '유형')}>전체</S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleSelect('type', '푸드트럭')}>푸드트럭</S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleSelect('type', '주점')}>주점</S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleSelect('type', '기타')}>기타</S.DropdownItem>
                   </S.Dropdown>
                 )}
               </S.FilterItem>
 
-              <S.FilterItem
-                selected={selectedLocation !== "위치"}
-                $isOpen={isDropdownOpen.location}
-                onClick={() => toggleDropdown("location")}
-              >
+              <S.FilterItem $selected={selectedLocation !== '위치'} $isOpen={isDropdownOpen.location} onClick={() => toggleDropdown('location')}>
                 {selectedLocation}
-                <S.Arrow2>
-                  <S.StyledIoIosArrowDown />
-                </S.Arrow2>
+                <S.Arrow2><S.StyledIoIosArrowDown /></S.Arrow2>
                 {isDropdownOpen.location && (
                   <S.Dropdown>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("location", "위치")}
-                    >
-                      전체
-                    </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("location", "팔정도")}
-                    >
-                      팔정도
-                    </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("location", "만해광장")}
-                    >
-                      만해광장
-                    </S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleSelect('location', '위치')}>전체</S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleSelect('location', '팔정도')}>팔정도</S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleSelect('location', '만해광장')}>만해광장</S.DropdownItem>
                   </S.Dropdown>
                 )}
               </S.FilterItem>
@@ -423,17 +425,13 @@ export const BoothPage = () => {
 
           {/* 부스 리스트 */}
           <S.BoothList $isOpen={isBoothListOpen}>
-            <S.NoticeTabling>
-              부스 클릭 시 테이블링 예약 링크로 이동 가능합니다.
-            </S.NoticeTabling>
+            <S.NoticeTabling>부스 클릭 시 테이블링 예약 링크로 이동 가능합니다.</S.NoticeTabling>
             {filteredBooths.length > 0 ? (
               filteredBooths.map((booth) => (
                 <S.BoothItem
                   key={booth.id}
-                  ref={(el) => (boothRefs.current[booth.id] = el)} // 각 부스에 ref 추가
-                  $isColored={
-                    highlightedBooth && highlightedBooth.id === booth.id
-                  }
+                  ref={(el) => boothRefs.current[booth.id] = el} // 각 부스에 ref 추가
+                  $isColored={highlightedBooth && highlightedBooth.id === booth.id}
                   onClick={() => handleSelectBooth(booth)}
                 >
                   {/* 나중에 좋아요순으로 수정 */}
@@ -444,29 +442,96 @@ export const BoothPage = () => {
                     </S.BoothWrap>
                     <S.BoothWho>{booth.owner}</S.BoothWho>
                   </S.BoothInfo>
-                  <S.LocationButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleBoothLocation(booth.id);
-                    }}
-                  >
+                  <S.LocationButton onClick={(e) => {
+                    e.stopPropagation();
+                    handleBoothLocation(booth.id)
+                  }}>
                     <S.StyledFaLocationDot />
                     위치 보기
                   </S.LocationButton>
                 </S.BoothItem>
               ))
             ) : (
-              <S.NoBooth>현재 운영중인 부스가 없어요!</S.NoBooth>
+              <S.NoBooth>
+                현재 운영중인 부스가 없어요!
+              </S.NoBooth>
             )}
           </S.BoothList>
         </S.BoothListWrapper>
 
         {/* 선택한 부스 디테일 */}
         {selectBooth && (
-          <BoothDetail
-            booth_id={selectBooth.id}
-            onClose={() => setSelectBooth(null)}
-          />
+            <BoothDetail   booth_id={selectBooth.id} // 선택된 부스 ID 전달
+            onClose={()=>setSelectBooth(null)} />
+            {/* <S.BackgroundOverlay onClick={() => setSelectBooth(null)} />
+            <S.BoothDetailWrapper $isVisible={selectBooth}>
+              <S.BoothDetailContent>
+              <S.CloseButton onClick={() => setSelectBooth(null)}>X</S.CloseButton>
+                <S.BoothDetailHeader>
+                  <S.FilterLeft>
+                    <S.BoothDetailName>{selectBooth.boothName}</S.BoothDetailName>
+                    <S.FilterInfo>
+                      <S.FilterTag
+                        $bgColor={selectBooth.filters.time === '낮' ? "#FFF2AD" : "#D4EAFF"}
+                        $FontColor={selectBooth.filters.time === '낮' ? "#6D5C00" : "#00326D"}
+                      >{selectBooth.filters.time}부스</S.FilterTag>
+                      <S.FilterTag $bgColor="#FFD5D5" $FontColor="#FF0000">{selectBooth.filters.type}</S.FilterTag>
+                      <S.FilterTag $bgColor="#FFD9A1" $FontColor="#DB4200">{selectBooth.filters.location}</S.FilterTag>
+                    </S.FilterInfo>
+                  </S.FilterLeft>
+                </S.BoothDetailHeader>
+                <S.BoothDetailImage src={selectBooth.image} alt={selectBooth.boothName} />
+                <S.BoothDetailInfo>
+                  
+                  {selectBooth.description && (
+                    <S.Details>
+                      <S.DetailTitle>한줄소개</S.DetailTitle>
+                      <S.DetailContext>{selectBooth.description}</S.DetailContext>
+                    </S.Details>
+                  )}
+                  {selectBooth.owner && (
+                    <S.Details>
+                      <S.DetailTitle>운영주체</S.DetailTitle>
+                      <S.DetailContext>{selectBooth.owner}</S.DetailContext>
+                    </S.Details>
+                  )}
+                  {selectBooth.operationTime && (
+                    <S.Details>
+                      <S.DetailTitle>운영시간</S.DetailTitle>
+                      <S.DetailContext>{selectBooth.operationTime}</S.DetailContext>
+                    </S.Details>
+                  )}
+                  <S.DetailLine />
+                  {selectBooth.entranceFee && (
+                    <S.Details>
+                      <S.DetailTitle>입장료</S.DetailTitle>
+                      <S.DetailContext>{selectBooth.entranceFee}</S.DetailContext>
+                    </S.Details>
+                  )}
+                  {selectBooth.menu && (
+                    <S.Details>
+                      <S.DetailTitle>대표메뉴</S.DetailTitle>
+                      <S.DetailContext>{selectBooth.menu}</S.DetailContext>
+                    </S.Details>
+                  )}
+                  <S.DetailLine />
+                  {selectBooth.instagram && (
+                    <S.Details>
+                      <S.DetailTitle>인스타</S.DetailTitle>
+                      <S.DetailContext>{selectBooth.instagram}</S.DetailContext>
+                    </S.Details>
+                  )}
+                  {selectBooth.filters.type === "주점" && (
+                    <S.LineNowBox>
+                      <S.LineNowText>테이블링 예약하기</S.LineNowText>
+                      <S.LineNowLogo src={LinenowLogo}></S.LineNowLogo>
+                    </S.LineNowBox>
+                  )}
+                </S.BoothDetailInfo>
+              </S.BoothDetailContent>
+            </S.BoothDetailWrapper>
+           */}
+         
         )}
         {isModalOpen && <Modal onClose={closeModal} />}
       </S.MainWrapper>

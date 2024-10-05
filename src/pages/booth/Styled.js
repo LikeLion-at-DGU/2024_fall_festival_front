@@ -57,6 +57,14 @@ export const Header = styled.div`
   width: 100%;
 `;
 
+export const CurrentLocationButton = styled.div`
+  display: flex;
+  position: absolute;
+  z-index: 20;
+  bottom: 80px;
+  left: 10px;
+`;
+
 export const DateSelector = styled.div`
   display: flex;
   align-items: center;
@@ -111,10 +119,10 @@ export const BoothListWrapper = styled.div`
   flex-direction: column;
   position: fixed;
   padding: 1rem;
-  bottom: ${({ $isOpen }) => ($isOpen ? '0' : '-140px')};
+  bottom: ${({ $isOpen }) => ($isOpen ? '0' : '-20px')};
   width: 100%;
   max-width: 540px;
-  height: ${({ $isOpen }) => ($isOpen ? '400px' : '200px')};
+  height: ${({ $isOpen }) => ($isOpen ? '350px' : '0px')};
   background-color: inherit;
   transition: bottom 0.5s ease, height 0.5s ease;
   z-index: 10;
@@ -171,8 +179,8 @@ export const FilterItem = styled.div`
 
   border-radius: ${({ $isOpen }) => $isOpen ? '8.55px 8.55px 0 0' : '8.55px'}; 
   
-  background-color: ${({ selected, theme }) => selected ? theme.colors.confirmButton : '#FFFFFF'};
-  color: ${({ selected, theme }) => (selected ? '#FFFFFF' : theme.colors.fall)};
+  background-color: ${({ $selected, theme }) => $selected ? theme.colors.confirmButton : '#FFFFFF'};
+  color: ${({ $selected, theme }) => ($selected ? '#FFFFFF' : theme.colors.fall)};
 
   cursor: pointer;
   width: 62px;
