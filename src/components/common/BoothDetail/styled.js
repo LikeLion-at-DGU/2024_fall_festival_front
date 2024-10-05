@@ -9,21 +9,29 @@ const slideUp = keyframes`
   }
 `;
 export const DetailWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   position: fixed;
   bottom: 0;
-  width: 370px;
-  height: 55%;
-  gap: 20px;
+  width: 100%;
+  max-width: 540px;
+  height: 400px;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    display: none; /* Chrome , Safari , Opera */
+  }
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Internet Explorer 10+, Edge */
+  -ms-overflow-style: none;
+
   background-color: #fff;
+  padding: 1.5rem 1.75rem;
   border-radius: 20px 20px 0px 0px;
   box-shadow: 0px 2px 40px 0px rgba(0, 0, 0, 0.7);
-  z-index: 10;
+  z-index: 30;
 
-  animation: ${slideUp} 0.5s ease-out forwards;
+  animation: ${({ $isVisible }) => ($isVisible ? slideInUp : slideOutDown)}
+    0.75s ease-out;
 
   @media (max-width: 375px) {
     height: 80%;
@@ -32,11 +40,8 @@ export const DetailWrapper = styled.div`
 export const DetailContent = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90%;
+
   gap: 15px;
-  @media (max-width: 375px) {
-    margin-top: 1rem;
-  }
 `;
 
 export const NameContainer = styled.div`
