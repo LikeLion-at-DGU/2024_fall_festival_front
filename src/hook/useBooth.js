@@ -20,6 +20,7 @@ export const useBoothData = ({
         is_reservable
       );
       const resData = res.data;
+      console.log("resData:", resData);
       setBoothData(resData);
     } catch (error) {
       console.error("API 요청 에러:", error);
