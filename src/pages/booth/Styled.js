@@ -78,7 +78,7 @@ export const DateSelector = styled.div`
 export const DateButton = styled.div`
   background-color: ${({ $active }) => ($active ? "#FFF3EA" : "#FFFFFF")};
   color: ${({ $active, theme }) => ($active ? theme.colors.buttonFall : theme.colors.noneSelected)};
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoB00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
   padding: 0.625rem 1rem;
   font-size: 14px;
   border: none;
@@ -257,7 +257,7 @@ export const BoothList = styled.div`
 export const NoticeTabling = styled.div`
   padding: 0px 10px 5px 10px;
   color: #5F5F5F;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoR00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']};
   font-size: 11px;
   font-style: normal;
   font-weight: 400;
@@ -305,7 +305,7 @@ export const LocationButton = styled.div`
   width: 50px;
 
   color: #5F5F5F;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoL00['font-family']}; // R
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']}; // R
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -320,7 +320,7 @@ export const BoothName = styled.div`
 
   color: #000;
 
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
   font-size: 14.045px;
   font-style: normal;
   font-weight: 400;
@@ -334,7 +334,7 @@ export const HeartWrap = styled.div`
   gap: 4px;
 
   color: #000;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoR00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']};
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -346,7 +346,7 @@ export const BoothWho = styled.div`
 
   color: #5F5F5F;
 
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoR00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']};
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -361,7 +361,7 @@ export const NoBooth = styled.div`
   height: 100%;
 
   color: #5F5F5F;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
@@ -457,7 +457,7 @@ export const FilterTag = styled.div`
   height: 16px;
   border-radius: 5px;
 
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoL00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']};
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -473,7 +473,7 @@ export const DetailTitle = styled.div`
   display: flex;
 
   color: #000;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoB00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -484,7 +484,7 @@ export const DetailContext = styled.div`
   display: flex;
 
   color: #000;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoR00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']};
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -521,7 +521,7 @@ export const LineNowBox = styled.div`
 
 export const LineNowText = styled.div`
   color: #333740;
-  font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
   font-size: 10.5px;
   font-style: normal;
   font-weight: 400;
