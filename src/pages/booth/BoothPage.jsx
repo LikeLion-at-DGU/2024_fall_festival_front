@@ -446,7 +446,9 @@ export const BoothPage = () => {
                     onClick={() => handleSelectBooth(booth)}
                   >
                     {/* 나중에 좋아요순으로 수정 */}
-                    <S.BoothThumbnail src={booth.details_image[0]} />
+                    <S.BoothThumbnail
+                      src={booth.thumbnail || "default_image_url.png"}
+                    />
                     <S.BoothInfo>
                       <S.BoothWrap>
                         <S.BoothName>{booth.name}</S.BoothName>
