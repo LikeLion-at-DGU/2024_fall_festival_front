@@ -1,4 +1,5 @@
 import { instance } from "./instance";
+
 export const getBoothList = async (
   day,
   category,
@@ -13,8 +14,10 @@ export const getBoothList = async (
     if (day) params.push(`day=${day}`);
     if (category) params.push(`category=${category}`);
     if (location) params.push(`location=${location}`);
-    if (is_night !== undefined) params.push(`is_night=${is_night}`);
-    if (is_reservable !== undefined)
+    // is_night와 is_reservable은 boolean 값으로 처리 (undefined와 null 제외)
+    if (is_night !== null && is_night !== undefined)
+      params.push(`is_night=${is_night}`);
+    if (is_reservable !== null && is_reservable !== undefined)
       params.push(`is_reservable=${is_reservable}`);
 
     // 쿼리 파라미터가 있을 경우 URL에 추가
@@ -24,7 +27,7 @@ export const getBoothList = async (
     console.log("booth.js에서의 res 값", res);
     return res;
   } catch (err) {
-    console.log(err);
+    console.error("API 요청 중 오류 발생:", err);
     throw err;
   }
 };
