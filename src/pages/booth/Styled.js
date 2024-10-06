@@ -159,16 +159,13 @@ export const BoothListWrapper = styled.div`
   bottom: ${({ $isOpen }) => ($isOpen ? "0" : "-20px")};
   width: 100%;
   max-width: 540px;
-  height: ${({ $isOpen }) => ($isOpen ? "300px" : "0px")};
+  height: ${({ $isOpen }) => ($isOpen ? "370px" : "0px")};
   background-color: inherit;
   transition: bottom 0.5s ease, height 0.5s ease;
   z-index: 10;
 
   @media (max-width: 375px) {
-    height: ${({ $isOpen }) => ($isOpen ? "250px" : "0px")};
-  }
-  @media (max-width: 390px) {
-    height: ${({ $isOpen }) => ($isOpen ? "350px" : "0px")};
+    height: ${({ $isOpen }) => ($isOpen ? "290px" : "0px")};
   }
 `;
 

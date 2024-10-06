@@ -30,7 +30,7 @@ export const ModalContent = styled.div`
 export const ModalHeader = styled.h2`
   color: var(--, #5f5f5f);
   text-align: center;
-  font-size: 13px;
+  font-size: 11px;
   font-style: normal;
   font-weight: 700;
   line-height: 15px; /* 150% */
