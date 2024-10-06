@@ -45,9 +45,9 @@ export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
     );
   };
 
-  const MoveonTabling = (tabling_link) => {
-    window.open(`${tabling_link}`, "_blank");
-  };
+  // const MoveonTabling = (tabling_link) => {
+  //   window.open(`${tabling_link}`, "_blank");
+  // };
 
   return (
     <S.DetailWrapper>
