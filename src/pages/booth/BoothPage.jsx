@@ -171,7 +171,7 @@ export const BoothPage = () => {
   // 부스 유형에 따른 초기 마커 이미지 설정 함수
   const getInitialMarkerImage = (booth) => {
     let markerImage =
-      booth.category === "야간부스" ? nonselect_JU : nonselect_GI;
+      booth.category === "음식점" ? nonselect_JU : nonselect_GI;
 
     return new window.kakao.maps.MarkerImage(
       markerImage,
@@ -179,53 +179,110 @@ export const BoothPage = () => {
     );
   };
 
-  // 카카오맵 마커 생성
-  useEffect(() => {
-    const script = document.createElement("script");
-    toggleDropdown;
-    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=972351b156b1bdfe825cb095c12d1e56&autoload=false`;
-    script.async = true;
-    document.head.appendChild(script);
+  const loadKakaoMap = () => {
+    return new Promise((resolve, reject) => {
+      if (window.kakao && window.kakao.maps) {
+        resolve();
+        return;
+      }
 
-    script.onload = () => {
-      window.kakao.maps.load(() => {
-        const container = document.getElementById("map");
-        const options = {
-          center: new window.kakao.maps.LatLng(37.5577, 127.00099),
-          level: 3,
-        };
-        mapRef.current = new window.kakao.maps.Map(container, options);
+      const script = document.createElement("script");
+      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=972351b156b1bdfe825cb095c12d1e56&autoload=false`;
+      script.async = true;
+      document.head.appendChild(script);
 
-        // 초기 마커 생성
-        filteredBooths.forEach((booth) => {
-          const markerPosition = new window.kakao.maps.LatLng(
-            booth.latitude,
-            booth.longitude
-          );
-          const markerImage = getInitialMarkerImage(booth); // 유형에 따라 초기 마커 이미지 설정
-          const marker = new window.kakao.maps.Marker({
-            position: markerPosition,
-            image: markerImage,
-            map: mapRef.current,
-          });
-
-          console.log(mapRef.current); // mapRef가 제대로 설정되었는지 확인
-
-          // 마커 클릭 이벤트 설정
-          window.kakao.maps.event.addListener(marker, "click", () => {
-            handleBoothLocation(booth.id); // 부스 선택
-          });
-
-          // 마커 정보를 ref 배열에 저장
-          markersRef.current.push({ boothId: booth.id, marker });
+      script.onload = () => {
+        window.kakao.maps.load(() => {
+          resolve();
         });
-      });
-    };
+      };
+      script.onerror = () => {
+        console.error("Kakao Maps SDK 로드 실패");
+        reject(new Error("Kakao Maps SDK 로드 실패"));
+      };
+    });
+  };
 
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
+  const initializeMap = async () => {
+    try {
+      await loadKakaoMap();
+
+
+      // 지도 컨테이너 확인
+      const mapContainer = document.getElementById("map");
+      if (!mapContainer) {
+        console.error("지도 컨테이너를 찾을 수 없습니다. DOM 상태를 확인하세요.");
+        return;
+      }
+
+      // Kakao 지도 초기화
+      const options = {
+        center: new window.kakao.maps.LatLng(37.5577, 127.00099),
+        level: 3,
+      };
+
+      mapRef.current = new window.kakao.maps.Map(mapContainer, options);
+
+
+      if (boothData?.length > 0) {
+        createMarkers(boothData);
+      }
+    } catch (error) {
+      console.error("지도 초기화 중 오류:", error);
+    }
+  };
+
+  const createMarkers = (booths) => {
+
+    booths.forEach((booth) => {
+      try {
+        if (!window.kakao || !window.kakao.maps) {
+          console.error("Kakao Maps가 로드되지 않았습니다.");
+          return;
+        }
+
+        const markerPosition = new window.kakao.maps.LatLng(booth.latitude, booth.longitude);
+        const markerImage = new window.kakao.maps.MarkerImage(
+          booth.category === "음식점" ? nonselect_JU : nonselect_GI,
+          new window.kakao.maps.Size(30, 36)
+        );
+
+        const marker = new window.kakao.maps.Marker({
+          position: markerPosition,
+          image: markerImage,
+          map: mapRef.current,
+        });
+
+
+        window.kakao.maps.event.addListener(marker, "click", () => {
+          setHighlightedBooth(booth);
+        });
+
+        markersRef.current.push({ boothId: booth.id, marker });
+      } catch (error) {
+        console.error("마커 생성 중 오류:", error);
+      }
+    });
+  };
+
+
+  useEffect(() => {
+    initializeMap();
+  }, [boothData]);
+
+  // 필터링된 부스 데이터가 변경될 때마다 마커 업데이트
+  useEffect(() => {
+    if (filteredBooths.length > 0 && mapRef.current) {
+      // 기존 마커 삭제
+      markersRef.current.forEach(({ marker }) => marker.setMap(null));
+      markersRef.current = [];
+
+      // 새 마커 생성
+      createMarkers(filteredBooths);
+    }
+  }, [filteredBooths, mapRef.current]);
+
+
 
   // 선택된 부스에 따라 마커 이미지 변경
   useEffect(() => {
@@ -244,11 +301,16 @@ export const BoothPage = () => {
 
     if (highlightedBooth && mapRef.current) {
       // 선택된 부스의 위치 좌표로 맵의 중심 이동
-      const newCenter = new window.kakao.maps.LatLng(
-        highlightedBooth.latitude,
-        highlightedBooth.longitude
-      );
-      mapRef.current.panTo(newCenter);
+      mapRef.current.relayout();
+
+      setTimeout(() => {
+        const newCenter = new window.kakao.maps.LatLng(
+          highlightedBooth.latitude,
+          highlightedBooth.longitude
+        );
+        mapRef.current.panTo(newCenter);
+      }, 200);
+
     }
 
     // 선택된 부스가 있을 경우, 해당 마커만 업데이트
@@ -258,7 +320,7 @@ export const BoothPage = () => {
       // 선택된 부스의 마커를 변경
       if (isHighlighted) {
         let markerImage;
-        if (highlightedBooth.category === "주점") {
+        if (highlightedBooth.category === "음식점") {
           markerImage = select_JU; // 선택된 주점일 경우
         } else if (highlightedBooth.category === "기타") {
           markerImage = select_GI; // 선택된 기타일 경우
@@ -279,7 +341,7 @@ export const BoothPage = () => {
         }
       }
     });
-  }, [highlightedBooth]);
+  }, [highlightedBooth, isBoothListOpen]);
 
   useEffect(() => {
     if (highlightedBooth && boothRefs.current[highlightedBooth.id]) {
@@ -319,6 +381,8 @@ export const BoothPage = () => {
     let userMarker = null; // 사용자 위치 마커를 저장할 변수
 
     if (navigator.geolocation && followUser) {
+      setHighlightedBooth(null);
+      
       // 위치 변경 감지하여 실시간 위치 추적
       watchId = navigator.geolocation.watchPosition(
         (position) => {
@@ -352,7 +416,7 @@ export const BoothPage = () => {
             });
 
             // 지도 중심을 새로운 사용자 위치로 이동
-            mapRef.current.setCenter(userPosition);
+            mapRef.current.panTo(userPosition);
           }
         },
         (error) => {
@@ -375,6 +439,25 @@ export const BoothPage = () => {
       }
     };
   }, [mapRef.current, followUser]); // 토글링을 넣어서 껐다켰다 가능.
+
+  useEffect(() => {
+    // `isBoothListOpen` 상태가 변경될 때마다 사용자의 위치를 중앙으로 이동
+    if (userLocation && mapRef.current) {
+      // 리스트가 열리거나 닫힐 때 지도의 크기를 재조정하고, 부드럽게 이동
+      mapRef.current.relayout(); // 지도 크기 재조정
+  
+      // 약간의 지연 후 부드럽게 지도 중심 이동
+      setTimeout(() => {
+        const userPosition = new window.kakao.maps.LatLng(
+          userLocation.latitude,
+          userLocation.longitude
+        );  
+        // 지도의 중심을 사용자 위치로 이동
+        mapRef.current.panTo(userPosition);
+      }, 200); // 200ms 지연을 두어 `relayout` 후 자연스럽게 이동
+    }
+  }, [isBoothListOpen, userLocation]); // centering
+  
 
   return (
     <>
