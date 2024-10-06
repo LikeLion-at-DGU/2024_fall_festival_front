@@ -22,7 +22,7 @@ instance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.code === "ECONNABORTED") {
-      console.log("Request timeout");
+      console.error("Request timeout");
     }
     return Promise.reject(error);
   }

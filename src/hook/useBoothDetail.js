@@ -7,9 +7,7 @@ export const useBoothDetailData = (booth_id) => {
   const fetchBoothDetailData = async () => {
     try {
       const res = await getBoothDetail(booth_id);
-      console.log("response:", res);
       const resData = res.data;
-      console.log("resData:", resData);
       setBoothDetailData(resData);
     } catch (error) {
       // console.error("error:", error);
