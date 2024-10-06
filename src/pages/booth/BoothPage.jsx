@@ -328,14 +328,21 @@ export const BoothPage = () => {
           new window.kakao.maps.MarkerImage(
             markerImage,
             new window.kakao.maps.Size(32, 40)
+            
           )
         );
+        marker.setZIndex(9999);
+        console.log(`Highlighted Marker ID ${boothId}: zIndex set to 9999`);
       } else {
-        // 선택되지 않은 부스는 초기 이미지로 유지
+        // 선택되지 않은 부스는 초기 이미지로 유지하고 z-index 초기화
         const booth = boothData.find((b) => b.id === boothId); // 해당 부스 데이터 찾기
         if (booth) {
           const initialImage = getInitialMarkerImage(booth);
           marker.setImage(initialImage);
+  
+          // 기본 z-index 값 설정
+          marker.setZIndex(0);
+          console.log(`Reset Marker ID ${boothId}: zIndex set to 0`);
         }
       }
     });
@@ -555,11 +562,6 @@ export const BoothPage = () => {
                     >
                       기타
                     </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("type", "예약가능")}
-                    >
-                      예약가능
-                    </S.DropdownItem>
                   </S.Dropdown>
                 )}
               </S.FilterItem>
@@ -591,9 +593,9 @@ export const BoothPage = () => {
                       만해광장
                     </S.DropdownItem>
                     <S.DropdownItem
-                      onClick={() => handleSelect("location", "사과관")}
+                      onClick={() => handleSelect("location", "사회과학관")}
                     >
-                      사과관
+                      사회과학관
                     </S.DropdownItem>
                     <S.DropdownItem
                       onClick={() => handleSelect("location", "혜화관")}
