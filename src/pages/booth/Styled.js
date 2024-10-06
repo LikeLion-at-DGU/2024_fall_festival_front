@@ -58,7 +58,7 @@ export const MainWrapper = styled.section`
 export const Header = styled.div`
   display: flex;
   position: absolute;
-  z-index: 20;
+  z-index: 10;
   flex-direction: column;
   align-items: center;
   width: 100%;
@@ -66,8 +66,7 @@ export const Header = styled.div`
 export const CurrentLocationButton = styled.div`
   display: flex;
   position: absolute;
-  z-index: 20;
-  position: absolute;
+  z-index: 10;
   top: -35px;
   left: 2px;
 `;
