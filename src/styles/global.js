@@ -27,59 +27,59 @@ i {font-style:normal}
 // 애플 SD 산돌고딕 Neo 폰트 설정
 @font-face {
     font-family: "AppleSDGothicNeoH00";
-    src: url("src/assets/fonts/AppleSDGothicNeoH.ttf") format("truetype");
+    src: url("/fonts/AppleSDGothicNeoH.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "AppleSDGothicNeoB00";
-    src: url("src/assets/fonts/AppleSDGothicNeoB.ttf") format("truetype");
+    src: url("/fonts/AppleSDGothicNeoB.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "AppleSDGothicNeoL00";
-    src: url("src/assets/fonts/AppleSDGothicNeoL.ttf") format("truetype");
+    src: url("/fonts/AppleSDGothicNeoL.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "AppleSDGothicNeoUL00";
-    src: url("src/assets/fonts/AppleSDGothicNeoUL.ttf") format("truetype");
+    src: url("/fonts/AppleSDGothicNeoUL.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "AppleSDGothicNeoT0C";
-    src: url("src/assets/fonts/AppleSDGothicNeoT.ttf") format("truetype");
+    src: url("/fonts/AppleSDGothicNeoT.ttf") format("truetype");
 }
 @font-face {
     font-family: "AppleSDGothicNeoR00";
-    src: url("src/assets/fonts/AppleSDGothicNeoR.ttf") format("truetype");
+    src: url("/fonts/AppleSDGothicNeoR.ttf") format("truetype");
 }
 @font-face {
     font-family: "AppleSDGothicNeoM00";
-    src: url("src/assets/fonts/AppleSDGothicNeoM.ttf") format("truetype");
+    src: url("/fonts/AppleSDGothicNeoM.ttf") format("truetype");
 }
 @font-face {
     font-family: "NanumSquareRoundOTF";
-    src: url("src/assets/fonts/NanumSquareRoundOTFB.ttf") format("truetype");
+    src: url("/fonts/NanumSquareRoundOTFB.ttf") format("truetype");
 }
 
 
 //나눔 스퀘어 라운드 폰트 설정
 @font-face {
     font-family: "NanumSquareRoundB";
-    src: url("src/assets/fonts/NanumSquareRoundB.ttf") format("truetype");
+    src: url("/fonts/NanumSquareRoundB.ttf") format("truetype");
 }
 @font-face {
     font-family: "NanumSquareRoundEB";
-    src: url("src/assets/fonts/NanumSquareRoundEB.ttf") format("truetype");
+    src: url("/fonts/NanumSquareRoundEB.ttf") format("truetype");
 }
 @font-face {
     font-family: "NanumSquareRoundR";
-    src: url("src/assets/fonts/NanumSquareRoundR.ttf") format("truetype");
+    src: url("/fonts/NanumSquareRoundR.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "NanumSquareRoundL";
-    src: url("src/assets/fonts/NanumSquareRoundL.ttf") format("truetype");
+    src: url("/fonts/NanumSquareRoundL.ttf") format("truetype");
 }
 
 

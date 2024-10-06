@@ -20,6 +20,8 @@ export const BoothPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const [filteredData, setFilteredData] = useState([]);
+
   // 날짜 선택
   const getDayFromDate = (dateString) => {
     const dayPart = dateString.split("(")[1]; // 요일 부분 추출
@@ -469,7 +471,7 @@ export const BoothPage = () => {
       <S.MainWrapper>
         {/* 상단 날짜 선택 버튼 */}
         <TopBar openModal={openModal} />
-        <SearchBar />
+        <SearchBar setFilteredData={setFilteredData} />
         {/* 카카오맵 자리 */}
         <S.MapPlaceholder
           ref={mapRef}
@@ -616,7 +618,40 @@ export const BoothPage = () => {
             <S.NoticeTabling>
               부스 클릭 시 테이블링 예약 링크로 이동 가능합니다.
             </S.NoticeTabling>
-            {filteredBooths.length > 0 ? (
+            {filteredData && filteredData.length > 0 ? (
+              filteredData.map((booth) => (
+                <S.BoothItem
+                  key={booth.id}
+                  ref={(el) => (boothRefs.current[booth.id] = el)} // 각 부스에 ref 추가
+                  $isColored={
+                    highlightedBooth && highlightedBooth.id === booth.id
+                  }
+                  onClick={() => handleSelectBooth(booth)}
+                >
+                  <S.BoothThumbnail
+                    src={booth.thumbnail || "default_image_url.png"}
+                  />
+                  <S.BoothInfo>
+                    <S.BoothWrap>
+                      <S.BoothName>{booth.name}</S.BoothName>
+                      {booth.is_reservable === true && (
+                        <S.reservabletag>예약 가능</S.reservabletag>
+                      )}
+                    </S.BoothWrap>
+                    <S.BoothWho>{booth.host}</S.BoothWho>
+                  </S.BoothInfo>
+                  <S.LocationButton
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleBoothLocation(booth.id);
+                    }}
+                  >
+                    <S.StyledFaLocationDot />
+                    위치 보기
+                  </S.LocationButton>
+                </S.BoothItem>
+              ))
+            ) : filteredBooths.length > 0 ? (
               filteredBooths.map((booth) => (
                 <S.BoothItem
                   key={booth.id}

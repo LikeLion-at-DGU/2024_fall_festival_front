@@ -58,7 +58,7 @@ export const MainWrapper = styled.section`
 export const Header = styled.div`
   display: flex;
   position: absolute;
-  z-index: 20;
+  z-index: 10;
   flex-direction: column;
   align-items: center;
   width: 100%;
@@ -163,9 +163,7 @@ export const BoothListWrapper = styled.div`
   z-index: 10;
 
   @media (max-width: 375px) {
-
     height: ${({ $isOpen }) => ($isOpen ? "300px" : "0px")};
-
   }
 `;
 
@@ -337,7 +335,6 @@ export const BoothWrap = styled.div`
 
   flex-direction: row;
   gap: 6px;
-
 `;
 
 export const LocationButton = styled.div`
@@ -360,9 +357,8 @@ export const BoothName = styled.div`
   display: flex;
   color: #000;
   font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
-
+  align-items: center;
   font-size: 12px;
-
 `;
 export const reservabletag = styled.div`
   display: flex;
@@ -376,7 +372,6 @@ export const reservabletag = styled.div`
   color: #1851ff;
 
   font-size: 7px;
-
 
   font-weight: 700;
 `;
