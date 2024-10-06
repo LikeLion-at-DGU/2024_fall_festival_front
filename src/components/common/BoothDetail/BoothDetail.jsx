@@ -2,13 +2,11 @@ import * as S from "./styled";
 import { useState, useRef } from "react";
 import tablingImg from "../../../assets/images/tabling.svg";
 import CancelIcon from "../../../assets/images/X_Icon.svg";
-import { useNavigate } from "react-router-dom";
 import { Detailtitle } from "../../../constant/StarDetail/data";
 import { useBoothDetailData } from "../../../hook/useBoothDetail";
 
 export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
   console.log("boothInfo:", boothInfo);
-  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const imgWrapperRef = useRef(null);
   const { boothDetailData } = useBoothDetailData(booth_id);
@@ -48,7 +46,7 @@ export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
   };
 
   const MoveonTabling = (tabling_link) => {
-    navigate(tabling_link);
+    window.open(`${tabling_link}`, "_blank");
   };
 
   return (
