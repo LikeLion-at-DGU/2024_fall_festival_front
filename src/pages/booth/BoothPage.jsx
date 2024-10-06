@@ -11,6 +11,8 @@ import nonselect_GI from "../../assets/images/nonselect_GI.png";
 import nonselect_JU from "../../assets/images/nonselect_JU.png";
 import select_GI from "../../assets/images/select_GI.png";
 import select_JU from "../../assets/images/select_JU.png";
+
+import userLocationIcon from "../../assets/images/userLocation.svg";
 import Footer from "../../components/about/Footer";
 
 export const BoothPage = () => {
@@ -166,9 +168,9 @@ export const BoothPage = () => {
 
   // 부스 유형에 따른 초기 마커 이미지 설정 함수
   const getInitialMarkerImage = (booth) => {
-    let markerImage =
-      booth.category === "야간부스" ? nonselect_JU : nonselect_GI;
+    if (!window.kakao || !window.kakao.maps) return null;
 
+    let markerImage = booth.category === "주점" ? nonselect_JU : nonselect_GI;
     return new window.kakao.maps.MarkerImage(
       markerImage,
       new window.kakao.maps.Size(30, 36)
@@ -178,6 +180,7 @@ export const BoothPage = () => {
   // 카카오맵 마커 생성
   useEffect(() => {
     const script = document.createElement("script");
+    toggleDropdown;
     script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=972351b156b1bdfe825cb095c12d1e56&autoload=false`;
     script.async = true;
     document.head.appendChild(script);
@@ -203,6 +206,8 @@ export const BoothPage = () => {
             image: markerImage,
             map: mapRef.current,
           });
+
+          console.log(mapRef.current); // mapRef가 제대로 설정되었는지 확인
 
           // 마커 클릭 이벤트 설정
           window.kakao.maps.event.addListener(marker, "click", () => {
@@ -338,7 +343,7 @@ export const BoothPage = () => {
               title: "현재 위치",
               image: new window.kakao.maps.MarkerImage(
                 // 파란색 원형 점 이미지 (마커 커스텀)
-                "data:image/svg+xml;charset=UTF-8,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='%23007bff'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3C/svg%3E",
+                userLocationIcon,
                 new window.kakao.maps.Size(24, 24), // 마커 사이즈
                 { offset: new window.kakao.maps.Point(12, 12) } // 마커 중앙 위치 설정
               ),
@@ -455,25 +460,22 @@ export const BoothPage = () => {
                     >
                       전체
                     </S.DropdownItem>
+
                     <S.DropdownItem
-                      onClick={() => handleSelect("type", "푸드트럭")}
+                      onClick={() => handleSelect("type", "음식점")}
                     >
-                      푸드트럭
+                      음식점
                     </S.DropdownItem>
+
                     <S.DropdownItem
-                      onClick={() => handleSelect("type", "야간부스")}
+                      onClick={() => handleSelect("type", "기타")}
                     >
-                      야간부스
+                      기타
                     </S.DropdownItem>
                     <S.DropdownItem
                       onClick={() => handleSelect("type", "예약가능")}
                     >
                       예약가능
-                    </S.DropdownItem>
-                    <S.DropdownItem
-                      onClick={() => handleSelect("type", "기타")}
-                    >
-                      기타
                     </S.DropdownItem>
                   </S.Dropdown>
                 )}
@@ -504,6 +506,16 @@ export const BoothPage = () => {
                       onClick={() => handleSelect("location", "만해광장")}
                     >
                       만해광장
+                    </S.DropdownItem>
+                    <S.DropdownItem
+                      onClick={() => handleSelect("location", "사과관")}
+                    >
+                      사과관
+                    </S.DropdownItem>
+                    <S.DropdownItem
+                      onClick={() => handleSelect("location", "혜화관")}
+                    >
+                      혜화관
                     </S.DropdownItem>
                   </S.Dropdown>
                 )}
@@ -555,7 +567,7 @@ export const BoothPage = () => {
             ) : (
               <S.NoBooth>현재 운영중인 부스가 없어요!</S.NoBooth>
             )}
-            <Footer/>
+            <Footer />
           </S.BoothList>
         </S.BoothListWrapper>
         {/* 선택한 부스 디테일 */}
