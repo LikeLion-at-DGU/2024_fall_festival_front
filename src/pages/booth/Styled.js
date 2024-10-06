@@ -152,7 +152,7 @@ export const BoothListWrapper = styled.div`
   bottom: ${({ $isOpen }) => ($isOpen ? "0" : "-20px")};
   width: 100%;
   max-width: 540px;
-  height: ${({ $isOpen }) => ($isOpen ? "400px" : "0px")};
+  height: ${({ $isOpen }) => ($isOpen ? "300px" : "0px")};
   background-color: inherit;
   transition: bottom 0.5s ease, height 0.5s ease;
   z-index: 10;

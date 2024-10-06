@@ -66,8 +66,8 @@ export const MainText = styled.div`
 export const Leaves = styled.img`
   position: absolute;
   top: -50px;
-  left: ${(props) => props.$left}; // transient prop로 변경
-  width: ${(props) => props.$size}px; // props 사용 시에도 transient로 변경
+  left: ${(props) => props.$left};
+  width: ${(props) => props.$size}px;
   height: auto;
   opacity: 1;
 
