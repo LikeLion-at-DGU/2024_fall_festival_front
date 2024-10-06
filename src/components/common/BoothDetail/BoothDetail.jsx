@@ -47,8 +47,8 @@ export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
     );
   };
 
-  const MoveonTabling = (insta_link) => {
-    navigate(insta_link);
+  const MoveonTabling = (tabling_link) => {
+    navigate(tabling_link);
   };
 
   return (
@@ -121,7 +121,7 @@ export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
       {boothInfo.is_reservable === true && (
         <S.tabling
           src={tablingImg}
-          onClick={() => MoveonTabling(boothDetailData.insta_link)}
+          onClick={() => MoveonTabling(boothDetailData.tabling_link)}
         ></S.tabling>
       )}
     </S.DetailWrapper>
