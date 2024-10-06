@@ -3,13 +3,11 @@ import { useState, useRef } from "react";
 import tablingImg from "../../../assets/images/tabling.svg";
 import CancelIcon from "../../../assets/images/X_Icon.svg";
 import { useNavigate } from "react-router-dom";
-import {
-  Detailtitle,
-  BoothDetailData,
-} from "../../../constant/StarDetail/data";
+import { Detailtitle } from "../../../constant/StarDetail/data";
 import { useBoothDetailData } from "../../../hook/useBoothDetail";
 
-export const BoothDetail = ({ onClose, booth_id }) => {
+export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
+  console.log("boothInfo:", boothInfo);
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const imgWrapperRef = useRef(null);
@@ -18,7 +16,9 @@ export const BoothDetail = ({ onClose, booth_id }) => {
   if (!boothDetailData) {
     return <div>Loading...</div>;
   }
-  const totalImages = BoothDetailData[0].src.length;
+  const totalImages = boothDetailData?.details_image
+    ? boothDetailData.details_image.length
+    : 0;
 
   const handleTouchStart = (e) => {
     imgWrapperRef.current.startX = e.touches[0].clientX;
@@ -47,22 +47,21 @@ export const BoothDetail = ({ onClose, booth_id }) => {
     );
   };
 
-  const MoveonTabling = () => {
-    navigate("/");
+  const MoveonTabling = (insta_link) => {
+    navigate(insta_link);
   };
-  //   const DetailData = useBoothDetailData();
+
   return (
     <S.DetailWrapper>
       <S.DetailContent>
         <S.NameContainer>
-          <div className="BoothName">{BoothDetailData[0].booth_name}</div>
-          {/* {BoothDetailData[0].id_night===true && } */}
+          <div className="BoothName">{boothInfo.name}</div>
           <S.tagContainer>
             <div className="tag">
-              {BoothDetailData[0].is_night ? "밤부스" : "낮부스"}
+              {boothInfo.is_night ? "밤부스" : "낮부스"}
             </div>
-            <div className="tag">{BoothDetailData[0].location}</div>
-            <div className="tag">{BoothDetailData[0].category}</div>
+            <div className="tag">{boothInfo.location}</div>
+            <div className="tag">{boothInfo.category}</div>
           </S.tagContainer>
           <S.CloseBtn src={CancelIcon} onClick={onClose} />
         </S.NameContainer>
@@ -72,8 +71,8 @@ export const BoothDetail = ({ onClose, booth_id }) => {
           ref={imgWrapperRef}
         >
           <S.BoothDetailImage
-            src={BoothDetailData[0].src[currentIndex]}
-            alt={BoothDetailData[0].booth_name}
+            src={boothDetailData.details_image[currentIndex]}
+            alt={boothDetailData.booth}
           />
           <S.imgCount>
             {currentIndex + 1}/{totalImages}
@@ -85,14 +84,32 @@ export const BoothDetail = ({ onClose, booth_id }) => {
               <div className="InfoWrapper" key={index}>
                 <div className="InfoContainer">
                   <S.DetailTitle>{title}</S.DetailTitle>
-                  <S.DetailContext index={index}>
-                    {index === 0 && BoothDetailData[0].description}
-                    {index === 1 && BoothDetailData[0].operation}
-                    {index === 2 && BoothDetailData[0].time}
-                    {index === 3 && BoothDetailData[0].fee}
-                    {index === 4 && BoothDetailData[0].menu}
-                    {index === 5 && BoothDetailData[0].insta}
-                  </S.DetailContext>
+                  <S.DetailContextContainer>
+                    <S.DetailContext
+                      index={index}
+                      onClick={() => {
+                        if (index === 5) {
+                          // 인스타그램 ID인 경우
+                          window.open(
+                            `https://instagram.com/${boothDetailData.insta_id}`,
+                            "_blank"
+                          ); // 새 탭에서 열기
+                        }
+                      }}
+                      style={{ cursor: index === 5 ? "pointer" : "default" }}
+                    >
+                      {index === 0 && boothDetailData.detail_description}
+                      {index === 1 && boothDetailData.host}
+                      {index === 2 &&
+                        `${boothDetailData.start_time.slice(
+                          0,
+                          5
+                        )} ~ ${boothDetailData.end_time.slice(0, 5)}`}
+                      {index === 3 && boothDetailData.entrace_fee}
+                      {index === 4 && boothDetailData.menus}
+                      {index === 5 && boothDetailData.insta_id}
+                    </S.DetailContext>
+                  </S.DetailContextContainer>
                 </div>
                 {index === 2 && <S.Divider />}
                 {index === 4 && <S.Divider />}
@@ -101,8 +118,12 @@ export const BoothDetail = ({ onClose, booth_id }) => {
           </S.Details>
         </S.DetailInfo>
       </S.DetailContent>
-
-      <S.tabling src={tablingImg} onClick={MoveonTabling}></S.tabling>
+      {boothInfo.is_reservable === true && (
+        <S.tabling
+          src={tablingImg}
+          onClick={() => MoveonTabling(boothDetailData.insta_link)}
+        ></S.tabling>
+      )}
     </S.DetailWrapper>
   );
 };

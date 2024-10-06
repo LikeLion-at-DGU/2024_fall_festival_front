@@ -4,6 +4,7 @@ import { DefaultLayout } from "@layout/DefaultLayout";
 import { BoothPage } from "@pages/booth/BoothPage";
 import { AboutPage } from "@pages/about/AboutPage";
 import { MainPage } from "@pages/main/MainPage";
+import { NotFound } from "@pages/notfound/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -14,14 +15,14 @@ export const router = createBrowserRouter([
         path: "",
         element: <MainPage />,
       },
-      //부스페이지
       {
         path: "/booth-test",
         element: <BoothPage />,
       },
-      //개발자페이지
 
       { path: "/about", element: <AboutPage /> },
     ],
+
+    errorElement: <NotFound />, // ErrorBoundary에 에러 핸들링 적용
   },
 ]);
