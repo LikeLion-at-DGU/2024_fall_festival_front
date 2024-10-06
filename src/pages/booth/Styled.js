@@ -66,7 +66,7 @@ export const CurrentLocationButton = styled.div`
   display: flex;
   position: absolute;
   z-index: 20;
-  top: -55px;
+  top: -40px;
   left: 10px;
 `;
 
@@ -141,13 +141,18 @@ display: flex;
 export const MapPlaceholder = styled.div`
   width: 100%;
   height: ${({ $isBoothListOpen }) =>
-    $isBoothListOpen ? "calc(100vh - 350px)" : "calc(100vh)"};
+    $isBoothListOpen ? "calc(100vh - 95px - 35px - 300px)" : "calc(100vh)"};
 
   background-color: #e0e0e0;
   display: flex;
   justify-content: center;
   color: #666;
   position: relative;
+
+  @media (max-width: 375px) {
+    height: ${({ $isBoothListOpen }) =>
+      $isBoothListOpen ? "calc(100vh - 95px - 35px - 290px)" : "calc(100vh)"};
+  }
 `;
 
 // 부스 리스트와 필터가 들어가는 Wrapper
@@ -159,7 +164,7 @@ export const BoothListWrapper = styled.div`
   bottom: ${({ $isOpen }) => ($isOpen ? "0" : "-20px")};
   width: 100%;
   max-width: 540px;
-  height: ${({ $isOpen }) => ($isOpen ? "370px" : "0px")};
+  height: ${({ $isOpen }) => ($isOpen ? "300px" : "0px")};
   background-color: inherit;
   transition: bottom 0.5s ease, height 0.5s ease;
   z-index: 10;
