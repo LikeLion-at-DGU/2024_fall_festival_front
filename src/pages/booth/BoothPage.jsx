@@ -46,6 +46,7 @@ export const BoothPage = () => {
     day: dayInEnglish,
   });
   console.log("boothpage:", boothData);
+  
   if (!boothData) {
     // 데이터가 없을 경우 처리
     return <div>Loading...</div>; // 또는 placeholder 컴포넌트
