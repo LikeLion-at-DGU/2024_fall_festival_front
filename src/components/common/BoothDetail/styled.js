@@ -1,42 +1,60 @@
 import styled, { keyframes } from "styled-components";
-const slideUp = keyframes`
-  0% {
-    transform: translateY(100%);
 
+const slideInUp = keyframes`
+  from {
+    transform: translateY(100%);
+    opacity: 0;
   }
-  100% {
+  to {
     transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
+const slideOutDown = keyframes`
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
   }
 `;
 export const DetailWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   position: fixed;
   bottom: 0;
-  width: 370px;
-  height: 55%;
-  gap: 20px;
+  width: 100%;
+  max-width: 540px;
+  height: 400px;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    display: none; /* Chrome , Safari , Opera */
+  }
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Internet Explorer 10+, Edge */
+  -ms-overflow-style: none;
+
   background-color: #fff;
+  padding: 1.5rem 1.75rem;
   border-radius: 20px 20px 0px 0px;
   box-shadow: 0px 2px 40px 0px rgba(0, 0, 0, 0.7);
-  z-index: 10;
+  z-index: 30;
 
-  animation: ${slideUp} 0.5s ease-out forwards;
+  animation: ${({ $isVisible }) => ($isVisible ? slideOutDown : slideInUp)}
+    0.75s ease-out;
 
-  @media (max-width: 375px) {
+  /* @media (max-width: 375px) {
     height: 80%;
-  }
+  } */
 `;
 export const DetailContent = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90%;
+
   gap: 15px;
-  @media (max-width: 375px) {
-    margin-top: 1rem;
-  }
 `;
 
 export const NameContainer = styled.div`
@@ -58,16 +76,13 @@ export const tagContainer = styled.div`
   display: flex;
   flex-direction: row;
 
-  gap: 5px;
+  gap: 10px;
 
   .tag {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 46px;
-    height: 16px;
+    display: inline-block;
+    min-width: 35px;
     border-radius: 5px;
-    padding: 7px;
+    padding: 3px 3px;
     text-align: center;
     font-family: ${({ theme }) =>
       theme.fonts.AppleSDGothicNeoL00["font-family"]};
@@ -165,13 +180,12 @@ export const Divider = styled.div`
 `;
 export const tabling = styled.img`
   display: flex;
-  width: 90%;
-  padding: 7px 59px 3px 68px;
-  justify-content: flex-end;
-  align-items: flex-start;
+  width: 100%;
+
   gap: 10px;
   border-radius: 5.25px;
   background: #e9ff99;
   object-fit: cover;
   margin-bottom: 10px;
+  margin-top: 20px;
 `;

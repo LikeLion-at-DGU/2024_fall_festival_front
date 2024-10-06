@@ -5,6 +5,7 @@ import { BoothPage } from "@pages/booth/BoothPage";
 import { AboutPage } from "@pages/about/AboutPage";
 import { MainPage } from "@pages/main/MainPage";
 import { NotFound } from "@pages/notfound/NotFound";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -14,12 +15,10 @@ export const router = createBrowserRouter([
         path: "",
         element: <MainPage />,
       },
-      //부스페이지
       {
         path: "/booth-test",
         element: <BoothPage />,
       },
-      //개발자페이지
 
       { path: "/about", element: <AboutPage /> },
       //에러페이지
