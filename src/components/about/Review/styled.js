@@ -37,7 +37,7 @@ export const Link = styled.div`
   align-items: center;
   gap: 8px;
   width: 114px;
-  height: 24px;
+  height: 26px;
   flex-shrink: 0;
   border-radius: 20px;
   background: #ffeada;
@@ -48,9 +48,10 @@ export const Link = styled.div`
 `;
 
 export const LinkMent = styled.div`
+  display: flex;
+  align-items: center;
   color: #ed6308;
   font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoM00["font-family"]};
   font-size: 12px;
-  margin-top: 3px;
   text-align: center;
 `;
