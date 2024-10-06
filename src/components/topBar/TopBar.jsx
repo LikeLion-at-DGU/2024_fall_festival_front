@@ -23,10 +23,10 @@ export const TopBar = ({ openModal }) => {
 
         randomLeaves.push({
           src: leaf,
-          $size: size,
-          $left: `${left}%`,
-          $duration: `${duration}s`,
-          $delay: `${delay}s`,
+          size: size,
+          left: `${left}%`,
+          duration: `${duration}s`,
+          delay: `${delay}s`,
           key: `${index}-${i}`,
         });
       }
@@ -49,10 +49,10 @@ export const TopBar = ({ openModal }) => {
         <S.Leaves
           key={leaf.key}
           src={leaf.src}
-          size={leaf.size}
-          left={leaf.left}
-          duration={leaf.duration}
-          delay={leaf.delay}
+          $size={leaf.size}
+          $left={leaf.left}
+          $duration={leaf.duration}
+          $delay={leaf.delay}
         />
       ))}
     </S.Background>
