@@ -14,7 +14,6 @@ import select_JU from "../../assets/images/select_JU.png";
 import Footer from "../../components/about/Footer";
 
 import userLocationIcon from "../../assets/images/userLocation.svg";
-import Footer from "../../components/about/Footer";
 
 export const BoothPage = () => {
   // 모달 상태 추가
@@ -469,11 +468,9 @@ export const BoothPage = () => {
                     </S.DropdownItem>
 
                     <S.DropdownItem
-
                       onClick={() => handleSelect("type", "기타")}
                     >
                       기타
-
                     </S.DropdownItem>
                     <S.DropdownItem
                       onClick={() => handleSelect("type", "예약가능")}
@@ -572,7 +569,6 @@ export const BoothPage = () => {
             )}
 
             <Footer />
-
           </S.BoothList>
         </S.BoothListWrapper>
         {/* 선택한 부스 디테일 */}
