@@ -45,7 +45,7 @@ jobs:
           username: ${{ env.EC2_SSH_USER }}
           key: ${{ env.PRIVATE_KEY }}
           script: |
-            CONTAINER_ID=$(sudo docker ps -aq --filter "name=kaboo-connection-container")
+            CONTAINER_ID=$(sudo docker ps -aq --filter "name=dgu-booth")
 
             if [ ! -z "$CONTAINER_ID" ]; then
               sudo docker stop $CONTAINER_ID || true
@@ -53,5 +53,5 @@ jobs:
             fi
 
             sudo docker pull ${{ env.DOCKER_IMAGE_NAME }}:latest
-            sudo docker run --name kaboo-connection-container -d -p 80:80 -p 3000:3000 -e TZ=Asia/Seoul ${{ env.DOCKER_IMAGE_NAME }}:latest
+            sudo docker run --name dgu-booth -d -p 80:80 -p 3000:3000 -e TZ=Asia/Seoul ${{ env.DOCKER_IMAGE_NAME }}:latest
             sudo docker image prune -f
