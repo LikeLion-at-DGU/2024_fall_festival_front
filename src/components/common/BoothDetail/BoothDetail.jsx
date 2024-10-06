@@ -5,11 +5,10 @@ import { Detailtitle } from "../../../constant/StarDetail/data";
 import { useBoothDetailData } from "../../../hook/useBoothDetail";
 
 export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
-  console.log("boothInfo:", boothInfo);
   const [currentIndex, setCurrentIndex] = useState(0);
   const imgWrapperRef = useRef(null);
   const { boothDetailData } = useBoothDetailData(booth_id);
-  console.log("boothDetail컴포넌트에서 :", boothDetailData);
+
   if (!boothDetailData) {
     return <div>Loading...</div>;
   }
@@ -108,9 +107,10 @@ export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
                               0,
                               5
                             )} ~ ${boothDetailData.end_time.slice(0, 5)}`}
-                          {index === 3 && boothDetailData.entrace_fee > 0
-                            ? boothDetailData.entrace_fee
-                            : "-"}
+                          {index === 3 &&
+                            (boothDetailData.entrace_fee > 0
+                              ? boothDetailData.entrace_fee
+                              : "-")}
                           {index === 4 && boothDetailData.menus}
                           {index === 5 && boothDetailData.insta_id}
                         </S.DetailContext>

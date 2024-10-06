@@ -4,7 +4,7 @@ export const getBoothDetail = async (booth_id) => {
     const res = await instance.get(`/api/v1/booth/detail/${booth_id}`);
     return res;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw err;
   }
 };
