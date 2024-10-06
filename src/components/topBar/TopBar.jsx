@@ -23,10 +23,10 @@ export const TopBar = ({ openModal }) => {
 
         randomLeaves.push({
           src: leaf,
-          size: size,
-          left: `${left}%`,
-          duration: `${duration}s`,
-          delay: `${delay}s`,
+          $size: size,
+          $left: `${left}%`,
+          $duration: `${duration}s`,
+          $delay: `${delay}s`,
           key: `${index}-${i}`,
         });
       }

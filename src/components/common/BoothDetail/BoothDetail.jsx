@@ -82,6 +82,8 @@ export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
           <S.Details>
             {Detailtitle.map((title, index) => {
               if (index === 5 && !boothDetailData.insta_id) return null;
+              if (index === 3 && !boothDetailData.entrace_fee === 0)
+                return null;
               return (
                 <div className="InfoWrapper" key={index}>
                   <div className="InfoContainer">
@@ -94,7 +96,7 @@ export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
                             if (index === 5 && boothDetailData.insta_id) {
                               // 인스타그램 ID인 경우
                               window.open(
-                                `https://instagram.com/${boothDetailData.insta_id}`,
+                                `${boothDetailData.insta_link}`,
                                 "_blank"
                               ); // 새 탭에서 열기
                             }
@@ -113,7 +115,9 @@ export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
                               0,
                               5
                             )} ~ ${boothDetailData.end_time.slice(0, 5)}`}
-                          {index === 3 && boothDetailData.entrace_fee}
+                          {index === 3 && boothDetailData.entrace_fee > 0
+                            ? boothDetailData.entrace_fee
+                            : null}
                           {index === 4 && boothDetailData.menus}
                           {index === 5 && boothDetailData.insta_id}
                         </S.DetailContext>
