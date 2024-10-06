@@ -486,7 +486,7 @@ export const BoothPage = () => {
                 {isDropdownOpen.time && (
                   <S.Dropdown>
                     <S.DropdownItem
-                      onClick={() => handleSelect("time", undefined)}
+                      onClick={() => handleSelect("time", "시간")}
                     >
                       전체
                     </S.DropdownItem>
