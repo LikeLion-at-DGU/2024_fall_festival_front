@@ -456,6 +456,11 @@ export const BoothPage = () => {
                       주점
                     </S.DropdownItem>
                     <S.DropdownItem
+                      onClick={() => handleSelect("type", "예약가능")}
+                    >
+                      예약가능
+                    </S.DropdownItem>
+                    <S.DropdownItem
                       onClick={() => handleSelect("type", "기타")}
                     >
                       기타
@@ -520,6 +525,7 @@ export const BoothPage = () => {
                   <S.BoothInfo>
                     <S.BoothWrap>
                       <S.BoothName>{booth.name}</S.BoothName>
+                      <div>예약 가능</div>
                     </S.BoothWrap>
                     <S.BoothWho>{booth.host}</S.BoothWho>
                   </S.BoothInfo>

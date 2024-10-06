@@ -1,8 +1,8 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 import { IoIosArrowDown, IoIosHeart, IoIosClose } from "react-icons/io";
 import { FaLocationDot, FaArrowRotateLeft } from "react-icons/fa6";
 
-//애니메이션 모음 
+//애니메이션 모음
 
 const slideInUp = keyframes`
   from {
@@ -77,36 +77,39 @@ export const DateSelector = styled.div`
 // DateButton 컴포넌트
 export const DateButton = styled.div`
   background-color: ${({ $active }) => ($active ? "#FFF3EA" : "#FFFFFF")};
-  color: ${({ $active, theme }) => ($active ? theme.colors.buttonFall : theme.colors.noneSelected)};
-  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
+  color: ${({ $active, theme }) =>
+    $active ? theme.colors.buttonFall : theme.colors.noneSelected};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
   padding: 0.625rem 1rem;
   font-size: 14px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  
 
   transition: background-color 0.3s ease, color 0.3s ease;
-  
+
   /* 선택된 버튼 애니메이션 */
-  ${({ $active }) => $active && `
+  ${({ $active }) =>
+    $active &&
+    `
     background-color: #FFF3EA;
     color: ${({ theme }) => theme.colors.buttonFall};
   `}
 
   /* 선택되지 않은 버튼 애니메이션 */
-  ${({ $active }) => !$active && `
+  ${({ $active }) =>
+    !$active &&
+    `
     background-color: #FFFFFF;
     color: ${({ theme }) => theme.colors.noneSelected};
   `}
 `;
 
-
-
 // 카카오맵이 들어갈 자리
 export const MapPlaceholder = styled.div`
   width: 100%;
-  height: ${({ $isBoothListOpen }) => ($isBoothListOpen ? 'calc(100vh - 520px)' : 'calc(100vh - 180px)')};
+  height: ${({ $isBoothListOpen }) =>
+    $isBoothListOpen ? "calc(100vh - 520px)" : "calc(100vh - 180px)"};
   background-color: #e0e0e0;
   display: flex;
   justify-content: center;
@@ -119,10 +122,10 @@ export const BoothListWrapper = styled.div`
   flex-direction: column;
   position: fixed;
   padding: 1rem;
-  bottom: ${({ $isOpen }) => ($isOpen ? '0' : '-20px')};
+  bottom: ${({ $isOpen }) => ($isOpen ? "0" : "-20px")};
   width: 100%;
   max-width: 540px;
-  height: ${({ $isOpen }) => ($isOpen ? '350px' : '0px')};
+  height: ${({ $isOpen }) => ($isOpen ? "350px" : "0px")};
   background-color: inherit;
   transition: bottom 0.5s ease, height 0.5s ease;
   z-index: 10;
@@ -140,8 +143,8 @@ export const BoothListHeader = styled.div`
 
   padding: 0px 4px;
   border-radius: 2.2px;
-  background: #FFF;
-  box-shadow: 0px 2.2px 11px 0px rgba(0, 0, 0, 0.20);
+  background: #fff;
+  box-shadow: 0px 2.2px 11px 0px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   z-index: 20;
 `;
@@ -177,10 +180,12 @@ export const FilterItem = styled.div`
 
   border: ${({ theme }) => `0.95px solid ${theme.colors.confirmButton}`};
 
-  border-radius: ${({ $isOpen }) => $isOpen ? '8.55px 8.55px 0 0' : '8.55px'}; 
-  
-  background-color: ${({ $selected, theme }) => $selected ? theme.colors.confirmButton : '#FFFFFF'};
-  color: ${({ $selected, theme }) => ($selected ? '#FFFFFF' : theme.colors.fall)};
+  border-radius: ${({ $isOpen }) => ($isOpen ? "8.55px 8.55px 0 0" : "8.55px")};
+
+  background-color: ${({ $selected, theme }) =>
+    $selected ? theme.colors.confirmButton : "#FFFFFF"};
+  color: ${({ $selected, theme }) =>
+    $selected ? "#FFFFFF" : theme.colors.fall};
 
   cursor: pointer;
   width: 62px;
@@ -206,18 +211,19 @@ export const Dropdown = styled.ul`
   z-index: 10;
   list-style: none;
   padding: 0;
-  
+
   animation: ${fadeIn} 0.4s ease;
 `;
 
 // 드롭다운 아이템
 export const DropdownItem = styled.li`
-
   font-size: 10px;
 
   padding: 8px 0px;
-  color: ${({ theme, isSelected }) => (isSelected ? '#FFFFFF' : theme.colors.fall)};
-  background-color: ${({ isSelected }) => (isSelected ? theme.colors.confirmButton : '#FFFFFF')};
+  color: ${({ theme, isSelected }) =>
+    isSelected ? "#FFFFFF" : theme.colors.fall};
+  background-color: ${({ isSelected }) =>
+    isSelected ? theme.colors.confirmButton : "#FFFFFF"};
   cursor: pointer;
   text-align: center;
 
@@ -230,7 +236,8 @@ export const DropdownItem = styled.li`
   }
 
   &:hover {
-    background-color: ${({ isSelected }) => (isSelected ? theme.colors.confirmButton : '#FFF3EA')};// 여기도 FFF3EA
+    background-color: ${({ isSelected }) =>
+      isSelected ? theme.colors.confirmButton : "#FFF3EA"}; // 여기도 FFF3EA
   }
 `;
 
@@ -238,7 +245,7 @@ export const DropdownItem = styled.li`
 export const ResetButton = styled(FaArrowRotateLeft)`
   width: 17px;
   height: 17px;
-  color: #5F5F5F;
+  color: #5f5f5f;
 
   transition: transform 1s ease;
 
@@ -251,13 +258,13 @@ export const BoothList = styled.div`
   height: 100%;
   margin-top: 10px;
   overflow-y: auto;
-  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
+  display: ${({ $isOpen }) => ($isOpen ? "block" : "none")};
 `;
 
 export const NoticeTabling = styled.div`
   padding: 0px 10px 5px 10px;
-  color: #5F5F5F;
-  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']};
+  color: #5f5f5f;
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR["font-family"]};
   font-size: 11px;
   font-style: normal;
   font-weight: 400;
@@ -271,7 +278,7 @@ export const BoothItem = styled.div`
   padding: 10px;
   cursor: pointer;
 
-  background-color: ${({ $isColored }) => ($isColored ? '#FFF3EA' : "#fff")};
+  background-color: ${({ $isColored }) => ($isColored ? "#FFF3EA" : "#fff")};
 `;
 
 export const BoothThumbnail = styled.img`
@@ -292,7 +299,7 @@ export const BoothInfo = styled.div`
 
 export const BoothWrap = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 4px;
 `;
 
@@ -304,15 +311,15 @@ export const LocationButton = styled.div`
 
   width: 50px;
 
-  color: #5F5F5F;
-  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']}; // R
+  color: #5f5f5f;
+  font-family: ${({ theme }) =>
+    theme.fonts.NanumSquareRoundR["font-family"]}; // R
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 
   cursor: pointer;
-
 `;
 
 export const BoothName = styled.div`
@@ -320,13 +327,25 @@ export const BoothName = styled.div`
 
   color: #000;
 
-  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
   font-size: 14.045px;
+`;
+export const reservabletag = styled.div`
+  display: flex;
+  width: 43px;
+  padding: 3.896px 5.454px;
+  align-items: center;
+  gap: 7.791px;
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
+  border-radius: 4.09px;
+  background: #e4ff83;
+  color: var(--Color-blue-blue500, #1851ff);
+  font-family: NanumSquareRoundOTF;
+  font-size: 8.38px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   line-height: normal;
 `;
-
 export const HeartWrap = styled.div`
   display: flex;
   flex-direction: row;
@@ -334,7 +353,7 @@ export const HeartWrap = styled.div`
   gap: 4px;
 
   color: #000;
-  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR["font-family"]};
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -344,9 +363,9 @@ export const HeartWrap = styled.div`
 export const BoothWho = styled.div`
   display: flex;
 
-  color: #5F5F5F;
+  color: #5f5f5f;
 
-  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR["font-family"]};
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -360,8 +379,8 @@ export const NoBooth = styled.div`
 
   height: 100%;
 
-  color: #5F5F5F;
-  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
+  color: #5f5f5f;
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
@@ -377,7 +396,7 @@ export const BoothDetailWrapper = styled.div`
   height: 400px;
   overflow-y: auto;
   ::-webkit-scrollbar {
-	  display:none /* Chrome , Safari , Opera */
+    display: none; /* Chrome , Safari , Opera */
   }
   /* Firefox */
   scrollbar-width: none;
@@ -385,14 +404,14 @@ export const BoothDetailWrapper = styled.div`
   /* Internet Explorer 10+, Edge */
   -ms-overflow-style: none;
 
-
-  background-color: #FFF;
+  background-color: #fff;
   padding: 1.5rem 1.75rem;
   border-radius: 20px 20px 0px 0px;
-  box-shadow: 0px 2px 40px 0px rgba(0, 0, 0, 0.70);
+  box-shadow: 0px 2px 40px 0px rgba(0, 0, 0, 0.7);
   z-index: 30;
 
-  animation: ${({ $isVisible }) => $isVisible ? slideInUp : slideOutDown} 0.75s ease-out;
+  animation: ${({ $isVisible }) => ($isVisible ? slideInUp : slideOutDown)}
+    0.75s ease-out;
 `;
 
 export const BoothDetailImage = styled.img`
@@ -423,7 +442,7 @@ export const BoothDetailLikes = styled.div`
   display: flex;
   gap: 4px;
   font-size: 14px;
-  color: #FF9849;
+  color: #ff9849;
 `;
 
 export const BoothDetailInfo = styled.div`
@@ -457,7 +476,7 @@ export const FilterTag = styled.div`
   height: 16px;
   border-radius: 5px;
 
-  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR["font-family"]};
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -473,7 +492,7 @@ export const DetailTitle = styled.div`
   display: flex;
 
   color: #000;
-  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -484,7 +503,7 @@ export const DetailContext = styled.div`
   display: flex;
 
   color: #000;
-  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR["font-family"]};
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -495,7 +514,7 @@ export const DetailLine = styled.div`
   display: flex;
   width: 100%;
   height: 1px;
-  background-color: #B6B6B6;
+  background-color: #b6b6b6;
 `;
 
 export const BackgroundOverlay = styled.div`
@@ -516,12 +535,12 @@ export const LineNowBox = styled.div`
   height: 25px;
   gap: 18px;
   border-radius: 5.25px;
-  background: #E9FF99;
+  background: #e9ff99;
 `;
 
 export const LineNowText = styled.div`
   color: #333740;
-  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB['font-family']};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
   font-size: 10.5px;
   font-style: normal;
   font-weight: 400;
@@ -545,13 +564,13 @@ export const StyledFaLocationDot = styled(FaLocationDot)`
   width: 15px;
   height: 27px;
 
-  color: #FF9849;
+  color: #ff9849;
 `;
 
 export const StyledIoIosHeart = styled(IoIosHeart)`
   display: flex;
 
-  color: ${({ theme }) => theme.colors.buttonFall };
+  color: ${({ theme }) => theme.colors.buttonFall};
 `;
 
 export const CloseButton = styled(IoIosClose)`
@@ -562,6 +581,5 @@ export const CloseButton = styled(IoIosClose)`
   border: none;
   font-size: 32px;
   cursor: pointer;
-  color: #5F5F5F;
-
+  color: #5f5f5f;
 `;
