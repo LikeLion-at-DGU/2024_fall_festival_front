@@ -15,10 +15,7 @@ const Footer = () => {
   };
 
   const goToGithub = () => {
-    window.open(
-      "https://github.com/LikeLion-at-DGU/2024_fall_festival_front",
-      "_blank"
-    ); // 새로운 탭에서 GitHub 열기
+    window.open("https://github.com/LikeLion-at-DGU", "_blank"); // 새로운 탭에서 GitHub 열기
   };
 
   const goToInstagram = () => {
