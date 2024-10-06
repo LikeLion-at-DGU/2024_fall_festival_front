@@ -1,9 +1,14 @@
 import * as S from "./Styled";
 import X from "../../assets/images/X.svg";
-
+import { useNavigate } from "react-router-dom";
 export const Modal = ({ onClose }) => {
   const handleReviewClick = () => {
     window.location.href = "https://naver.me/5mIX3maX";
+  };
+  const navigate = useNavigate();
+  const homeClick = () => {
+    onClose(); //모달먼저 닫고
+    navigate("/"); // 경로가 ""인 홈화면으로 이동
   };
   return (
     <S.ModalWrapper>
@@ -27,8 +32,8 @@ export const Modal = ({ onClose }) => {
           <S.ReviewButton onClick={handleReviewClick}>
             후기 남기러 가기
           </S.ReviewButton>
-          <S.LaterButton onClick={onClose}>
-            나중에 진행하기
+          <S.LaterButton onClick={homeClick}>
+            홈 화면으로 가기
           </S.LaterButton>
         </S.ButtonWrapper>
       </S.ModalContent>
