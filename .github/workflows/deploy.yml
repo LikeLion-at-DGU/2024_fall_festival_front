@@ -1,32 +1,57 @@
-name: Deploy
+name: Deploy to AWS EC2 using Docker
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
+
+env:
+  DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}
+  EC2_HOST: ${{ secrets.EC2_HOST }}
+  EC2_SSH_USER: ${{ secrets.EC2_SSH_USER }}
+  PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
 jobs:
-  build:
+  build-and-push-docker:
     runs-on: ubuntu-latest
-    container:
-      image: pandoc/latex
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: creates output
-        run: sh ./build.sh
+      - name: Create .env file
+        run: |
+          echo "VITE_BASE_URL=${{ secrets.VITE_BASE_URL }}" > .env
+          echo "VITE_GA_MEASUREMENT_ID=${{ secrets.VITE_GA_MEASUREMENT_ID }}" >> .env
 
-      - name: Pushes to origin repository
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.AUTO_ACTIONS }}
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag ${{ env.DOCKER_IMAGE_NAME }}:latest
+
+      - name: Login to Docker Hub using Access Token
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Push the Docker image
+        run: docker push ${{ env.DOCKER_IMAGE_NAME }}:latest
+
+  deploy-to-ec2:
+    needs: build-and-push-docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
         with:
-          source-directory: "output"
-          destination-github-username: sayyyho
-          destination-repository-name: 2024_fall_festival_front
-          user-email: "323psh@naver.com"
-          commit-message: "배포"
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_SSH_USER }}
+          key: ${{ env.PRIVATE_KEY }}
+          script: |
+            CONTAINER_ID=$(sudo docker ps -aq --filter "name=dgu-booth")
 
-      - name: Test get variable exported by push-to-another-repository
-        run: echo $DESTINATION_CLONED_DIRECTORY
+            if [ ! -z "$CONTAINER_ID" ]; then
+              sudo docker stop $CONTAINER_ID || true
+              sudo docker rm -f $CONTAINER_ID || true
+            fi
+
+            sudo docker pull ${{ env.DOCKER_IMAGE_NAME }}:latest
+            sudo docker run --name dgu-booth-$(date +%s) -d -p 80:80 -p 3000:3000 -e TZ=Asia/Seoul ${{ env.DOCKER_IMAGE_NAME }}:latest
+            sudo docker image prune -f
