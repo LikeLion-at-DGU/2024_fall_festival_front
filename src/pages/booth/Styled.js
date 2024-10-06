@@ -1,6 +1,13 @@
 import styled, { keyframes } from "styled-components";
 import { IoIosArrowDown, IoIosHeart, IoIosClose } from "react-icons/io";
 import { FaLocationDot, FaArrowRotateLeft } from "react-icons/fa6";
+import { BiTargetLock } from "react-icons/bi";
+
+export const userLocationIcon = styled(BiTargetLock)`
+  color: ${({ $followUser }) => ($followUser ? "#ED6308" : "#5F5F5F")};
+  width: 30px;
+  height: 30px;
+`;
 
 //애니메이션 모음
 
@@ -56,13 +63,13 @@ export const Header = styled.div`
   align-items: center;
   width: 100%;
 `;
-
 export const CurrentLocationButton = styled.div`
   display: flex;
   position: absolute;
   z-index: 20;
-  bottom: 80px;
-  left: 10px;
+  position: absolute;
+  top: -35px;
+  left: 2px;
 `;
 
 export const DateSelector = styled.div`
@@ -70,7 +77,7 @@ export const DateSelector = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding: 0.5rem 1rem;
-  gap: 6.65px;
+
   width: 100%;
 `;
 
@@ -80,10 +87,9 @@ export const DateButton = styled.div`
   color: ${({ $active, theme }) =>
     $active ? theme.colors.buttonFall : theme.colors.noneSelected};
   font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
-  padding: 0.625rem 1rem;
-  font-size: 14px;
+
   border: none;
-  border-radius: 5px;
+
   cursor: pointer;
 
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -94,6 +100,9 @@ export const DateButton = styled.div`
     `
     background-color: #FFF3EA;
     color: ${({ theme }) => theme.colors.buttonFall};
+
+
+    
   `}
 
   /* 선택되지 않은 버튼 애니메이션 */
@@ -103,17 +112,39 @@ export const DateButton = styled.div`
     background-color: #FFFFFF;
     color: ${({ theme }) => theme.colors.noneSelected};
   `}
+
+display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 80px;
+  height: 40px;
+  font-size: 14px;
+
+  &:first-of-type {
+    border-radius: 28px 0px 0px 28px;
+  }
+  &:nth-of-type(2) {
+    border-radius: 0px 28px 28px 0px;
+  }
+
+  @media (max-width: 375px) {
+    width: 53.2px;
+    height: 28px;
+    font-size: 11px;
+  }
 `;
 
 // 카카오맵이 들어갈 자리
 export const MapPlaceholder = styled.div`
   width: 100%;
   height: ${({ $isBoothListOpen }) =>
-    $isBoothListOpen ? "calc(100vh - 520px)" : "calc(100vh - 180px)"};
+    $isBoothListOpen ? "calc(100vh - 450px)" : "calc(100vh - 180px)"};
   background-color: #e0e0e0;
   display: flex;
   justify-content: center;
   color: #666;
+  position: relative;
 `;
 
 // 부스 리스트와 필터가 들어가는 Wrapper
@@ -125,10 +156,14 @@ export const BoothListWrapper = styled.div`
   bottom: ${({ $isOpen }) => ($isOpen ? "0" : "-20px")};
   width: 100%;
   max-width: 540px;
-  height: ${({ $isOpen }) => ($isOpen ? "350px" : "0px")};
+  height: ${({ $isOpen }) => ($isOpen ? "400px" : "0px")};
   background-color: inherit;
   transition: bottom 0.5s ease, height 0.5s ease;
   z-index: 10;
+
+  @media (max-width: 375px) {
+    height: ${({ $isOpen }) => ($isOpen ? "350px" : "0px")};
+  }
 `;
 
 // 부스 리스트 헤더
@@ -266,9 +301,6 @@ export const NoticeTabling = styled.div`
   color: #5f5f5f;
   font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR["font-family"]};
   font-size: 11px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 `;
 
 export const BoothItem = styled.div`
@@ -299,7 +331,7 @@ export const BoothInfo = styled.div`
 
 export const BoothWrap = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 4px;
 `;
 
@@ -315,33 +347,26 @@ export const LocationButton = styled.div`
   font-family: ${({ theme }) =>
     theme.fonts.NanumSquareRoundR["font-family"]}; // R
   font-size: 10px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 
   cursor: pointer;
 `;
 
 export const BoothName = styled.div`
   display: flex;
-
   color: #000;
-
   font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
-  font-size: 14.045px;
+  font-size: 14px;
 `;
 export const reservabletag = styled.div`
   display: flex;
   width: 43px;
   padding: 3.896px 5.454px;
   align-items: center;
-  gap: 7.791px;
-  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
+  font-family: ${({ theme }) => theme.fonts.NanumSquareRoundOTF["font-family"]};
   border-radius: 4.09px;
   background: #e4ff83;
-  color: var(--Color-blue-blue500, #1851ff);
-  font-family: NanumSquareRoundOTF;
-  font-size: 8.38px;
+  color: #1851ff;
+  font-size: 8px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -349,42 +374,27 @@ export const reservabletag = styled.div`
 export const HeartWrap = styled.div`
   display: flex;
   flex-direction: row;
-
   gap: 4px;
-
   color: #000;
   font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR["font-family"]};
   font-size: 10px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 `;
 
 export const BoothWho = styled.div`
   display: flex;
-
   color: #5f5f5f;
-
   font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR["font-family"]};
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-size: 10px;
 `;
 
 export const NoBooth = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
   height: 100%;
-
   color: #5f5f5f;
   font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
   font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 `;
 
 //부스 디테일
@@ -475,12 +485,8 @@ export const FilterTag = styled.div`
   width: 46px;
   height: 16px;
   border-radius: 5px;
-
   font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR["font-family"]};
   font-size: 10px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 `;
 
 export const Details = styled.div`
@@ -490,24 +496,16 @@ export const Details = styled.div`
 
 export const DetailTitle = styled.div`
   display: flex;
-
   color: #000;
   font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
   font-size: 10px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 `;
 
 export const DetailContext = styled.div`
   display: flex;
-
   color: #000;
   font-family: ${({ theme }) => theme.fonts.NanumSquareRoundR["font-family"]};
   font-size: 10px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 `;
 
 export const DetailLine = styled.div`
@@ -542,9 +540,6 @@ export const LineNowText = styled.div`
   color: #333740;
   font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
   font-size: 10.5px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 `;
 
 export const LineNowLogo = styled.img`
@@ -563,13 +558,11 @@ export const StyledFaLocationDot = styled(FaLocationDot)`
   text-align: center;
   width: 15px;
   height: 27px;
-
   color: #ff9849;
 `;
 
 export const StyledIoIosHeart = styled(IoIosHeart)`
   display: flex;
-
   color: ${({ theme }) => theme.colors.buttonFall};
 `;
 
