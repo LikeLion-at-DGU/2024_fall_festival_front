@@ -353,6 +353,15 @@ export const BoothPage = () => {
   }, [isBoothListOpen, selectBooth, highlightedBooth]);
 
   useEffect(() => {
+    if (mapRef.current) {
+      // 부스 리스트의 상태가 변경되었을 때
+      setTimeout(() => {
+        mapRef.current.relayout(); // 맵의 레이아웃을 다시 그립니다.
+      }, 0); // 맵 레이아웃 업데이트를 비동기적으로 수행
+    }
+  }, [isBoothListOpen]);
+
+  useEffect(() => {
     let watchId;
     let userMarker = null;
 
@@ -410,7 +419,7 @@ export const BoothPage = () => {
   }, [mapRef.current, followUser]);
 
   useEffect(() => {
-    if (userLocation && mapRef.current) {
+    if (userLocation && mapRef.current && followUser) {
       mapRef.current.relayout();
       setTimeout(() => {
         const userPosition = new window.kakao.maps.LatLng(

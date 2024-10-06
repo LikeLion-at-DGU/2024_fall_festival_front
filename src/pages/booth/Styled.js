@@ -51,17 +51,16 @@ export const MainWrapper = styled.section`
   align-items: center;
   position: relative;
   background-color: white;
-  height: 100vh;
+  /* height: 100vh; */
 `;
 
 // 날짜 토글
 export const Header = styled.div`
   display: flex;
   position: absolute;
-  z-index: 10;
+  z-index: 3;
+  left: 8px;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
 `;
 export const CurrentLocationButton = styled.div`
   display: flex;
@@ -73,11 +72,8 @@ export const CurrentLocationButton = styled.div`
 
 export const DateSelector = styled.div`
   display: flex;
-  align-items: center;
   justify-content: flex-start;
   padding: 0.5rem 1rem;
-
-  width: 100%;
 `;
 
 // DateButton 컴포넌트
@@ -138,8 +134,7 @@ display: flex;
 export const MapPlaceholder = styled.div`
   width: 100%;
   height: ${({ $isBoothListOpen }) =>
-
-    $isBoothListOpen ? "calc(100vh - 580px)" : "calc(100vh - 120px)"};
+    $isBoothListOpen ? "calc(100vh - 400px)" : "calc(100vh)"};
 
   background-color: #e0e0e0;
   display: flex;
@@ -238,7 +233,7 @@ export const Dropdown = styled.ul`
   position: absolute;
   top: 100%;
   left: 0;
-  width: 62px;
+  width: 66px;
   transform: translateX(-0.5px);
   background-color: inherit;
   border: 0.95px solid ${({ theme }) => theme.colors.confirmButton};
