@@ -243,6 +243,7 @@ export const BoothPage = () => {
 
         window.kakao.maps.event.addListener(marker, "click", () => {
           setHighlightedBooth(booth);
+          setIsBoothListOpen(true);
         });
 
         markersRef.current.push({ boothId: booth.id, marker });
@@ -338,7 +339,10 @@ export const BoothPage = () => {
         setTimeout(() => {
           window.kakao.maps.event.trigger(mapRef.current, "resize");
 
-          if (highlightedBooth) {
+          if (!highlightedBooth && !followUser) {
+            const defaultCenter = new window.kakao.maps.LatLng(37.5577, 127.00099); // 기본 좌표 설정
+            mapRef.current.panTo(defaultCenter);
+          } else if (highlightedBooth) {
             const newCenter = new window.kakao.maps.LatLng(
               highlightedBooth.latitude,
               highlightedBooth.longitude

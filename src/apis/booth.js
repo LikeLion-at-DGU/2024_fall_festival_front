@@ -24,7 +24,6 @@ export const getBoothList = async (
 
     // 쿼리 파라미터가 있을 경우 URL에 추가
     const queryString = params.length > 0 ? `?${params.join("&")}` : "";
-    console.log("쿼리 문자열:", queryString);
     const res = await instance.get(`/api/v1/booth/${queryString}`);
 
     return res;
