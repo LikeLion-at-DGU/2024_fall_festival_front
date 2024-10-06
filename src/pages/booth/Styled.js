@@ -128,13 +128,20 @@ display: flex;
     height: 28px;
     font-size: 11px;
   }
+
+  /* 아이폰 12 Pro */
+  @media (max-width: 390px) {
+    width: 55px; /* 또는 필요한 스타일 */
+    height: 28px; /* 또는 필요한 스타일 */
+    font-size: 11px; /* 또는 필요한 스타일 */
+  }
 `;
 
 // 카카오맵이 들어갈 자리
 export const MapPlaceholder = styled.div`
   width: 100%;
   height: ${({ $isBoothListOpen }) =>
-    $isBoothListOpen ? "calc(100vh - 400px)" : "calc(100vh)"};
+    $isBoothListOpen ? "calc(100vh - 350px)" : "calc(100vh)"};
 
   background-color: #e0e0e0;
   display: flex;
@@ -158,7 +165,10 @@ export const BoothListWrapper = styled.div`
   z-index: 10;
 
   @media (max-width: 375px) {
-    height: ${({ $isOpen }) => ($isOpen ? "300px" : "0px")};
+    height: ${({ $isOpen }) => ($isOpen ? "250px" : "0px")};
+  }
+  @media (max-width: 390px) {
+    height: ${({ $isOpen }) => ($isOpen ? "350px" : "0px")};
   }
 `;
 
