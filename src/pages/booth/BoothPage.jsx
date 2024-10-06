@@ -5,6 +5,7 @@ import { TopBar } from "@components/topBar/TopBar";
 import { Modal } from "@components/modal/Modal";
 import { useBoothData } from "../../hook/useBooth";
 import { BoothDetail } from "@components/common/BoothDetail/BoothDetail";
+import { SearchBar } from "@components/searchBar/SearchBar";
 
 import nonselect_GI from "../../assets/images/nonselect_GI.png";
 import nonselect_JU from "../../assets/images/nonselect_JU.png";
@@ -77,10 +78,13 @@ export const BoothPage = () => {
   const boothListRef = useRef(null);
 
   const toggleDropdown = (type) => {
-    setIsDropdownOpen((prevState) => ({
-      ...prevState,
-      [type]: !prevState[type],
-    }));
+    setIsDropdownOpen((prevState) => {
+      const newDropdownState = Object.keys(prevState).reduce((acc, key) => {
+        acc[key] = key === type ? !prevState[key] : false;
+        return acc;
+      }, {});
+      return newDropdownState;
+    });
   };
 
   // 현위치 띄우기 용
@@ -103,6 +107,12 @@ export const BoothPage = () => {
     setSelectedTime("시간");
     setSelectedType("유형");
     setSelectedLocation("위치");
+
+    setIsDropdownOpen({
+      time: false,
+      type: false,
+      location: false,
+    });
 
     const button = e.currentTarget;
 
@@ -155,9 +165,9 @@ export const BoothPage = () => {
 
   // 부스 유형에 따른 초기 마커 이미지 설정 함수
   const getInitialMarkerImage = (booth) => {
-    if (!window.kakao || !window.kakao.maps) return null;
+    let markerImage =
+      booth.category === "야간부스" ? nonselect_JU : nonselect_GI;
 
-    let markerImage = booth.category === "주점" ? nonselect_JU : nonselect_GI;
     return new window.kakao.maps.MarkerImage(
       markerImage,
       new window.kakao.maps.Size(30, 36)
@@ -173,10 +183,9 @@ export const BoothPage = () => {
 
     script.onload = () => {
       window.kakao.maps.load(() => {
-        if (!mapRef.current) return;
         const container = document.getElementById("map");
         const options = {
-          center: new window.kakao.maps.LatLng(37.5567, 127.0003),
+          center: new window.kakao.maps.LatLng(37.5577, 127.00099),
           level: 3,
         };
         mapRef.current = new window.kakao.maps.Map(container, options);
@@ -364,7 +373,7 @@ export const BoothPage = () => {
       <S.MainWrapper>
         {/* 상단 날짜 선택 버튼 */}
         <TopBar openModal={openModal} />
-
+        <SearchBar />
         {/* 카카오맵 자리 */}
         <S.MapPlaceholder
           ref={mapRef}
@@ -387,13 +396,13 @@ export const BoothPage = () => {
               </S.DateButton>
             </S.DateSelector>
           </S.Header>
-          <S.CurrentLocationButton onClick={() => setFollowUser(!followUser)}>
-            {followUser ? "위치 추적 중지" : "현재 위치 보기"}
-          </S.CurrentLocationButton>
         </S.MapPlaceholder>
 
         {/* 부스 리스트 */}
         <S.BoothListWrapper ref={boothListRef} $isOpen={isBoothListOpen}>
+          <S.CurrentLocationButton onClick={() => setFollowUser(!followUser)}>
+            <S.userLocationIcon $followUser={followUser} />
+          </S.CurrentLocationButton>
           <S.BoothListHeader onClick={toggleBoothList}>
             <S.Arrow>
               {isBoothListOpen ? <RxDoubleArrowDown /> : <RxDoubleArrowUp />}
@@ -451,9 +460,9 @@ export const BoothPage = () => {
                       푸드트럭
                     </S.DropdownItem>
                     <S.DropdownItem
-                      onClick={() => handleSelect("type", "주점")}
+                      onClick={() => handleSelect("type", "야간부스")}
                     >
-                      주점
+                      야간부스
                     </S.DropdownItem>
                     <S.DropdownItem
                       onClick={() => handleSelect("type", "예약가능")}
@@ -525,7 +534,9 @@ export const BoothPage = () => {
                   <S.BoothInfo>
                     <S.BoothWrap>
                       <S.BoothName>{booth.name}</S.BoothName>
-                      <div>예약 가능</div>
+                      {booth.is_reservable === true && (
+                        <S.reservabletag>예약 가능</S.reservabletag>
+                      )}
                     </S.BoothWrap>
                     <S.BoothWho>{booth.host}</S.BoothWho>
                   </S.BoothInfo>
