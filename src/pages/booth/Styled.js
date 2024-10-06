@@ -377,9 +377,7 @@ export const reservabletag = styled.div`
   border-radius: 4.09px;
   background: #e4ff83;
   color: #1851ff;
-
-  font-size: 7px;
-
+  font-size: 9px;
   font-weight: 700;
 `;
 export const HeartWrap = styled.div`
