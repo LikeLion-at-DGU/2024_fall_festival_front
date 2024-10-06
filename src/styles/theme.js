@@ -45,13 +45,7 @@ export const theme = {
   },
 
   fonts: {
-    default: fontGenerator(
-      "NanumSquareRoundR",
-      "1rem",
-      "400",
-      "1.5",
-      "normal"
-    ),
+    default: fontGenerator("NanumSquareRoundR", "1rem", "400", "1.5", "normal"),
 
     // Apple SD 산돌고딕 Neo 폰트 설정
     AppleSDGothicNeoH00: fontGenerator("AppleSDGothicNeoH00"),
@@ -66,5 +60,6 @@ export const theme = {
     NanumSquareRoundEB: fontGenerator("NanumSquareRoundEB"),
     NanumSquareRoundR: fontGenerator("NanumSquareRoundR"),
     NanumSquareRoundL: fontGenerator("NanumSquareRoundL"),
+    NanumSquareRoundOTF: fontGenerator("NanumSquareRoundOTF"),
   },
 };

@@ -57,6 +57,10 @@ i {font-style:normal}
     font-family: "AppleSDGothicNeoM00";
     src: url("src/assets/fonts/AppleSDGothicNeoM.ttf") format("truetype");
 }
+@font-face {
+    font-family: "NanumSquareRoundOTF";
+    src: url("src/assets/fonts/NanumSquareRoundOTFB.ttf") format("truetype");
+}
 
 
 //나눔 스퀘어 라운드 폰트 설정
