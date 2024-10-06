@@ -592,7 +592,7 @@ export const BoothPage = () => {
                     <S.BoothWrap>
                       <S.BoothName>{booth.name}</S.BoothName>
                       {booth.is_reservable && (
-                        <S.reservabletag>Line Now</S.reservabletag>
+                        <S.reservabletag>linenow</S.reservabletag>
                       )}
                     </S.BoothWrap>
                     <S.BoothWho>{booth.host}</S.BoothWho>
@@ -627,7 +627,7 @@ export const BoothPage = () => {
                     <S.BoothWrap>
                       <S.BoothName>{booth.name}</S.BoothName>
                       {booth.is_reservable && (
-                        <S.reservabletag>Line Now</S.reservabletag>
+                        <S.reservabletag>linenow</S.reservabletag>
                       )}
                     </S.BoothWrap>
                     <S.BoothWho>{booth.host}</S.BoothWho>

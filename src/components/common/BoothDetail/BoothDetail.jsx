@@ -110,7 +110,7 @@ export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
                             )} ~ ${boothDetailData.end_time.slice(0, 5)}`}
                           {index === 3 && boothDetailData.entrace_fee > 0
                             ? boothDetailData.entrace_fee
-                            : null}
+                            : "-"}
                           {index === 4 && boothDetailData.menus}
                           {index === 5 && boothDetailData.insta_id}
                         </S.DetailContext>
