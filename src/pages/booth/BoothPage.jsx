@@ -11,6 +11,7 @@ import nonselect_GI from "../../assets/images/nonselect_GI.png";
 import nonselect_JU from "../../assets/images/nonselect_JU.png";
 import select_GI from "../../assets/images/select_GI.png";
 import select_JU from "../../assets/images/select_JU.png";
+import Footer from "../../components/about/Footer";
 
 import userLocationIcon from "../../assets/images/userLocation.svg";
 import Footer from "../../components/about/Footer";
@@ -168,9 +169,9 @@ export const BoothPage = () => {
 
   // 부스 유형에 따른 초기 마커 이미지 설정 함수
   const getInitialMarkerImage = (booth) => {
-    if (!window.kakao || !window.kakao.maps) return null;
+    let markerImage =
+      booth.category === "야간부스" ? nonselect_JU : nonselect_GI;
 
-    let markerImage = booth.category === "주점" ? nonselect_JU : nonselect_GI;
     return new window.kakao.maps.MarkerImage(
       markerImage,
       new window.kakao.maps.Size(30, 36)
@@ -468,9 +469,11 @@ export const BoothPage = () => {
                     </S.DropdownItem>
 
                     <S.DropdownItem
+
                       onClick={() => handleSelect("type", "기타")}
                     >
                       기타
+
                     </S.DropdownItem>
                     <S.DropdownItem
                       onClick={() => handleSelect("type", "예약가능")}
@@ -567,7 +570,9 @@ export const BoothPage = () => {
             ) : (
               <S.NoBooth>현재 운영중인 부스가 없어요!</S.NoBooth>
             )}
+
             <Footer />
+
           </S.BoothList>
         </S.BoothListWrapper>
         {/* 선택한 부스 디테일 */}

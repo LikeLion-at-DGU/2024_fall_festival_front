@@ -139,7 +139,9 @@ display: flex;
 export const MapPlaceholder = styled.div`
   width: 100%;
   height: ${({ $isBoothListOpen }) =>
+
     $isBoothListOpen ? "calc(100vh - 350px)" : "calc(100vh - 120px)"};
+
   background-color: #e0e0e0;
   display: flex;
   justify-content: center;
@@ -162,7 +164,9 @@ export const BoothListWrapper = styled.div`
   z-index: 10;
 
   @media (max-width: 375px) {
+
     height: ${({ $isOpen }) => ($isOpen ? "300px" : "0px")};
+
   }
 `;
 
@@ -331,8 +335,10 @@ export const BoothInfo = styled.div`
 
 export const BoothWrap = styled.div`
   display: flex;
+
   flex-direction: row;
   gap: 6px;
+
 `;
 
 export const LocationButton = styled.div`
@@ -355,7 +361,9 @@ export const BoothName = styled.div`
   display: flex;
   color: #000;
   font-family: ${({ theme }) => theme.fonts.NanumSquareRoundB["font-family"]};
+
   font-size: 12px;
+
 `;
 export const reservabletag = styled.div`
   display: flex;
@@ -367,7 +375,9 @@ export const reservabletag = styled.div`
   border-radius: 4.09px;
   background: #e4ff83;
   color: #1851ff;
+
   font-size: 7px;
+
 
   font-weight: 700;
 `;
