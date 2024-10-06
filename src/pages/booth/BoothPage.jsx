@@ -11,6 +11,7 @@ import nonselect_GI from "../../assets/images/nonselect_GI.png";
 import nonselect_JU from "../../assets/images/nonselect_JU.png";
 import select_GI from "../../assets/images/select_GI.png";
 import select_JU from "../../assets/images/select_JU.png";
+import Footer from "../../components/about/Footer";
 
 export const BoothPage = () => {
   // 모달 상태 추가
@@ -554,9 +555,9 @@ export const BoothPage = () => {
             ) : (
               <S.NoBooth>현재 운영중인 부스가 없어요!</S.NoBooth>
             )}
+            <Footer/>
           </S.BoothList>
         </S.BoothListWrapper>
-
         {/* 선택한 부스 디테일 */}
         {selectBooth && (
           <>
