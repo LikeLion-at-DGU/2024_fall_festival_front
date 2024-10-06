@@ -332,7 +332,6 @@ export const BoothPage = () => {
           )
         );
         marker.setZIndex(9999);
-        console.log(`Highlighted Marker ID ${boothId}: zIndex set to 9999`);
       } else {
         // 선택되지 않은 부스는 초기 이미지로 유지하고 z-index 초기화
         const booth = boothData.find((b) => b.id === boothId); // 해당 부스 데이터 찾기
@@ -342,7 +341,6 @@ export const BoothPage = () => {
   
           // 기본 z-index 값 설정
           marker.setZIndex(0);
-          console.log(`Reset Marker ID ${boothId}: zIndex set to 0`);
         }
       }
     });
@@ -369,7 +367,10 @@ export const BoothPage = () => {
         setTimeout(() => {
           window.kakao.maps.event.trigger(mapRef.current, "resize");
 
-          if (highlightedBooth) {
+          if (!highlightedBooth && !followUser) {
+            const defaultCenter = new window.kakao.maps.LatLng(37.5577, 127.00099); // 기본 좌표 설정
+            mapRef.current.panTo(defaultCenter);
+          } else if (highlightedBooth) {
             const newCenter = new window.kakao.maps.LatLng(
               highlightedBooth.latitude,
               highlightedBooth.longitude
