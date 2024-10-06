@@ -161,8 +161,7 @@ export const BoothPage = () => {
     : []; // boothData가 배열이 아닐 경우 빈 배열로 처리
 
   const getInitialMarkerImage = (booth) => {
-    let markerImage =
-      booth.category === "음식점" ? nonselect_JU : nonselect_GI;
+    let markerImage = booth.category === "음식점" ? nonselect_JU : nonselect_GI;
 
     return new window.kakao.maps.MarkerImage(
       markerImage,
@@ -302,18 +301,16 @@ export const BoothPage = () => {
           new window.kakao.maps.MarkerImage(
             markerImage,
             new window.kakao.maps.Size(32, 40)
-            
           )
         );
         marker.setZIndex(9999);
         console.log(`Highlighted Marker ID ${boothId}: zIndex set to 9999`);
       } else {
-
         const booth = boothData.find((b) => b.id === boothId);
         if (booth) {
           const initialImage = getInitialMarkerImage(booth);
           marker.setImage(initialImage);
-  
+
           // 기본 z-index 값 설정
           marker.setZIndex(0);
           console.log(`Reset Marker ID ${boothId}: zIndex set to 0`);
@@ -429,7 +426,10 @@ export const BoothPage = () => {
     <>
       <S.MainWrapper>
         <TopBar openModal={openModal} />
-        <SearchBar setFilteredData={setFilteredData} setIsSearchExecuted={setIsSearchExecuted} />
+        <SearchBar
+          setFilteredData={setFilteredData}
+          setIsSearchExecuted={setIsSearchExecuted}
+        />
         <S.MapPlaceholder
           ref={mapRef}
           $isBoothListOpen={isBoothListOpen}
@@ -585,7 +585,7 @@ export const BoothPage = () => {
                   <S.BoothInfo>
                     <S.BoothWrap>
                       <S.BoothName>{booth.name}</S.BoothName>
-                      {booth.is_reservable === true && (
+                      {booth.is_reservable && (
                         <S.reservabletag>예약 가능</S.reservabletag>
                       )}
                     </S.BoothWrap>
@@ -602,6 +602,8 @@ export const BoothPage = () => {
                   </S.LocationButton>
                 </S.BoothItem>
               ))
+            ) : isSearchExecuted ? (
+              <S.NoBooth>해당 부스가 존재하지 않습니다.</S.NoBooth>
             ) : filteredBooths.length > 0 ? (
               filteredBooths.map((booth) => (
                 <S.BoothItem
@@ -618,7 +620,7 @@ export const BoothPage = () => {
                   <S.BoothInfo>
                     <S.BoothWrap>
                       <S.BoothName>{booth.name}</S.BoothName>
-                      {booth.is_reservable === true && (
+                      {booth.is_reservable && (
                         <S.reservabletag>예약 가능</S.reservabletag>
                       )}
                     </S.BoothWrap>
@@ -636,11 +638,7 @@ export const BoothPage = () => {
                 </S.BoothItem>
               ))
             ) : (
-              isSearchExecuted && (
-                <S.NoBooth>
-                  해당 부스가 존재하지 않습니다. 
-                </S.NoBooth>
-              )
+              <S.NoBooth>해당 부스가 존재하지 않습니다.</S.NoBooth>
             )}
 
             <Footer />
