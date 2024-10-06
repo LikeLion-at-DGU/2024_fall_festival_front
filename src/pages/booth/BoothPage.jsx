@@ -39,12 +39,6 @@ export const BoothPage = () => {
   const dayInKorean = getDayFromDate(selectedDate); // "월" 추출
   const dayInEnglish = translateDayToEnglish(dayInKorean); // "Mon"으로 변환
 
-  //목록리스트 API
-  const { boothData } = useBoothData({
-    day: dayInEnglish,
-  });
-
-  console.log("boothpage:", boothData);
   // 부스 리스트를 띄울 지 말지
   const [isBoothListOpen, setIsBoothListOpen] = useState(true);
 
@@ -53,10 +47,21 @@ export const BoothPage = () => {
   const [selectedType, setSelectedType] = useState("유형");
   const [selectedLocation, setSelectedLocation] = useState("위치");
   const [isDropdownOpen, setIsDropdownOpen] = useState({
-    is_night: false,
-    category: false,
+    time: false,
+    type: false,
     location: false,
   });
+
+  //목록리스트 API
+  const { boothData } = useBoothData({
+    day: dayInEnglish,
+    category: selectedType !== "유형" ? selectedType : undefined,
+    location: selectedLocation !== "위치" ? selectedLocation : undefined,
+    is_night: selectedTime !== "시간" ? selectedTime === "밤" : undefined,
+    is_reservable: undefined,
+  });
+
+  // console.log("boothpage:", boothData);
 
   // 부스 디테일 띄우는 용
   const [selectBooth, setSelectBooth] = useState(null);
@@ -78,17 +83,19 @@ export const BoothPage = () => {
     }));
   };
 
+  // 현위치 띄우기 용
+  const [userLocation, setUserLocation] = useState(null);
+  // 현위치 토글링 용
+  const [followUser, setFollowUser] = useState(false);
+
   const handleSelect = (type, value) => {
-    if (type === "is_night") {
-      const nightValue = value !== undefined ? (value ? "밤" : "낮") : "시간"; // true면 "밤", false면 "낮", undefined면 "시간"
-      setSelectedTime(nightValue);
-    }
-    if (type === "category") setSelectedType(value);
+    if (type === "time") setSelectedTime(value);
+    if (type === "type") setSelectedType(value);
     if (type === "location") setSelectedLocation(value);
 
     setIsDropdownOpen((prevState) => ({
       ...prevState,
-      [type]: false, // 선택 후 필터를 닫는 겁니다아
+      [type]: prevState[type], // 선택 후 필터를 닫는 겁니다아
     }));
   };
 
@@ -148,8 +155,9 @@ export const BoothPage = () => {
 
   // 부스 유형에 따른 초기 마커 이미지 설정 함수
   const getInitialMarkerImage = (booth) => {
-    let markerImage = booth.category === "주점" ? nonselect_JU : nonselect_GI;
+    if (!window.kakao || !window.kakao.maps) return null;
 
+    let markerImage = booth.category === "주점" ? nonselect_JU : nonselect_GI;
     return new window.kakao.maps.MarkerImage(
       markerImage,
       new window.kakao.maps.Size(30, 36)
@@ -165,6 +173,7 @@ export const BoothPage = () => {
 
     script.onload = () => {
       window.kakao.maps.load(() => {
+        if (!mapRef.current) return;
         const container = document.getElementById("map");
         const options = {
           center: new window.kakao.maps.LatLng(37.5567, 127.0003),
@@ -206,7 +215,7 @@ export const BoothPage = () => {
     // 선택된 부스가 없으면 모든 마커를 초기화
     if (!highlightedBooth) {
       markersRef.current.forEach(({ marker, boothId }) => {
-        const booth = oothData.find((b) => b.id === boothId); // 해당 부스 데이터 찾기
+        const booth = boothData.find((b) => b.id === boothId); // 해당 부스 데이터 찾기
         if (booth) {
           // 초기 마커 이미지로 변경
           const initialImage = getInitialMarkerImage(booth);
@@ -266,7 +275,7 @@ export const BoothPage = () => {
 
   useEffect(() => {
     if (mapSizingRef.current && boothListRef.current) {
-      const boothListHeight = isBoothListOpen ? 520 : 180;
+      const boothListHeight = isBoothListOpen ? 420 : 120;
       const mapHeight = `calc(100vh - ${boothListHeight}px)`;
       mapSizingRef.current.style.height = mapHeight;
 
@@ -288,200 +297,261 @@ export const BoothPage = () => {
     }
   }, [isBoothListOpen, selectBooth, highlightedBooth]);
 
+  useEffect(() => {
+    let watchId;
+    let userMarker = null; // 사용자 위치 마커를 저장할 변수
+
+    if (navigator.geolocation && followUser) {
+      // 위치 변경 감지하여 실시간 위치 추적
+      watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+
+          // 사용자 위치 업데이트
+          setUserLocation({ latitude, longitude });
+
+          // 카카오맵 SDK가 로드되고 mapRef가 정의된 이후에만 실행
+          if (window.kakao && window.kakao.maps && mapRef.current) {
+            // 기존 마커가 존재하면 삭제
+            if (userMarker) {
+              userMarker.setMap(null);
+            }
+
+            // 새로운 사용자 위치 마커 생성
+            const userPosition = new window.kakao.maps.LatLng(
+              latitude,
+              longitude
+            );
+            userMarker = new window.kakao.maps.Marker({
+              position: userPosition,
+              map: mapRef.current,
+              title: "현재 위치",
+              image: new window.kakao.maps.MarkerImage(
+                // 파란색 원형 점 이미지 (마커 커스텀)
+                "data:image/svg+xml;charset=UTF-8,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg' fill='%23007bff'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3C/svg%3E",
+                new window.kakao.maps.Size(24, 24), // 마커 사이즈
+                { offset: new window.kakao.maps.Point(12, 12) } // 마커 중앙 위치 설정
+              ),
+            });
+
+            // 지도 중심을 새로운 사용자 위치로 이동
+            mapRef.current.setCenter(userPosition);
+          }
+        },
+        (error) => {
+          setUserLocation({ latitude: 37.5577, longitude: 127.00099 }); // 기본 위치로 설정
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+    }
+
+    return () => {
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId); // 위치 추적 멈추기
+      }
+      if (userMarker) {
+        userMarker.setMap(null); // 컴포넌트 언마운트 시 기존 마커 삭제
+      }
+    };
+  }, [mapRef.current, followUser]); // 토글링을 넣어서 껐다켰다 가능.
+
   return (
     <>
-      {boothData ? (
-        <S.MainWrapper>
-          {/* 상단 날짜 선택 버튼 */}
-          <TopBar openModal={openModal} />
+      <S.MainWrapper>
+        {/* 상단 날짜 선택 버튼 */}
+        <TopBar openModal={openModal} />
 
-          {/* 카카오맵 자리 */}
-          <S.MapPlaceholder
-            ref={mapSizingRef}
-            $isBoothListOpen={isBoothListOpen}
-            id="map"
-          >
-            <S.Header>
-              <S.DateSelector>
-                <S.DateButton
-                  $active={selectedDate === "10/7(월)"}
-                  onClick={() => handleDateChange("10/7(월)")}
-                >
-                  10/7(월)
-                </S.DateButton>
-                <S.DateButton
-                  $active={selectedDate === "10/8(화)"}
-                  onClick={() => handleDateChange("10/8(화)")}
-                >
-                  10/8(화)
-                </S.DateButton>
-              </S.DateSelector>
-            </S.Header>
-          </S.MapPlaceholder>
+        {/* 카카오맵 자리 */}
+        <S.MapPlaceholder
+          ref={mapRef}
+          $isBoothListOpen={isBoothListOpen}
+          id="map"
+        >
+          <S.Header>
+            <S.DateSelector>
+              <S.DateButton
+                $active={selectedDate === "10/7(월)"}
+                onClick={() => handleDateChange("10/7(월)")}
+              >
+                10/7(월)
+              </S.DateButton>
+              <S.DateButton
+                $active={selectedDate === "10/8(화)"}
+                onClick={() => handleDateChange("10/8(화)")}
+              >
+                10/8(화)
+              </S.DateButton>
+            </S.DateSelector>
+          </S.Header>
+          <S.CurrentLocationButton onClick={() => setFollowUser(!followUser)}>
+            {followUser ? "위치 추적 중지" : "현재 위치 보기"}
+          </S.CurrentLocationButton>
+        </S.MapPlaceholder>
+
+        {/* 부스 리스트 */}
+        <S.BoothListWrapper ref={boothListRef} $isOpen={isBoothListOpen}>
+          <S.BoothListHeader onClick={toggleBoothList}>
+            <S.Arrow>
+              {isBoothListOpen ? <RxDoubleArrowDown /> : <RxDoubleArrowUp />}
+            </S.Arrow>
+          </S.BoothListHeader>
+
+          {/* 필터 섹션 (부스 리스트 안에) */}
+          <S.FilterWrapper>
+            <S.Filters>
+              <S.FilterItem
+                $selected={selectedTime !== "시간"}
+                $isOpen={isDropdownOpen.time}
+                onClick={() => toggleDropdown("time")}
+              >
+                {selectedTime}
+                <S.Arrow2>
+                  <S.StyledIoIosArrowDown />
+                </S.Arrow2>
+                {isDropdownOpen.time && (
+                  <S.Dropdown>
+                    <S.DropdownItem
+                      onClick={() => handleSelect("time", undefined)}
+                    >
+                      전체
+                    </S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleSelect("time", "낮")}>
+                      낮
+                    </S.DropdownItem>
+                    <S.DropdownItem onClick={() => handleSelect("time", "밤")}>
+                      밤
+                    </S.DropdownItem>
+                  </S.Dropdown>
+                )}
+              </S.FilterItem>
+
+              <S.FilterItem
+                $selected={selectedType !== "유형"}
+                $isOpen={isDropdownOpen.type}
+                onClick={() => toggleDropdown("type")}
+              >
+                {selectedType}
+                <S.Arrow2>
+                  <S.StyledIoIosArrowDown />
+                </S.Arrow2>
+                {isDropdownOpen.type && (
+                  <S.Dropdown>
+                    <S.DropdownItem
+                      onClick={() => handleSelect("type", "유형")}
+                    >
+                      전체
+                    </S.DropdownItem>
+                    <S.DropdownItem
+                      onClick={() => handleSelect("type", "푸드트럭")}
+                    >
+                      푸드트럭
+                    </S.DropdownItem>
+                    <S.DropdownItem
+                      onClick={() => handleSelect("type", "주점")}
+                    >
+                      주점
+                    </S.DropdownItem>
+                    <S.DropdownItem
+                      onClick={() => handleSelect("type", "기타")}
+                    >
+                      기타
+                    </S.DropdownItem>
+                  </S.Dropdown>
+                )}
+              </S.FilterItem>
+
+              <S.FilterItem
+                $selected={selectedLocation !== "위치"}
+                $isOpen={isDropdownOpen.location}
+                onClick={() => toggleDropdown("location")}
+              >
+                {selectedLocation}
+                <S.Arrow2>
+                  <S.StyledIoIosArrowDown />
+                </S.Arrow2>
+                {isDropdownOpen.location && (
+                  <S.Dropdown>
+                    <S.DropdownItem
+                      onClick={() => handleSelect("location", "위치")}
+                    >
+                      전체
+                    </S.DropdownItem>
+                    <S.DropdownItem
+                      onClick={() => handleSelect("location", "팔정도")}
+                    >
+                      팔정도
+                    </S.DropdownItem>
+                    <S.DropdownItem
+                      onClick={() => handleSelect("location", "만해광장")}
+                    >
+                      만해광장
+                    </S.DropdownItem>
+                  </S.Dropdown>
+                )}
+              </S.FilterItem>
+            </S.Filters>
+
+            {/* 초기화 버튼 */}
+            <S.ResetButton onClick={resetFilters}>초기화</S.ResetButton>
+          </S.FilterWrapper>
 
           {/* 부스 리스트 */}
-          <S.BoothListWrapper ref={boothListRef} $isOpen={isBoothListOpen}>
-            <S.BoothListHeader onClick={toggleBoothList}>
-              <S.Arrow>
-                {isBoothListOpen ? <RxDoubleArrowDown /> : <RxDoubleArrowUp />}
-              </S.Arrow>
-            </S.BoothListHeader>
-
-            {/* 필터 섹션 (부스 리스트 안에) */}
-            <S.FilterWrapper>
-              <S.Filters>
-                <S.FilterItem
-                  selected={selectedTime !== "시간"}
-                  $isOpen={isDropdownOpen.is_night}
-                  onClick={() => toggleDropdown("is_night")}
+          <S.BoothList $isOpen={isBoothListOpen}>
+            <S.NoticeTabling>
+              부스 클릭 시 테이블링 예약 링크로 이동 가능합니다.
+            </S.NoticeTabling>
+            {filteredBooths.length > 0 ? (
+              filteredBooths.map((booth) => (
+                <S.BoothItem
+                  key={booth.id}
+                  ref={(el) => (boothRefs.current[booth.id] = el)} // 각 부스에 ref 추가
+                  $isColored={
+                    highlightedBooth && highlightedBooth.id === booth.id
+                  }
+                  onClick={() => handleSelectBooth(booth)}
                 >
-                  {selectedTime}
-                  <S.Arrow2>
-                    <S.StyledIoIosArrowDown />
-                  </S.Arrow2>
-                  {isDropdownOpen.is_night && (
-                    <S.Dropdown>
-                      <S.DropdownItem
-                        onClick={() => handleSelect("is_night", undefined)}
-                      >
-                        전체
-                      </S.DropdownItem>
-                      <S.DropdownItem
-                        onClick={() => handleSelect("is_night", false)}
-                      >
-                        낮
-                      </S.DropdownItem>
-                      <S.DropdownItem
-                        onClick={() => handleSelect("is_night", true)}
-                      >
-                        밤
-                      </S.DropdownItem>
-                    </S.Dropdown>
-                  )}
-                </S.FilterItem>
-
-                <S.FilterItem
-                  selected={selectedType !== "유형"}
-                  $isOpen={isDropdownOpen.category}
-                  onClick={() => toggleDropdown("category")}
-                >
-                  {selectedType}
-                  <S.Arrow2>
-                    <S.StyledIoIosArrowDown />
-                  </S.Arrow2>
-                  {isDropdownOpen.category && (
-                    <S.Dropdown>
-                      <S.DropdownItem
-                        onClick={() => handleSelect("category", "유형")}
-                      >
-                        전체
-                      </S.DropdownItem>
-                      <S.DropdownItem
-                        onClick={() => handleSelect("category", "푸드트럭")}
-                      >
-                        푸드트럭
-                      </S.DropdownItem>
-                      <S.DropdownItem
-                        onClick={() => handleSelect("category", "주점")}
-                      >
-                        주점
-                      </S.DropdownItem>
-                      <S.DropdownItem
-                        onClick={() => handleSelect("category", "기타")}
-                      >
-                        기타
-                      </S.DropdownItem>
-                    </S.Dropdown>
-                  )}
-                </S.FilterItem>
-
-                <S.FilterItem
-                  selected={selectedLocation !== "위치"}
-                  $isOpen={isDropdownOpen.location}
-                  onClick={() => toggleDropdown("location")}
-                >
-                  {selectedLocation}
-                  <S.Arrow2>
-                    <S.StyledIoIosArrowDown />
-                  </S.Arrow2>
-                  {isDropdownOpen.location && (
-                    <S.Dropdown>
-                      <S.DropdownItem
-                        onClick={() => handleSelect("location", "위치")}
-                      >
-                        전체
-                      </S.DropdownItem>
-                      <S.DropdownItem
-                        onClick={() => handleSelect("location", "팔정도")}
-                      >
-                        팔정도
-                      </S.DropdownItem>
-                      <S.DropdownItem
-                        onClick={() => handleSelect("location", "만해광장")}
-                      >
-                        만해광장
-                      </S.DropdownItem>
-                    </S.Dropdown>
-                  )}
-                </S.FilterItem>
-              </S.Filters>
-
-              {/* 초기화 버튼 */}
-              <S.ResetButton onClick={resetFilters}>초기화</S.ResetButton>
-            </S.FilterWrapper>
-
-            {/* 부스 리스트 */}
-            <S.BoothList $isOpen={isBoothListOpen}>
-              <S.NoticeTabling>
-                부스 클릭 시 테이블링 예약 링크로 이동 가능합니다.
-              </S.NoticeTabling>
-              {filteredBooths.length > 0 ? (
-                filteredBooths.map((booth) => (
-                  <S.BoothItem
-                    key={booth.id}
-                    ref={(el) => (boothRefs.current[booth.id] = el)} // 각 부스에 ref 추가
-                    $isColored={
-                      highlightedBooth && highlightedBooth.id === booth.id
-                    }
-                    onClick={() => handleSelectBooth(booth)}
+                  <S.BoothThumbnail
+                    src={booth.thumbnail || "default_image_url.png"}
+                  />
+                  <S.BoothInfo>
+                    <S.BoothWrap>
+                      <S.BoothName>{booth.name}</S.BoothName>
+                    </S.BoothWrap>
+                    <S.BoothWho>{booth.host}</S.BoothWho>
+                  </S.BoothInfo>
+                  <S.LocationButton
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleBoothLocation(booth.id);
+                    }}
                   >
-                    {/* 나중에 좋아요순으로 수정 */}
-                    <S.BoothThumbnail src={booth.details_image[0]} />
-                    <S.BoothInfo>
-                      <S.BoothWrap>
-                        <S.BoothName>{booth.name}</S.BoothName>
-                      </S.BoothWrap>
-                      <S.BoothWho>{booth.host}</S.BoothWho>
-                    </S.BoothInfo>
-                    <S.LocationButton
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleBoothLocation(booth.id);
-                      }}
-                    >
-                      <S.StyledFaLocationDot />
-                      위치 보기
-                    </S.LocationButton>
-                  </S.BoothItem>
-                ))
-              ) : (
-                <S.NoBooth>현재 운영중인 부스가 없어요!</S.NoBooth>
-              )}
-            </S.BoothList>
-          </S.BoothListWrapper>
+                    <S.StyledFaLocationDot />
+                    위치 보기
+                  </S.LocationButton>
+                </S.BoothItem>
+              ))
+            ) : (
+              <S.NoBooth>현재 운영중인 부스가 없어요!</S.NoBooth>
+            )}
+          </S.BoothList>
+        </S.BoothListWrapper>
 
-          {/* 선택한 부스 디테일 */}
-          {selectBooth && (
+        {/* 선택한 부스 디테일 */}
+        {selectBooth && (
+          <>
             <BoothDetail
               booth_id={selectBooth.id}
+              boothInfo={selectBooth}
               onClose={() => setSelectBooth(null)}
             />
-          )}
-          {isModalOpen && <Modal onClose={closeModal} />}
-        </S.MainWrapper>
-      ) : (
-        <div>데이터 없습니다.</div>
-      )}
+          </>
+        )}
+        {isModalOpen && <Modal onClose={closeModal} />}
+      </S.MainWrapper>
     </>
   );
 };
