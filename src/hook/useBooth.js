@@ -11,11 +11,8 @@ export const useBoothData = ({
   const [boothData, setBoothData] = useState(null);
 
   const fetchBoothData = async () => {
+    console.log("fetchBoothData 호출됨");
     try {
-      if (!day) {
-        console.warn("day 값이 없습니다. 기본값을 사용합니다.");
-        return; // day 값이 없을 경우 요청을 보내지 않음
-      }
       const res = await getBoothList(
         day,
         category,
@@ -24,6 +21,7 @@ export const useBoothData = ({
         is_reservable
       );
       const resData = res.data;
+      console.log("resData:", resData);
       setBoothData(resData);
     } catch (error) {
       console.error("API 요청 에러:", error);
@@ -31,7 +29,10 @@ export const useBoothData = ({
   };
 
   useEffect(() => {
-    fetchBoothData();
+    if (day) {
+      // day가 있을 때만 API 호출
+      fetchBoothData();
+    }
   }, [day, category, location, is_night, is_reservable]);
 
   return { boothData };

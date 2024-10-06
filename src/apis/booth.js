@@ -20,14 +20,14 @@ export const getBoothList = async (
     if (is_night !== null && is_night !== undefined)
       params.push(`is_night=${is_night}`);
     if (is_reservable !== null && is_reservable !== undefined)
-
       params.push(`is_reservable=${is_reservable}`);
 
     // 쿼리 파라미터가 있을 경우 URL에 추가
     const queryString = params.length > 0 ? `?${params.join("&")}` : "";
-
+    console.log("쿼리 문자열:", queryString);
     const res = await instance.get(`/api/v1/booth/${queryString}`);
     console.log("booth.js에서의 res 값", res);
+
     return res;
   } catch (err) {
     console.error("API 요청 중 오류 발생:", err);

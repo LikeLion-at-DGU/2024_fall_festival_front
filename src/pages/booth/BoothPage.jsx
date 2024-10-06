@@ -4,9 +4,8 @@ import { RxDoubleArrowDown, RxDoubleArrowUp } from "react-icons/rx";
 import { TopBar } from "@components/topBar/TopBar";
 import { Modal } from "@components/modal/Modal";
 import { useBoothData } from "../../hook/useBooth";
-
 import { BoothDetail } from "@components/common/BoothDetail/BoothDetail";
-import BoothData from "../../../src/boothdata/Boothdata";
+
 import nonselect_GI from "../../assets/images/nonselect_GI.png";
 import nonselect_JU from "../../assets/images/nonselect_JU.png";
 import select_GI from "../../assets/images/select_GI.png";
@@ -41,16 +40,6 @@ export const BoothPage = () => {
   const dayInKorean = getDayFromDate(selectedDate); // "월" 추출
   const dayInEnglish = translateDayToEnglish(dayInKorean); // "Mon"으로 변환
 
-  //목록리스트 API
-  const { boothData } = useBoothData({
-    day: dayInEnglish,
-  });
-  console.log("boothpage:", boothData);
-  
-  if (!boothData) {
-    // 데이터가 없을 경우 처리
-    return <div>Loading...</div>; // 또는 placeholder 컴포넌트
-  }
   // 부스 리스트를 띄울 지 말지
   const [isBoothListOpen, setIsBoothListOpen] = useState(true);
 
@@ -63,6 +52,17 @@ export const BoothPage = () => {
     type: false,
     location: false,
   });
+
+  //목록리스트 API
+  const { boothData } = useBoothData({
+    day: dayInEnglish,
+    category: selectedType !== "유형" ? selectedType : undefined,
+    location: selectedLocation !== "위치" ? selectedLocation : undefined,
+    is_night: selectedTime !== "시간" ? selectedTime === "밤" : undefined,
+    is_reservable: undefined,
+  });
+
+  // console.log("boothpage:", boothData);
 
   // 부스 디테일 띄우는 용
   const [selectBooth, setSelectBooth] = useState(null);
@@ -77,21 +77,17 @@ export const BoothPage = () => {
   const mapSizingRef = useRef(null);
   const boothListRef = useRef(null);
 
+  const toggleDropdown = (type) => {
+    setIsDropdownOpen((prevState) => ({
+      ...prevState,
+      [type]: !prevState[type],
+    }));
+  };
+
   // 현위치 띄우기 용
   const [userLocation, setUserLocation] = useState(null);
   // 현위치 토글링 용
   const [followUser, setFollowUser] = useState(false);
-
-  const toggleDropdown = (type) => {
-    setIsDropdownOpen((prevState) => {
-      const newDropdownState = Object.keys(prevState).reduce((acc, key) => {
-        acc[key] = key === type ? !prevState[key] : false;
-        return acc;
-      }, {});
-      return newDropdownState;
-    });
-  };
-  // 선택한 필터만 열고 나머지는 닫히도록
 
   const handleSelect = (type, value) => {
     if (type === "time") setSelectedTime(value);
@@ -109,12 +105,6 @@ export const BoothPage = () => {
     setSelectedType("유형");
     setSelectedLocation("위치");
 
-    setIsDropdownOpen({
-      time: false,
-      type: false,
-      location: false,
-    });
-
     const button = e.currentTarget;
 
     button.style.transform = "rotate(0deg)";
@@ -128,7 +118,7 @@ export const BoothPage = () => {
 
   // 부스 위치 버튼 클릭시 ! - 나중에 카카오맵에서 해당 위치를 카카오 맵에 띄우기
   const handleBoothLocation = (boothId) => {
-    const booth = BoothData.find((booth) => booth.id === boothId);
+    const booth = boothData.find((booth) => booth.id === boothId);
     setHighlightedBooth(booth);
   };
 
@@ -148,24 +138,27 @@ export const BoothPage = () => {
     setHighlightedBooth(booth);
   };
 
-  const filteredBooths = BoothData.filter((booth) => {
-    const timeMatch =
-      selectedTime === "시간" || booth.filters.time === selectedTime;
-    const typeMatch =
-      selectedType === "유형" || booth.filters.type === selectedType;
-    const locationMatch =
-      selectedLocation === "위치" ||
-      booth.filters.location === selectedLocation;
+  // boothData가 null 또는 undefined일 수 있으니 체크
+  const filteredBooths = Array.isArray(boothData)
+    ? boothData.filter((booth) => {
+        const timeMatch =
+          selectedTime === "시간" ||
+          (selectedTime === "밤" && booth.is_night === true) ||
+          (selectedTime === "낮" && booth.is_night === false);
+        const typeMatch =
+          selectedType === "유형" || booth.category === selectedType;
+        const locationMatch =
+          selectedLocation === "위치" || booth.location === selectedLocation;
 
-    // 모든 필터 조건을 만족하는 부스만 반환
-    return timeMatch && typeMatch && locationMatch;
-  });
+        return timeMatch && typeMatch && locationMatch;
+      })
+    : []; // boothData가 배열이 아닐 경우 빈 배열로 처리
 
   // 부스 유형에 따른 초기 마커 이미지 설정 함수
   const getInitialMarkerImage = (booth) => {
-    let markerImage =
-      booth.filters.type === "주점" ? nonselect_JU : nonselect_GI;
+    if (!window.kakao || !window.kakao.maps) return null;
 
+    let markerImage = booth.category === "주점" ? nonselect_JU : nonselect_GI;
     return new window.kakao.maps.MarkerImage(
       markerImage,
       new window.kakao.maps.Size(30, 36)
@@ -181,9 +174,10 @@ export const BoothPage = () => {
 
     script.onload = () => {
       window.kakao.maps.load(() => {
+        if (!mapRef.current) return;
         const container = document.getElementById("map");
         const options = {
-          center: new window.kakao.maps.LatLng(37.5577, 127.00099),
+          center: new window.kakao.maps.LatLng(37.5567, 127.0003),
           level: 3,
         };
         mapRef.current = new window.kakao.maps.Map(container, options);
@@ -222,7 +216,7 @@ export const BoothPage = () => {
     // 선택된 부스가 없으면 모든 마커를 초기화
     if (!highlightedBooth) {
       markersRef.current.forEach(({ marker, boothId }) => {
-        const booth = BoothData.find((b) => b.id === boothId); // 해당 부스 데이터 찾기
+        const booth = boothData.find((b) => b.id === boothId); // 해당 부스 데이터 찾기
         if (booth) {
           // 초기 마커 이미지로 변경
           const initialImage = getInitialMarkerImage(booth);
@@ -248,9 +242,9 @@ export const BoothPage = () => {
       // 선택된 부스의 마커를 변경
       if (isHighlighted) {
         let markerImage;
-        if (highlightedBooth.filters.type === "주점") {
+        if (highlightedBooth.category === "주점") {
           markerImage = select_JU; // 선택된 주점일 경우
-        } else if (highlightedBooth.filters.type === "기타") {
+        } else if (highlightedBooth.category === "기타") {
           markerImage = select_GI; // 선택된 기타일 경우
         } else {
         }
@@ -262,7 +256,7 @@ export const BoothPage = () => {
         );
       } else {
         // 선택되지 않은 부스는 초기 이미지로 유지
-        const booth = BoothData.find((b) => b.id === boothId); // 해당 부스 데이터 찾기
+        const booth = boothData.find((b) => b.id === boothId); // 해당 부스 데이터 찾기
         if (booth) {
           const initialImage = getInitialMarkerImage(booth);
           marker.setImage(initialImage);
@@ -369,16 +363,16 @@ export const BoothPage = () => {
   return (
     <>
       <S.MainWrapper>
+        {/* 상단 날짜 선택 버튼 */}
         <TopBar openModal={openModal} />
 
         {/* 카카오맵 자리 */}
         <S.MapPlaceholder
-          ref={mapSizingRef}
+          ref={mapRef}
           $isBoothListOpen={isBoothListOpen}
           id="map"
         >
           <S.Header>
-            {/* 상단 날짜 선택 버튼 */}
             <S.DateSelector>
               <S.DateButton
                 $active={selectedDate === "10/7(월)"}
@@ -422,7 +416,7 @@ export const BoothPage = () => {
                 {isDropdownOpen.time && (
                   <S.Dropdown>
                     <S.DropdownItem
-                      onClick={() => handleSelect("time", "시간")}
+                      onClick={() => handleSelect("time", undefined)}
                     >
                       전체
                     </S.DropdownItem>
@@ -461,6 +455,11 @@ export const BoothPage = () => {
                       onClick={() => handleSelect("type", "주점")}
                     >
                       주점
+                    </S.DropdownItem>
+                    <S.DropdownItem
+                      onClick={() => handleSelect("type", "예약가능")}
+                    >
+                      예약가능
                     </S.DropdownItem>
                     <S.DropdownItem
                       onClick={() => handleSelect("type", "기타")}
@@ -521,13 +520,15 @@ export const BoothPage = () => {
                   }
                   onClick={() => handleSelectBooth(booth)}
                 >
-                  {/* 나중에 좋아요순으로 수정 */}
-                  <S.BoothThumbnail src={booth.image} />
+                  <S.BoothThumbnail
+                    src={booth.thumbnail || "default_image_url.png"}
+                  />
                   <S.BoothInfo>
                     <S.BoothWrap>
-                      <S.BoothName>{booth.boothName}</S.BoothName>
+                      <S.BoothName>{booth.name}</S.BoothName>
+                      <div>예약 가능</div>
                     </S.BoothWrap>
-                    <S.BoothWho>{booth.owner}</S.BoothWho>
+                    <S.BoothWho>{booth.host}</S.BoothWho>
                   </S.BoothInfo>
                   <S.LocationButton
                     onClick={(e) => {
@@ -548,78 +549,13 @@ export const BoothPage = () => {
         </S.BoothListWrapper>
         {/* 선택한 부스 디테일 */}
         {selectBooth && (
-          <BoothDetail
-            booth_id={selectBooth.id} // 선택된 부스 ID 전달
-            onClose={() => setSelectBooth(null)}
-          />
-          /* <S.BackgroundOverlay onClick={() => setSelectBooth(null)} />
-            <S.BoothDetailWrapper $isVisible={selectBooth}>
-              <S.BoothDetailContent>
-              <S.CloseButton onClick={() => setSelectBooth(null)}>X</S.CloseButton>
-                <S.BoothDetailHeader>
-                  <S.FilterLeft>
-                    <S.BoothDetailName>{selectBooth.boothName}</S.BoothDetailName>
-                    <S.FilterInfo>
-                      <S.FilterTag
-                        $bgColor={selectBooth.filters.time === '낮' ? "#FFF2AD" : "#D4EAFF"}
-                        $FontColor={selectBooth.filters.time === '낮' ? "#6D5C00" : "#00326D"}
-                      >{selectBooth.filters.time}부스</S.FilterTag>
-                      <S.FilterTag $bgColor="#FFD5D5" $FontColor="#FF0000">{selectBooth.filters.type}</S.FilterTag>
-                      <S.FilterTag $bgColor="#FFD9A1" $FontColor="#DB4200">{selectBooth.filters.location}</S.FilterTag>
-                    </S.FilterInfo>
-                  </S.FilterLeft>
-                </S.BoothDetailHeader>
-                <S.BoothDetailImage src={selectBooth.image} alt={selectBooth.boothName} />
-                <S.BoothDetailInfo>
-                  
-                  {selectBooth.description && (
-                    <S.Details>
-                      <S.DetailTitle>한줄소개</S.DetailTitle>
-                      <S.DetailContext>{selectBooth.description}</S.DetailContext>
-                    </S.Details>
-                  )}
-                  {selectBooth.owner && (
-                    <S.Details>
-                      <S.DetailTitle>운영주체</S.DetailTitle>
-                      <S.DetailContext>{selectBooth.owner}</S.DetailContext>
-                    </S.Details>
-                  )}
-                  {selectBooth.operationTime && (
-                    <S.Details>
-                      <S.DetailTitle>운영시간</S.DetailTitle>
-                      <S.DetailContext>{selectBooth.operationTime}</S.DetailContext>
-                    </S.Details>
-                  )}
-                  <S.DetailLine />
-                  {selectBooth.entranceFee && (
-                    <S.Details>
-                      <S.DetailTitle>입장료</S.DetailTitle>
-                      <S.DetailContext>{selectBooth.entranceFee}</S.DetailContext>
-                    </S.Details>
-                  )}
-                  {selectBooth.menu && (
-                    <S.Details>
-                      <S.DetailTitle>대표메뉴</S.DetailTitle>
-                      <S.DetailContext>{selectBooth.menu}</S.DetailContext>
-                    </S.Details>
-                  )}
-                  <S.DetailLine />
-                  {selectBooth.instagram && (
-                    <S.Details>
-                      <S.DetailTitle>인스타</S.DetailTitle>
-                      <S.DetailContext>{selectBooth.instagram}</S.DetailContext>
-                    </S.Details>
-                  )}
-                  {selectBooth.filters.type === "주점" && (
-                    <S.LineNowBox>
-                      <S.LineNowText>테이블링 예약하기</S.LineNowText>
-                      <S.LineNowLogo src={LinenowLogo}></S.LineNowLogo>
-                    </S.LineNowBox>
-                  )}
-                </S.BoothDetailInfo>
-              </S.BoothDetailContent>
-            </S.BoothDetailWrapper>
-           */
+          <>
+            <BoothDetail
+              booth_id={selectBooth.id}
+              boothInfo={selectBooth}
+              onClose={() => setSelectBooth(null)}
+            />
+          </>
         )}
         {isModalOpen && <Modal onClose={closeModal} />}
       </S.MainWrapper>

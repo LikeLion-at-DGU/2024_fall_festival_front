@@ -8,7 +8,7 @@ import Footer from "@components/about/Footer";
 export const AboutPage = () => {
   return (
     <S.MainWrapper>
-      <TopBar/>
+      < TopBar />
       <LikeLionLink />
       <AboutCard />
       <Footer />
