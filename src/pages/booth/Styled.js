@@ -66,9 +66,9 @@ export const Header = styled.div`
 export const CurrentLocationButton = styled.div`
   display: flex;
   position: absolute;
-  z-index: 10;
-  top: -35px;
-  left: 2px;
+  z-index: 20;
+  top: -55px;
+  left: 10px;
 `;
 
 export const DateSelector = styled.div`
@@ -224,7 +224,7 @@ export const FilterItem = styled.div`
     $selected ? "#FFFFFF" : theme.colors.fall};
 
   cursor: pointer;
-  width: 62px;
+  width: 66px;
   height: 29px;
 `;
 
