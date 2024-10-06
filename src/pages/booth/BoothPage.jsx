@@ -575,9 +575,6 @@ export const BoothPage = () => {
           </S.FilterWrapper>
 
           <S.BoothList $isOpen={isBoothListOpen}>
-            <S.NoticeTabling>
-              부스 클릭 시 테이블링 예약 링크로 이동 가능합니다.
-            </S.NoticeTabling>
             {filteredData && filteredData.length > 0 ? (
               filteredData.map((booth) => (
                 <S.BoothItem
@@ -595,7 +592,7 @@ export const BoothPage = () => {
                     <S.BoothWrap>
                       <S.BoothName>{booth.name}</S.BoothName>
                       {booth.is_reservable && (
-                        <S.reservabletag>예약 가능</S.reservabletag>
+                        <S.reservabletag>Line Now</S.reservabletag>
                       )}
                     </S.BoothWrap>
                     <S.BoothWho>{booth.host}</S.BoothWho>
@@ -630,7 +627,7 @@ export const BoothPage = () => {
                     <S.BoothWrap>
                       <S.BoothName>{booth.name}</S.BoothName>
                       {booth.is_reservable && (
-                        <S.reservabletag>예약 가능</S.reservabletag>
+                        <S.reservabletag>Line Now</S.reservabletag>
                       )}
                     </S.BoothWrap>
                     <S.BoothWho>{booth.host}</S.BoothWho>

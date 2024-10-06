@@ -67,8 +67,8 @@ export const NameContainer = styled.div`
     color: #000;
     text-align: center;
     ${({ theme }) => theme.fonts.AppleSDGothicNeoB00};
-
     font-size: 15px;
+    max-width: 40%;
   }
 `;
 
