@@ -26,7 +26,6 @@ export const getBoothList = async (
     const queryString = params.length > 0 ? `?${params.join("&")}` : "";
     console.log("쿼리 문자열:", queryString);
     const res = await instance.get(`/api/v1/booth/${queryString}`);
-    console.log("booth.js에서의 res 값", res);
 
     return res;
   } catch (err) {
