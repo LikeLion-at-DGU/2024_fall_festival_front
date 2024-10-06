@@ -3,7 +3,7 @@ import * as S from "./SearchBarStyle";
 import searchIcon from "../../assets/images/searchIcon.svg";
 import { useBoothData } from "../../hook/useBooth"; // boothpage.jsx와 동일한 방식으로 데이터 훅 사용
 
-export const SearchBar = ({ setFilteredData }) => {
+export const SearchBar = ({ setFilteredData, setIsSearchExecuted }) => {
   const [searchWord, setSearchWord] = useState(""); // 검색어 입력 상태 관리
 
   const handleInput = (e) => {
@@ -19,9 +19,15 @@ export const SearchBar = ({ setFilteredData }) => {
   });
 
   const combinedBoothData = [...(boothData1 || []), ...(boothData2 || [])];
+
   // 검색어를 통해 부스 데이터를 필터링
   const handleSearch = () => {
-    if (!searchWord) return;
+    setIsSearchExecuted(true); // 검색이 실행되면 상태를 true로 변경
+
+    if (!searchWord.trim()) {
+      setFilteredData(combinedBoothData); // 모든 부스를 다시 설정
+      return;
+    }
 
     const filteredData = combinedBoothData?.filter(
       (booth) =>
@@ -33,9 +39,10 @@ export const SearchBar = ({ setFilteredData }) => {
       setFilteredData(filteredData);
     } else {
       console.log("검색 결과가 없습니다.");
-      setFilteredData([]);
+      setFilteredData([]); // 검색 결과가 없을 경우 빈 배열로 설정
     }
   };
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSearch();

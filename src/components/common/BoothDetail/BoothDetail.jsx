@@ -80,41 +80,51 @@ export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
         </S.imgWrapper>
         <S.DetailInfo>
           <S.Details>
-            {Detailtitle.map((title, index) => (
-              <div className="InfoWrapper" key={index}>
-                <div className="InfoContainer">
-                  <S.DetailTitle>{title}</S.DetailTitle>
-                  <S.DetailContextContainer>
-                    <S.DetailContext
-                      index={index}
-                      onClick={() => {
-                        if (index === 5) {
-                          // 인스타그램 ID인 경우
-                          window.open(
-                            `https://instagram.com/${boothDetailData.insta_id}`,
-                            "_blank"
-                          ); // 새 탭에서 열기
-                        }
-                      }}
-                      style={{ cursor: index === 5 ? "pointer" : "default" }}
-                    >
-                      {index === 0 && boothDetailData.detail_description}
-                      {index === 1 && boothDetailData.host}
-                      {index === 2 &&
-                        `${boothDetailData.start_time.slice(
-                          0,
-                          5
-                        )} ~ ${boothDetailData.end_time.slice(0, 5)}`}
-                      {index === 3 && boothDetailData.entrace_fee}
-                      {index === 4 && boothDetailData.menus}
-                      {index === 5 && boothDetailData.insta_id}
-                    </S.DetailContext>
-                  </S.DetailContextContainer>
+            {Detailtitle.map((title, index) => {
+              if (index === 5 && !boothDetailData.insta_id) return null;
+              return (
+                <div className="InfoWrapper" key={index}>
+                  <div className="InfoContainer">
+                    <S.DetailTitle>{title}</S.DetailTitle>
+                    <S.DetailContextContainer>
+                      {index !== 5 || boothDetailData.insta_id ? (
+                        <S.DetailContext
+                          index={index}
+                          onClick={() => {
+                            if (index === 5 && boothDetailData.insta_id) {
+                              // 인스타그램 ID인 경우
+                              window.open(
+                                `https://instagram.com/${boothDetailData.insta_id}`,
+                                "_blank"
+                              ); // 새 탭에서 열기
+                            }
+                          }}
+                          style={{
+                            cursor:
+                              index === 5 && boothDetailData.insta_id
+                                ? "pointer"
+                                : "default",
+                          }}
+                        >
+                          {index === 0 && boothDetailData.detail_description}
+                          {index === 1 && boothDetailData.host}
+                          {index === 2 &&
+                            `${boothDetailData.start_time.slice(
+                              0,
+                              5
+                            )} ~ ${boothDetailData.end_time.slice(0, 5)}`}
+                          {index === 3 && boothDetailData.entrace_fee}
+                          {index === 4 && boothDetailData.menus}
+                          {index === 5 && boothDetailData.insta_id}
+                        </S.DetailContext>
+                      ) : null}
+                    </S.DetailContextContainer>
+                  </div>
+                  {index === 2 && <S.Divider />}
+                  {index === 4 && <S.Divider />}
                 </div>
-                {index === 2 && <S.Divider />}
-                {index === 4 && <S.Divider />}
-              </div>
-            ))}
+              );
+            })}
           </S.Details>
         </S.DetailInfo>
       </S.DetailContent>
