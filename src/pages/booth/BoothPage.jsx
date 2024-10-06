@@ -304,7 +304,6 @@ export const BoothPage = () => {
           )
         );
         marker.setZIndex(9999);
-        console.log(`Highlighted Marker ID ${boothId}: zIndex set to 9999`);
       } else {
         const booth = boothData.find((b) => b.id === boothId);
         if (booth) {
@@ -313,7 +312,6 @@ export const BoothPage = () => {
 
           // 기본 z-index 값 설정
           marker.setZIndex(0);
-          console.log(`Reset Marker ID ${boothId}: zIndex set to 0`);
         }
       }
     });

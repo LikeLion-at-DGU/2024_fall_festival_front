@@ -35,10 +35,8 @@ export const SearchBar = ({ setFilteredData, setIsSearchExecuted }) => {
     );
 
     if (filteredData?.length > 0) {
-      console.log("검색 결과:", filteredData);
       setFilteredData(filteredData);
     } else {
-      console.log("검색 결과가 없습니다.");
       setFilteredData([]); // 검색 결과가 없을 경우 빈 배열로 설정
     }
   };
