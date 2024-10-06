@@ -256,6 +256,7 @@ export const BoothPage = () => {
 
         window.kakao.maps.event.addListener(marker, "click", () => {
           setHighlightedBooth(booth);
+          setIsBoothListOpen(true);
         });
 
         markersRef.current.push({ boothId: booth.id, marker });
