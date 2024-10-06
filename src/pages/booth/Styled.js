@@ -140,7 +140,7 @@ export const MapPlaceholder = styled.div`
   width: 100%;
   height: ${({ $isBoothListOpen }) =>
 
-    $isBoothListOpen ? "calc(100vh - 350px)" : "calc(100vh - 120px)"};
+    $isBoothListOpen ? "calc(100vh - 580px)" : "calc(100vh - 120px)"};
 
   background-color: #e0e0e0;
   display: flex;
