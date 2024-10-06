@@ -53,24 +53,24 @@ export const Background = styled.div`
   align-items: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, #FFEFE3 0%, #FFF 100%);
+  background: linear-gradient(180deg, #ffefe3 0%, #fff 100%);
 `;
 
 export const MainText = styled.div`
-  color: #FFBA85;
+  color: #ffba85;
   font-size: 12px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
 `;
-
 export const Leaves = styled.img`
   position: absolute;
   top: -50px;
-  left: ${(props) => props.left};
-  width: ${(props) => props.size}px;
+  left: ${(props) => props.$left}; // transient prop로 변경
+  width: ${(props) => props.$size}px; // props 사용 시에도 transient로 변경
   height: auto;
   opacity: 1;
 
-  animation: ${fallAnimation} ${(props) => props.duration} ease-in-out ${(props) => props.delay} infinite;
+  animation: ${fallAnimation} ${(props) => props.$duration} ease-in-out
+    ${(props) => props.$delay} infinite;
 `;
