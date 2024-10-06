@@ -13,10 +13,6 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <MainPage />,
-      },
-      {
-        path: "/booth-test",
         element: <BoothPage />,
       },
 
