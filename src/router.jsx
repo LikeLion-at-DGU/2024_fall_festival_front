@@ -22,10 +22,8 @@ export const router = createBrowserRouter([
 
       { path: "/about", element: <AboutPage /> },
       //에러페이지
-      {
-        path: "/error",
-        element: <NotFound />,
-      },
     ],
+
+    errorElement: <NotFound />, // ErrorBoundary에 에러 핸들링 적용
   },
 ]);
