@@ -139,12 +139,12 @@ export const DetailInfo = styled.div`
 export const Details = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+
   gap: 10px;
   .InfoContainer {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    justify-content: space-between;
   }
   .InfoWrapper {
     display: flex;
@@ -160,16 +160,20 @@ export const DetailTitle = styled.div`
   font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoB00["font-family"]};
   font-size: 12px;
 `;
-export const DetailContext = styled.div`
+export const DetailContextContainer = styled.div`
   display: flex;
-  background-color: ${(props) => (props.index === 5 ? "#ffe3e3" : "FFE1DA")};
-  color: ${(props) => (props.index === 5 ? "#ED6308" : "000")};
+  width: 75%;
+  justify-content: flex-start;
+`;
 
-  border-radius: ${(props) => (props.index === 5 ? "5px" : "0")};
-  padding: ${(props) => (props.index === 5 ? "0.2rem" : "0")};
-
+export const DetailContext = styled.div`
   font-family: ${({ theme }) => theme.fonts.AppleSDGothicNeoR00["font-family"]};
   font-size: 10px;
+  display: ${(props) => (props.index === 5 ? "inline-flex" : "flex")};
+  background-color: ${(props) => (props.index === 5 ? "#ffe3e3" : "FFE1DA")};
+  color: ${(props) => (props.index === 5 ? "#ED6308" : "000")};
+  border-radius: ${(props) => (props.index === 5 ? "5px" : "0")};
+  padding: ${(props) => (props.index === 5 ? "0.2rem" : "0")};
 `;
 export const Divider = styled.div`
   display: flex;
