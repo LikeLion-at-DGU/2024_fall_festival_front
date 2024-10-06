@@ -51,33 +51,29 @@ export const MainWrapper = styled.section`
   align-items: center;
   position: relative;
   background-color: white;
-  height: 100vh;
+  /* height: 100vh; */
 `;
 
 // 날짜 토글
 export const Header = styled.div`
   display: flex;
   position: absolute;
-  z-index: 10;
+  z-index: 3;
+  left: 8px;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
 `;
 export const CurrentLocationButton = styled.div`
   display: flex;
   position: absolute;
   z-index: 20;
-  top: -55px;
+  top: -40px;
   left: 10px;
 `;
 
 export const DateSelector = styled.div`
   display: flex;
-  align-items: center;
   justify-content: flex-start;
   padding: 0.5rem 1rem;
-
-  width: 100%;
 `;
 
 // DateButton 컴포넌트
@@ -132,20 +128,31 @@ display: flex;
     height: 28px;
     font-size: 11px;
   }
+
+  /* 아이폰 12 Pro */
+  @media (max-width: 390px) {
+    width: 55px; /* 또는 필요한 스타일 */
+    height: 28px; /* 또는 필요한 스타일 */
+    font-size: 11px; /* 또는 필요한 스타일 */
+  }
 `;
 
 // 카카오맵이 들어갈 자리
 export const MapPlaceholder = styled.div`
   width: 100%;
   height: ${({ $isBoothListOpen }) =>
-
-    $isBoothListOpen ? "calc(100vh - 560px)" : "calc(100vh - 180px)"};
+    $isBoothListOpen ? "calc(100vh - 95px - 35px - 300px)" : "calc(100vh)"};
 
   background-color: #e0e0e0;
   display: flex;
   justify-content: center;
   color: #666;
   position: relative;
+
+  @media (max-width: 375px) {
+    height: ${({ $isBoothListOpen }) =>
+      $isBoothListOpen ? "calc(100vh - 95px - 35px - 290px)" : "calc(100vh)"};
+  }
 `;
 
 // 부스 리스트와 필터가 들어가는 Wrapper
@@ -157,13 +164,13 @@ export const BoothListWrapper = styled.div`
   bottom: ${({ $isOpen }) => ($isOpen ? "0" : "-20px")};
   width: 100%;
   max-width: 540px;
-  height: ${({ $isOpen }) => ($isOpen ? "400px" : "0px")};
+  height: ${({ $isOpen }) => ($isOpen ? "300px" : "0px")};
   background-color: inherit;
   transition: bottom 0.5s ease, height 0.5s ease;
   z-index: 10;
 
   @media (max-width: 375px) {
-    height: ${({ $isOpen }) => ($isOpen ? "300px" : "0px")};
+    height: ${({ $isOpen }) => ($isOpen ? "290px" : "0px")};
   }
 `;
 
@@ -238,7 +245,7 @@ export const Dropdown = styled.ul`
   position: absolute;
   top: 100%;
   left: 0;
-  width: 62px;
+  width: 66px;
   transform: translateX(-0.5px);
   background-color: inherit;
   border: 0.95px solid ${({ theme }) => theme.colors.confirmButton};
@@ -370,9 +377,7 @@ export const reservabletag = styled.div`
   border-radius: 4.09px;
   background: #e4ff83;
   color: #1851ff;
-
-  font-size: 7px;
-
+  font-size: 9px;
   font-weight: 700;
 `;
 export const HeartWrap = styled.div`

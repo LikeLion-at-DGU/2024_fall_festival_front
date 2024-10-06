@@ -5,8 +5,8 @@ export const SearchContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 90%;
-  margin: 10px auto;
-  padding: 3px 10px;
+  margin-bottom: 10px;
+  padding: 3px 5px;
   border: 1px solid #dddddd;
   border-radius: 10px;
   height: 35px;

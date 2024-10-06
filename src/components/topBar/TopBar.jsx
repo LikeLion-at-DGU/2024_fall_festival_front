@@ -49,10 +49,10 @@ export const TopBar = ({ openModal }) => {
         <S.Leaves
           key={leaf.key}
           src={leaf.src}
-          size={leaf.size}
-          left={leaf.left}
-          duration={leaf.duration}
-          delay={leaf.delay}
+          $size={leaf.size}
+          $left={leaf.left}
+          $duration={leaf.duration}
+          $delay={leaf.delay}
         />
       ))}
     </S.Background>

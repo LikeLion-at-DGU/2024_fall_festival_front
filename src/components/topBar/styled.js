@@ -47,30 +47,30 @@ export const Background = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 120px;
+  min-height: 95px;
   gap: 10px;
   justify-content: center;
   align-items: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, #FFEFE3 0%, #FFF 100%);
+  background: linear-gradient(180deg, #ffefe3 0%, #fff 100%);
 `;
 
 export const MainText = styled.div`
-  color: #FFBA85;
+  color: #ffba85;
   font-size: 12px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
 `;
-
 export const Leaves = styled.img`
   position: absolute;
   top: -50px;
-  left: ${(props) => props.left};
-  width: ${(props) => props.size}px;
+  left: ${(props) => props.$left};
+  width: ${(props) => props.$size}px;
   height: auto;
   opacity: 1;
 
-  animation: ${fallAnimation} ${(props) => props.duration} ease-in-out ${(props) => props.delay} infinite;
+  animation: ${fallAnimation} ${(props) => props.$duration} ease-in-out
+    ${(props) => props.$delay} infinite;
 `;
