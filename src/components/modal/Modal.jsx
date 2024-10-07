@@ -3,7 +3,7 @@ import X from "../../assets/images/X.svg";
 import { useNavigate } from "react-router-dom";
 export const Modal = ({ onClose }) => {
   const handleReviewClick = () => {
-    window.location.href = "https://naver.me/5mIX3maX";
+    window.location.href = "https://forms.gle/fJHhh1yQ65WtyKVA8";
   };
   const navigate = useNavigate();
   const homeClick = () => {
