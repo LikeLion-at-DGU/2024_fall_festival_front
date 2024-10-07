@@ -3,13 +3,10 @@ import X from "../../assets/images/X.svg";
 import { useNavigate } from "react-router-dom";
 export const Modal = ({ onClose }) => {
   const handleReviewClick = () => {
-    window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSczzNv2Mf0i_HEhDlfQVkmKK-WZ8VlkHbBes6eOYxFQDXj2dg/viewform?usp=sf_link";
+    window.location.href =
+      "https://docs.google.com/forms/d/e/1FAIpQLSczzNv2Mf0i_HEhDlfQVkmKK-WZ8VlkHbBes6eOYxFQDXj2dg/viewform?usp=sf_link";
   };
-  const navigate = useNavigate();
-  const homeClick = () => {
-    onClose(); //모달먼저 닫고
-    navigate("/"); // 경로가 ""인 홈화면으로 이동
-  };
+
   const navigate = useNavigate();
   const homeClick = () => {
     onClose(); //모달먼저 닫고
@@ -29,17 +26,13 @@ export const Modal = ({ onClose }) => {
         <S.ModalText>
           서비스 이용은 어떠셨나요?
           <br />
-          <span className="Bold">
-            사이트 경험에 대한 후기를 남겨주세요!
-          </span>
+          <span className="Bold">사이트 경험에 대한 후기를 남겨주세요!</span>
         </S.ModalText>
         <S.ButtonWrapper>
           <S.ReviewButton onClick={handleReviewClick}>
             후기 남기러 가기
           </S.ReviewButton>
-          <S.LaterButton onClick={homeClick}>
-            홈 화면으로 가기
-          </S.LaterButton>
+          <S.LaterButton onClick={homeClick}>홈 화면으로 가기</S.LaterButton>
         </S.ButtonWrapper>
       </S.ModalContent>
     </S.ModalWrapper>
