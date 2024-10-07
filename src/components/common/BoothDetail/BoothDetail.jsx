@@ -1,5 +1,6 @@
 import * as S from "./styled";
 import { useState, useRef } from "react";
+import tablingImg from "../../../assets/images/tabling.svg";
 import CancelIcon from "../../../assets/images/X_Icon.svg";
 import { Detailtitle } from "../../../constant/StarDetail/data";
 import { useBoothDetailData } from "../../../hook/useBoothDetail";
@@ -41,6 +42,9 @@ export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
     setCurrentIndex((prevIndex) =>
       prevIndex === totalImages - 1 ? 0 : prevIndex + 1
     );
+  };
+  const MoveonTabling = (tabling_link) => {
+    window.open(`${tabling_link}`, "_blank");
   };
 
   return (
@@ -125,6 +129,12 @@ export const BoothDetail = ({ onClose, booth_id, boothInfo }) => {
           </S.Details>
         </S.DetailInfo>
       </S.DetailContent>
+      {boothInfo.is_reservable === true && (
+        <S.tabling
+          src={tablingImg}
+          onClick={() => MoveonTabling(boothDetailData.tabling_link)}
+        ></S.tabling>
+      )}
     </S.DetailWrapper>
   );
 };
