@@ -577,6 +577,9 @@ export const BoothPage = () => {
           </S.FilterWrapper>
 
           <S.BoothList $isOpen={isBoothListOpen}>
+            <S.NoticeTabling>
+              부스 클릭 시 테이블링 예약 링크로 이동 가능합니다.
+            </S.NoticeTabling>
             {filteredData && filteredData.length > 0 ? (
               filteredData.map((booth) => (
                 <S.BoothItem
