@@ -41,7 +41,7 @@ export const BoothPage = () => {
     return dayMap[day] || "";
   };
 
-  const [selectedDate, setSelectedDate] = useState("10/7(월)");
+  const [selectedDate, setSelectedDate] = useState("10/8(화)");
   const dayInKorean = getDayFromDate(selectedDate); // "월" 추출
   const dayInEnglish = translateDayToEnglish(dayInKorean); // "Mon"으로 변환
 
@@ -62,8 +62,10 @@ export const BoothPage = () => {
   const { boothData } = useBoothData({
     day: dayInEnglish,
     category: selectedType !== "유형" ? selectedType : undefined,
-    location: selectedLocation !== "위치" ? selectedLocation : undefined,
-    is_night: selectedTime !== "시간" ? selectedTime === "밤" : undefined,
+    location:
+      selectedLocation !== "위치" ? selectedLocation : undefined,
+    is_night:
+      selectedTime !== "시간" ? selectedTime === "밤" : undefined,
     is_reservable: undefined,
   });
 
@@ -82,10 +84,13 @@ export const BoothPage = () => {
 
   const toggleDropdown = (type) => {
     setIsDropdownOpen((prevState) => {
-      const newDropdownState = Object.keys(prevState).reduce((acc, key) => {
-        acc[key] = key === type ? !prevState[key] : false;
-        return acc;
-      }, {});
+      const newDropdownState = Object.keys(prevState).reduce(
+        (acc, key) => {
+          acc[key] = key === type ? !prevState[key] : false;
+          return acc;
+        },
+        {}
+      );
       return newDropdownState;
     });
   };
@@ -154,14 +159,16 @@ export const BoothPage = () => {
         const typeMatch =
           selectedType === "유형" || booth.category === selectedType;
         const locationMatch =
-          selectedLocation === "위치" || booth.location === selectedLocation;
+          selectedLocation === "위치" ||
+          booth.location === selectedLocation;
 
         return timeMatch && typeMatch && locationMatch;
       })
     : []; // boothData가 배열이 아닐 경우 빈 배열로 처리
 
   const getInitialMarkerImage = (booth) => {
-    let markerImage = booth.category === "음식점" ? nonselect_JU : nonselect_GI;
+    let markerImage =
+      booth.category === "음식점" ? nonselect_JU : nonselect_GI;
 
     return new window.kakao.maps.MarkerImage(
       markerImage,
@@ -208,7 +215,10 @@ export const BoothPage = () => {
         level: 3,
       };
 
-      mapRef.current = new window.kakao.maps.Map(mapContainer, options);
+      mapRef.current = new window.kakao.maps.Map(
+        mapContainer,
+        options
+      );
 
       if (boothData?.length > 0) {
         createMarkers(boothData);
@@ -289,7 +299,8 @@ export const BoothPage = () => {
     }
 
     markersRef.current.forEach(({ boothId, marker }) => {
-      const isHighlighted = highlightedBooth && highlightedBooth.id === boothId;
+      const isHighlighted =
+        highlightedBooth && highlightedBooth.id === boothId;
 
       if (isHighlighted) {
         let markerImage;
@@ -340,7 +351,10 @@ export const BoothPage = () => {
           window.kakao.maps.event.trigger(mapRef.current, "resize");
 
           if (!highlightedBooth && !followUser) {
-            const defaultCenter = new window.kakao.maps.LatLng(37.5577, 127.00099); // 기본 좌표 설정
+            const defaultCenter = new window.kakao.maps.LatLng(
+              37.5577,
+              127.00099
+            ); // 기본 좌표 설정
             mapRef.current.panTo(defaultCenter);
           } else if (highlightedBooth) {
             const newCenter = new window.kakao.maps.LatLng(
@@ -400,7 +414,10 @@ export const BoothPage = () => {
           }
         },
         (error) => {
-          setUserLocation({ latitude: 37.5577, longitude: 127.00099 });
+          setUserLocation({
+            latitude: 37.5577,
+            longitude: 127.00099,
+          });
         },
         {
           enableHighAccuracy: true,
@@ -464,13 +481,22 @@ export const BoothPage = () => {
           </S.Header>
         </S.MapPlaceholder>
 
-        <S.BoothListWrapper ref={boothListRef} $isOpen={isBoothListOpen}>
-          <S.CurrentLocationButton onClick={() => setFollowUser(!followUser)}>
+        <S.BoothListWrapper
+          ref={boothListRef}
+          $isOpen={isBoothListOpen}
+        >
+          <S.CurrentLocationButton
+            onClick={() => setFollowUser(!followUser)}
+          >
             <S.userLocationIcon $followUser={followUser} />
           </S.CurrentLocationButton>
           <S.BoothListHeader onClick={toggleBoothList}>
             <S.Arrow>
-              {isBoothListOpen ? <RxDoubleArrowDown /> : <RxDoubleArrowUp />}
+              {isBoothListOpen ? (
+                <RxDoubleArrowDown />
+              ) : (
+                <RxDoubleArrowUp />
+              )}
             </S.Arrow>
           </S.BoothListHeader>
 
@@ -492,10 +518,14 @@ export const BoothPage = () => {
                     >
                       전체
                     </S.DropdownItem>
-                    <S.DropdownItem onClick={() => handleSelect("time", "낮")}>
+                    <S.DropdownItem
+                      onClick={() => handleSelect("time", "낮")}
+                    >
                       낮
                     </S.DropdownItem>
-                    <S.DropdownItem onClick={() => handleSelect("time", "밤")}>
+                    <S.DropdownItem
+                      onClick={() => handleSelect("time", "밤")}
+                    >
                       밤
                     </S.DropdownItem>
                   </S.Dropdown>
@@ -549,22 +579,30 @@ export const BoothPage = () => {
                       전체
                     </S.DropdownItem>
                     <S.DropdownItem
-                      onClick={() => handleSelect("location", "팔정도")}
+                      onClick={() =>
+                        handleSelect("location", "팔정도")
+                      }
                     >
                       팔정도
                     </S.DropdownItem>
                     <S.DropdownItem
-                      onClick={() => handleSelect("location", "만해광장")}
+                      onClick={() =>
+                        handleSelect("location", "만해광장")
+                      }
                     >
                       만해광장
                     </S.DropdownItem>
                     <S.DropdownItem
-                      onClick={() => handleSelect("location", "사회과학관")}
+                      onClick={() =>
+                        handleSelect("location", "사회과학관")
+                      }
                     >
                       사회과학관
                     </S.DropdownItem>
                     <S.DropdownItem
-                      onClick={() => handleSelect("location", "혜화관")}
+                      onClick={() =>
+                        handleSelect("location", "혜화관")
+                      }
                     >
                       혜화관
                     </S.DropdownItem>
@@ -573,7 +611,9 @@ export const BoothPage = () => {
               </S.FilterItem>
             </S.Filters>
 
-            <S.ResetButton onClick={resetFilters}>초기화</S.ResetButton>
+            <S.ResetButton onClick={resetFilters}>
+              초기화
+            </S.ResetButton>
           </S.FilterWrapper>
 
           <S.BoothList $isOpen={isBoothListOpen}>
@@ -583,7 +623,8 @@ export const BoothPage = () => {
                   key={booth.id}
                   ref={(el) => (boothRefs.current[booth.id] = el)}
                   $isColored={
-                    highlightedBooth && highlightedBooth.id === booth.id
+                    highlightedBooth &&
+                    highlightedBooth.id === booth.id
                   }
                   onClick={() => handleSelectBooth(booth)}
                 >
@@ -618,7 +659,8 @@ export const BoothPage = () => {
                   key={booth.id}
                   ref={(el) => (boothRefs.current[booth.id] = el)}
                   $isColored={
-                    highlightedBooth && highlightedBooth.id === booth.id
+                    highlightedBooth &&
+                    highlightedBooth.id === booth.id
                   }
                   onClick={() => handleSelectBooth(booth)}
                 >
