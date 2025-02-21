@@ -2,7 +2,9 @@
 
 ## ✏️ Project Overview
 
-> 동국대학교의 가을 축제 부스 정보를 모바일로 편하게 확인하세요!
+<b>동국대학교의 가을 축제 부스 정보를 모바일로 편하게 확인하세요!</b>
+<br />
+https://www.dgu-booth.site/
 
 <img src="public/images/main.jpg">
 
